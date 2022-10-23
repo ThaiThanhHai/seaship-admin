@@ -14,16 +14,17 @@ import { Box } from "@mui/material";
 const center = { lat: 10.02977, lng: 105.7704766 };
 
 const GoogleMapAPI = (props) => {
-  const { setAddress } = props;
+  const { setAddress, setFee } = props;
+  const [libraries] = useState(["places"]);
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyBwwSalu4klx2IFCYv4W5lsPk3Ifhiv_wQ",
-    libraries: ["places"],
+    googleMapsApiKey: "AIzaSyAPTBKueiAajnpIMYFjBYdLYUoqQU4xfxE",
+    libraries: libraries,
   });
 
   // eslint-disable-next-line no-unused-vars
   const [map, setMap] = useState(null);
   const [directionsResponse, setDirectionsResponse] = useState(null);
-  const [tranporstFee, setTranporstFee] = useState("");
+  const [tranporstFee, setTranporstFee] = useState(0);
   const [distance, setDistance] = useState("");
   const [duration, setDuration] = useState("");
 
@@ -62,18 +63,14 @@ const GoogleMapAPI = (props) => {
       // eslint-disable-next-line no-undef
       travelMode: google.maps.TravelMode.DRIVING,
     });
-    const lat = results.routes[0].legs[0].end_location.lat();
-    const lng = results.routes[0].legs[0].end_location.lng();
-    const name = results.routes[0].legs[0].end_address;
+    const address = results.routes[0].legs[0].end_address;
+    const fee = results.routes[0].legs[0].distance.value * 5;
     setDirectionsResponse(results);
     setDistance(results.routes[0].legs[0].distance.text);
     setTranporstFee(results.routes[0].legs[0].distance.value * 5);
     setDuration(results.routes[0].legs[0].duration.text);
-    setAddress({
-      address: name,
-      longitude: lng,
-      latitude: lat,
-    });
+    setAddress(address);
+    setFee(fee);
   };
 
   return (

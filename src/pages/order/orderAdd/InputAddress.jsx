@@ -7,37 +7,43 @@ import GoogleMapAPI from "../../../components/map/googleMapAPI";
 import Sidebar from "../../../components/sidebar/Sidebar";
 import Navbar from "../../../components/navbar/Navbar";
 import ButtonAdd from "../../../components/button/buttonAdd";
-import { useDispatch } from "react-redux";
-import { addOrderAddress } from "../../../context/orders/orderSlice";
+import { useSelector } from "react-redux";
 import ButtonBack from "../../../components/button/buttonBack";
 import { Link } from "react-router-dom";
+// import axios from "axios";
 
 const InputAddress = () => {
-  const dispatch = useDispatch();
-  const [address, setAddress] = useState({
-    address: "",
-    longitude: "",
-    latitude: "",
-  });
+  const orders = useSelector((state) => state && state.orders);
+  const [address, setAddress] = useState("");
+  const [fee, setFee] = useState(0);
 
   const steps = ["Nhập thông tin đơn hàng", "Nhập địa chỉ giao hàng"];
 
   const handleSubmit = () => {
-    dispatch(addOrderAddress(address));
+    const reqBody = { ...orders[0], address, fee };
+    console.log(reqBody);
   };
+
+  // useEffect(() => {
+  //   // async function getUser() {
+  //   //   try {
+  //   //     const response = await axios.get(
+  //   //       "http://127.0.0.1:8000/api/v1/orders/list"
+  //   //     );
+  //   //     console.log(response);
+  //   //   } catch (error) {
+  //   //     console.error(error);
+  //   //   }
+  //   // }
+  //   // getUser();
+  //   console.log(values);
+  // }, [values]);
   return (
     <div className="order">
       <Sidebar />
       <div className="orderContainer">
         <Navbar />
-        <div className="progress-tooltip">
-          <span>Quản lí đơn hàng</span>
-          <span> -> </span>
-          <span> Thêm đơn hàng</span>
-          <span> -> </span>
-          <span> Nhập địa chỉ giao hàng</span>
-        </div>
-        <Stepper activeStep={1} alternativeLabel>
+        <Stepper activeStep={1} alternativeLabel sx={{ marginTop: "20px" }}>
           {steps.map((label) => (
             <Step key={label}>
               <StepLabel>{label}</StepLabel>
@@ -48,7 +54,7 @@ const InputAddress = () => {
           <div className="label-page">Nhập địa chỉ giao hàng</div>
           <div className="form-content">
             <div className="google-map">
-              <GoogleMapAPI address={address} setAddress={setAddress} />
+              <GoogleMapAPI setAddress={setAddress} setFee={setFee} />
             </div>
           </div>
           <div className="btn-submit">
