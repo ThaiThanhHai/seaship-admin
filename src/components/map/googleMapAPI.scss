@@ -11,15 +11,16 @@
     }
 
     .mapInput {
-        width: 100%;
+        width: 50%;
+        height: 500px;
         display: flex;
         align-items: center;
         justify-content:center;
         flex-direction: column;
         padding: 4px;
-        margin: px;
+        margin-right: 20px;
+        margin-top: 30px;
         border-radius: 4px;
-        background-color: #fff;
         z-index: 1;
 
         .input {

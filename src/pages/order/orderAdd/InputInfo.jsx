@@ -17,8 +17,6 @@ import MultipleSelect from "../../../components/select/MultipleSelect";
 const InputInfo = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const [focus, setFocused] = useState(false);
-  // const [hasValue, setHasValue] = useState(false);
   const [values, setValues] = useState({
     order_name: "",
     sender_name: "",
@@ -27,7 +25,7 @@ const InputInfo = (props) => {
     receiver_phone: "",
     weight: 0,
     dimension: 0,
-    received_date: "",
+    delivery_type: "",
     note: "",
   });
   const [error, setError] = useState({
@@ -41,8 +39,7 @@ const InputInfo = (props) => {
     received_date: false,
     note: false,
   });
-  // const onFocus = () => setFocused(true);
-  // const onBlur = () => setFocused(false);
+
   const steps = ["Nhập thông tin đơn hàng", "Nhập địa chỉ giao hàng"];
 
   const handleChangeForm = (name) => (event) => {
@@ -54,12 +51,9 @@ const InputInfo = (props) => {
       receiver_phone: false,
       weight: false,
       dimension: false,
-      received_date: false,
+      delivery_type: false,
       note: false,
     });
-    // if (name === "received_date") {
-    //   event.target.value && setHasValue(true);
-    // }
     if (name === "dimension" || name === "weight") {
       const valueNumber = parseFloat(event.target.value);
       if (valueNumber < 0) {
@@ -88,9 +82,9 @@ const InputInfo = (props) => {
       setError({ ...error, dimension: true });
       return false;
     }
-    if (values.received_date === "") {
-      toast.error("Vui lòng chọn ngày giao hàng");
-      setError({ ...error, received_date: true });
+    if (values.delivery_type === "") {
+      toast.error("Vui lòng chọn hình thức giao hàng");
+      setError({ ...error, delivery_type: true });
       return false;
     }
     if (values.sender_name === "") {
@@ -196,20 +190,12 @@ const InputInfo = (props) => {
                   sx={{ width: "40%", margin: "5%" }}
                   onChange={handleChangeForm("dimension")}
                 />
-                <MultipleSelect />
-                {/* <TextField
-                  id="outlined-name"
-                  label="Ngày nhận hàng"
-                  error={error.received_date}
-                  required={true}
-                  variant="outlined"
-                  sx={{ width: "40%", margin: "5%" }}
-                  onFocus={onFocus}
-                  onBlur={onBlur}
-                  type={hasValue || focus ? "date" : "text"}
-                  value={values.received_date}
-                  onChange={handleChangeForm("received_date")}
-                /> */}
+                <MultipleSelect
+                  values={values}
+                  setValues={setValues}
+                  error={error}
+                  setError={setError}
+                />
                 <TextField
                   id="standard-basic"
                   label="Tên người gửi"
@@ -230,7 +216,6 @@ const InputInfo = (props) => {
                   value={values.sender_phone}
                   onChange={handleChangeForm("sender_phone")}
                 />
-
                 <TextField
                   id="standard-basic"
                   label="Tên người nhận"

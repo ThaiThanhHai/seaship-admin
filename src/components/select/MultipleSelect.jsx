@@ -1,4 +1,3 @@
-import { useState } from "react";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -7,17 +6,22 @@ import Select from "@mui/material/Select";
 
 const services = ["Giao hàng nhanh", "Giao hàng tiết kiệm"];
 
-export default function MultipleSelect() {
-  const [service, setService] = useState([]);
+export default function MultipleSelect(props) {
+  const { values, setValues, error, setError } = props;
 
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setService(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
+  const handleChangeForm = (name) => (event) => {
+    setError({
+      order_name: false,
+      sender_name: false,
+      sender_phone: false,
+      receiver_name: false,
+      receiver_phone: false,
+      weight: false,
+      dimension: false,
+      received_date: false,
+      note: false,
+    });
+    setValues({ ...values, [name]: event.target.value });
   };
 
   return (
@@ -27,9 +31,10 @@ export default function MultipleSelect() {
         <Select
           labelId="demo-multiple-name-label"
           id="demo-multiple-name"
-          value={service}
+          error={error.delivery_type}
+          value={values.delivery_type}
           required={true}
-          onChange={handleChange}
+          onChange={handleChangeForm("delivery_type")}
           input={<OutlinedInput label="Chọn loại dịch vụ" />}
           sx={{ textAlign: "left" }}
         >

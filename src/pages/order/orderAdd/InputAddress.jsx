@@ -15,12 +15,14 @@ import { Link } from "react-router-dom";
 const InputAddress = () => {
   const orders = useSelector((state) => state && state.orders);
   const [address, setAddress] = useState("");
+  const [longitude, setLongitude] = useState(0);
+  const [latitude, setLatitude] = useState(0);
   const [fee, setFee] = useState(0);
 
   const steps = ["Nhập thông tin đơn hàng", "Nhập địa chỉ giao hàng"];
 
   const handleSubmit = () => {
-    const reqBody = { ...orders[0], address, fee };
+    const reqBody = { ...orders[0], address, fee, longitude, latitude };
     console.log(reqBody);
   };
 
@@ -54,7 +56,12 @@ const InputAddress = () => {
           <div className="label-page">Nhập địa chỉ giao hàng</div>
           <div className="form-content">
             <div className="google-map">
-              <GoogleMapAPI setAddress={setAddress} setFee={setFee} />
+              <GoogleMapAPI
+                setAddress={setAddress}
+                setFee={setFee}
+                setLongitude={setLongitude}
+                setLatitude={setLatitude}
+              />
             </div>
           </div>
           <div className="btn-submit">
