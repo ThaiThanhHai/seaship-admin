@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import "../order.scss";
+import React, { useEffect, useState } from "react";
+import "../../../style/order.scss";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import ButtonAdd from "../../../components/button/buttonAdd";
@@ -11,8 +11,10 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import toast, { Toaster } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MultipleSelect from "../../../components/select/MultipleSelect";
+import axios from "axios";
+import ButtonBack from "../../../components/button/buttonBack";
 
 const InputInfo = (props) => {
   const dispatch = useDispatch();
@@ -36,11 +38,27 @@ const InputInfo = (props) => {
     receiver_phone: false,
     weight: false,
     dimension: false,
+    delivery_type: false,
     received_date: false,
     note: false,
   });
+  const [deliveryType, setDeliveryType] = useState({});
 
   const steps = ["Nhập thông tin đơn hàng", "Nhập địa chỉ giao hàng"];
+
+  useEffect(() => {
+    const getDeliveryTypes = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:3000/api/v1/delivery-type"
+        );
+        setDeliveryType(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getDeliveryTypes();
+  }, [values, deliveryType]);
 
   const handleChangeForm = (name) => (event) => {
     setError({
@@ -191,6 +209,7 @@ const InputInfo = (props) => {
                   onChange={handleChangeForm("dimension")}
                 />
                 <MultipleSelect
+                  deliveryType={deliveryType}
                   values={values}
                   setValues={setValues}
                   error={error}
@@ -250,6 +269,9 @@ const InputInfo = (props) => {
             </div>
           </div>
           <div className="btn-continue">
+            <Link to="/orders" style={{ textDecoration: "none" }}>
+              <ButtonBack label={"Hủy"} />
+            </Link>
             <ButtonAdd label={"Tiếp theo"} onClick={handleSubmit} />
             <Toaster
               position="top-right"

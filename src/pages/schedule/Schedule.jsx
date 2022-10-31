@@ -1,58 +1,13 @@
-import "../../style/order.scss";
-import Sidebar from "../../components/sidebar/Sidebar";
+import "../../style/schedule.scss";
+import React from "react";
 import Navbar from "../../components/navbar/Navbar";
-import ButtonAdd from "../../components/button/buttonAdd";
+import Sidebar from "../../components/sidebar/Sidebar";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { Button, Stack } from "@mui/material";
+import ButtonAdd from "../../components/button/buttonAdd";
 import { DataGrid } from "@mui/x-data-grid";
+import { Stack } from "@mui/material";
 
-const Order = () => {
-  const [orderList, setOrderList] = useState({});
-  const renderStatus = (status: string) => {
-    if (status === "new") {
-      // return "Đang xử lý";
-      return (
-        <Button
-          color="primary"
-          sx={{ textTransform: "capitalize", color: "grey" }}
-        >
-          Đang xử lý
-        </Button>
-      );
-    }
-    if (status === "delivering") {
-      return (
-        <Button
-          color="primary"
-          sx={{ textTransform: "capitalize", color: "blue" }}
-        >
-          Đang giao hàng
-        </Button>
-      );
-    }
-    if (status === "finished") {
-      return (
-        <Button
-          color="primary"
-          sx={{ textTransform: "capitalize", color: "green" }}
-        >
-          Hoàn thành
-        </Button>
-      );
-    }
-    if (status === "error") {
-      return (
-        <Button
-          color="primary"
-          sx={{ textTransform: "capitalize", color: "red" }}
-        >
-          Thất bại
-        </Button>
-      );
-    }
-  };
+const Schedule = () => {
   const dataColumns = [
     { field: "order_name", headerName: "Đơn hàng", width: 180 },
     { field: "sender_name", headerName: "Người gửi", width: 180 },
@@ -85,14 +40,6 @@ const Order = () => {
         return row.delivery_time.split("-").reverse().join("-");
       },
     },
-    {
-      field: "status",
-      headerName: "Trạng thái",
-      width: 100,
-      renderCell: ({ row }: CellType) => {
-        return renderStatus(row.status);
-      },
-    },
   ];
 
   const actionColumn = [
@@ -115,38 +62,23 @@ const Order = () => {
       },
     },
   ];
-  useEffect(() => {
-    const getOrders = async () => {
-      try {
-        const result = await axios.get("http://localhost:3000/api/v1/orders");
-        if (result.data) {
-          setOrderList(result.data?.orders);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getOrders();
-  }, []);
+  const dataRows = [];
   return (
-    <div className="order">
+    <div className="schedule">
       <Sidebar />
-      <div className="orderContainer">
+      <div className="scheduleContainer">
         <Navbar />
-        <div className="label-page">Danh sách đơn hàng</div>
-        <div className="layout-content">
+        <div className="label-page">Danh sách đơn hàng cần giao hàng</div>
+        <div className="schedule-list">
           <div className="button-layout">
-            <Link to="/orders/add/step1" style={{ textDecoration: "none" }}>
-              <ButtonAdd label={"Thêm đơn hàng"} />
-            </Link>
-            <Link to="/orders/schedule" style={{ textDecoration: "none" }}>
+            <Link to="/schedules/add" style={{ textDecoration: "none" }}>
               <ButtonAdd label={"Lập lịch giao hàng"} />
             </Link>
           </div>
           <div className="datatable">
             <DataGrid
               className="datagrid"
-              rows={orderList ? orderList : []}
+              rows={dataRows}
               columns={dataColumns.concat(actionColumn)}
               pageSize={6}
               rowsPerPageOptions={[10]}
@@ -178,4 +110,4 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default Schedule;

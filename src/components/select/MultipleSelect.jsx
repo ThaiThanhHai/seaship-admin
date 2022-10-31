@@ -4,11 +4,8 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-const services = ["Giao hàng nhanh", "Giao hàng tiết kiệm"];
-
 export default function MultipleSelect(props) {
-  const { values, setValues, error, setError } = props;
-
+  const { deliveryType, values, setValues, error, setError } = props;
   const handleChangeForm = (name) => (event) => {
     setError({
       order_name: false,
@@ -20,6 +17,7 @@ export default function MultipleSelect(props) {
       dimension: false,
       received_date: false,
       note: false,
+      delivery_type: false,
     });
     setValues({ ...values, [name]: event.target.value });
   };
@@ -38,11 +36,12 @@ export default function MultipleSelect(props) {
           input={<OutlinedInput label="Chọn loại dịch vụ" />}
           sx={{ textAlign: "left" }}
         >
-          {services.map((item) => (
-            <MenuItem key={item} value={item}>
-              {item}
-            </MenuItem>
-          ))}
+          {deliveryType["delivery_types"] !== undefined &&
+            deliveryType["delivery_types"].map((item) => (
+              <MenuItem key={item["id"]} value={item["id"]}>
+                {item["name"]}
+              </MenuItem>
+            ))}
         </Select>
       </FormControl>
     </>

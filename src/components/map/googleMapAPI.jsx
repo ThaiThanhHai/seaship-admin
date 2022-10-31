@@ -13,26 +13,35 @@ import {
   Marker,
   DirectionsRenderer,
 } from "@react-google-maps/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./googleMapAPI.scss";
 import toast, { Toaster } from "react-hot-toast";
 import { Box, InputLabel, MenuItem, Select } from "@mui/material";
+import axios from "axios";
 
 const center = { lat: 10.02977, lng: 105.7704766 };
 
 const GoogleMapAPI = (props) => {
-  const { setAddress, setFee, setLongitude, setLatitude } = props;
+  const {
+    setAddress,
+    setFee,
+    setLongitude,
+    setLatitude,
+    delivery_type,
+    weight,
+  } = props;
   const [libraries] = useState(["places"]);
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyAPTBKueiAajnpIMYFjBYdLYUoqQU4xfxE",
+    googleMapsApiKey: "AIzaSyAzxqn8J5uuxHtRYjZcNHg9NpeSsU3k1sM",
     libraries: libraries,
   });
   const [values, setValues] = useState({
     ward: "",
-    address: "",
+    village: "",
     district: "",
     province: "",
   });
+  const [deliveryType, setDeliveryType] = useState({});
 
   const [error, setError] = useState(false);
   const [provinceCode, setProvinceCode] = useState("");
@@ -48,6 +57,19 @@ const GoogleMapAPI = (props) => {
   const districts = getDistricts();
   const listProvinces = provinces.slice(50, 63).map((item) => item.name);
 
+  useEffect(() => {
+    async function getDeliveryTypeById() {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/v1/delivery-type/${delivery_type}`
+        );
+        setDeliveryType(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getDeliveryTypeById();
+  });
   const getDistrict = (provinceCode) => {
     if (provinceCode !== "") {
       const districts = getDistrictsByProvinceCode(provinceCode).map(
@@ -90,7 +112,7 @@ const GoogleMapAPI = (props) => {
       setError(false);
       setValues({ ...values, [name]: event.target.value });
     }
-    if (name === "address") {
+    if (name === "village") {
       setError(false);
       setValues({ ...values, [name]: event.target.value });
     }
@@ -128,7 +150,7 @@ const GoogleMapAPI = (props) => {
 
   const calculateRoute = async () => {
     if (checkValidate(values)) {
-      const destiantion = `${values.address} ${values.ward} ${values.district} ${values.province}`;
+      const destiantion = `${values.village} ${values.ward} ${values.district} ${values.province}`;
 
       if (destiantion === "") {
         return;
@@ -142,14 +164,29 @@ const GoogleMapAPI = (props) => {
         travelMode: google.maps.TravelMode.DRIVING,
       });
 
-      const address = results.routes[0].legs[0].end_address;
-      const fee = results.routes[0].legs[0].distance.value * 5;
+      const address = destiantion;
+      let fee;
+      if (values.province === "Thành phố Cần Thơ") {
+        if (weight < 3) {
+          fee = deliveryType.priceInner;
+        } else {
+          fee =
+            (weight - 3) * deliveryType.overpriced + deliveryType.priceInner;
+        }
+      } else {
+        if (weight < 3) {
+          fee = deliveryType.priceOuter;
+        } else {
+          fee =
+            (weight - 3) * deliveryType.overpriced + deliveryType.priceOuter;
+        }
+      }
       const longitude = results.routes[0].legs[0].end_location.lng();
       const latitude = results.routes[0].legs[0].end_location.lat();
 
       setDirectionsResponse(results);
       setDistance(results.routes[0].legs[0].distance.text);
-      setTranporstFee(results.routes[0].legs[0].distance.value * 5);
+      setTranporstFee(fee);
       setDuration(results.routes[0].legs[0].duration.text);
       setAddress(address);
       setFee(fee);
@@ -221,13 +258,15 @@ const GoogleMapAPI = (props) => {
                     </MenuItem>
                   ))}
               </Select>
-              <InputLabel id="demo-multiple-name-label">Địa chỉ</InputLabel>
+              <InputLabel id="demo-multiple-name-label">
+                Ấp/Khóm/Thôn
+              </InputLabel>
               <TextField
                 id="standard-basic"
                 variant="outlined"
                 error={error}
-                value={values.address}
-                onChange={handleChangeForm("address")}
+                value={values.village}
+                onChange={handleChangeForm("village")}
                 sx={{ width: "400px !important" }}
               />
             </Box>

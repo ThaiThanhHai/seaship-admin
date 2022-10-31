@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../order.scss";
+import "../../../style/order.scss";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
@@ -9,37 +9,44 @@ import Navbar from "../../../components/navbar/Navbar";
 import ButtonAdd from "../../../components/button/buttonAdd";
 import { useSelector } from "react-redux";
 import ButtonBack from "../../../components/button/buttonBack";
-import { Link } from "react-router-dom";
-// import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
 
 const InputAddress = () => {
+  const navigate = useNavigate();
   const orders = useSelector((state) => state && state.orders);
   const [address, setAddress] = useState("");
   const [longitude, setLongitude] = useState(0);
   const [latitude, setLatitude] = useState(0);
   const [fee, setFee] = useState(0);
+  const delivery_type = orders[orders.length - 1].delivery_type;
+  const weight = orders[orders.length - 1].weight;
 
   const steps = ["Nhập thông tin đơn hàng", "Nhập địa chỉ giao hàng"];
 
-  const handleSubmit = () => {
-    const reqBody = { ...orders[0], address, fee, longitude, latitude };
-    console.log(reqBody);
+  const order_address = {
+    address: address,
+    longitude: longitude,
+    latitude: latitude,
+    shipping_fee: fee,
   };
 
-  // useEffect(() => {
-  //   // async function getUser() {
-  //   //   try {
-  //   //     const response = await axios.get(
-  //   //       "http://127.0.0.1:8000/api/v1/orders/list"
-  //   //     );
-  //   //     console.log(response);
-  //   //   } catch (error) {
-  //   //     console.error(error);
-  //   //   }
-  //   // }
-  //   // getUser();
-  //   console.log(values);
-  // }, [values]);
+  const creatOrder = async (data) => {
+    try {
+      const res = await axios.post("http://localhost:3000/api/v1/orders", data);
+      toast.success("Tạo đơn hàng thành công");
+      navigate(`/orders/${res.data.id}`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleSubmit = () => {
+    const reqBody = { ...orders[orders.length - 1], order_address };
+    creatOrder(reqBody);
+  };
+
   return (
     <div className="order">
       <Sidebar />
@@ -61,14 +68,24 @@ const InputAddress = () => {
                 setFee={setFee}
                 setLongitude={setLongitude}
                 setLatitude={setLatitude}
+                delivery_type={delivery_type}
+                weight={weight}
               />
+              {/* <MapBox></MapBox> */}
             </div>
           </div>
           <div className="btn-submit">
-            <Link to="/orders/add/step1" style={{ textDecoration: "none" }}>
-              <ButtonBack label={"Quay lại"} />
+            <Link to="/orders" style={{ textDecoration: "none" }}>
+              <ButtonBack label={"Hủy"} />
             </Link>
-            <ButtonAdd label={"Lưu thông tin"} onClick={handleSubmit} />
+            <ButtonAdd label={"Lưu"} onClick={handleSubmit} />
+            <Toaster
+              position="top-right"
+              reverseOrder={false}
+              toastOptions={{
+                duration: 1000,
+              }}
+            />
           </div>
         </div>
       </div>

@@ -1,10 +1,12 @@
 import "./sidebar.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import StoreIcon from "@mui/icons-material/Store";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import ScheduleIcon from "@mui/icons-material/Schedule";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import { Link } from "react-router-dom";
 
 const Sidebar = () => {
@@ -18,10 +20,10 @@ const Sidebar = () => {
       <hr />
       <div className="center">
         <ul>
-          <Link to="/dashboard" style={{ textDecoration: "none" }}>
+          <Link to="/" style={{ textDecoration: "none" }}>
             <li>
               <DashboardIcon className="icon" />
-              <span>Tổng quan</span>
+              <span>Dashboard</span>
             </li>
           </Link>
           <Link to="/orders" style={{ textDecoration: "none" }}>
@@ -30,9 +32,21 @@ const Sidebar = () => {
               <span>Quản lý đơn hàng</span>
             </li>
           </Link>
+          <Link to="/schedules" style={{ textDecoration: "none" }}>
+            <li>
+              <ScheduleIcon className="icon" />
+              <span>Lập lịch giao hàng</span>
+            </li>
+          </Link>
+          <Link to="/delivery-types" style={{ textDecoration: "none" }}>
+            <li>
+              <DoubleArrowIcon className="icon" />
+              <span>Hình thức giao hàng</span>
+            </li>
+          </Link>
           <Link to="/shippers" style={{ textDecoration: "none" }}>
             <li>
-              <PersonOutlineIcon className="icon" />
+              <LocalShippingIcon className="icon" />
               <span>Quản lý shipper</span>
             </li>
           </Link>
@@ -42,13 +56,13 @@ const Sidebar = () => {
               <span>Quản lý hồ sơ</span>
             </li>
           </Link>
-          <Link to="/history-order" style={{ textDecoration: "none" }}>
+          <Link to="/history-delivery" style={{ textDecoration: "none" }}>
             <li>
               <CreditCardIcon className="icon" />
               <span>Lịch sử đơn hàng</span>
             </li>
           </Link>
-          <Link to="/logout" style={{ textDecoration: "none" }}>
+          <Link to="/login" style={{ textDecoration: "none" }}>
             <li>
               <ExitToAppIcon className="icon" />
               <span>Đăng xuất</span>
