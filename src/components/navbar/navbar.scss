@@ -40,8 +40,15 @@
       .item {
         display: flex;
         align-items: center;
+        justify-self: start;
         margin-right: 20px;
         position: relative;
+
+        .title {
+          margin-right: 5px;
+          color:#007041;
+          font-size: 20px;
+        }
 
         .avatar {
           width: 30px;

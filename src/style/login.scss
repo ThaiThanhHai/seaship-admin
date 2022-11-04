@@ -1,3 +1,48 @@
 .login{
-    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 20%;
+    top: 10%;
+    width: 800px;
+    height:500px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+    .left-box {
+        width: 45%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .image {
+            width: 100%;
+            height:80%;
+        }
+    }
+    .right-box {
+        width: 55%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        .label-form {
+            font-weight: bold;
+            color: #007041;
+            font-size: 28px;
+            height: 10%;
+        }
+
+        .form-input {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 50%;
+            width: 80%;
+        }
+    }
 }

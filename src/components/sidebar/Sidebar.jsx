@@ -50,12 +50,12 @@ const Sidebar = () => {
               <span>Quản lý shipper</span>
             </li>
           </Link>
-          <Link to="/profile" style={{ textDecoration: "none" }}>
+          {/* <Link to="/profiles" style={{ textDecoration: "none" }}>
             <li>
               <AccountCircleOutlinedIcon className="icon" />
               <span>Quản lý hồ sơ</span>
             </li>
-          </Link>
+          </Link> */}
           <Link to="/history-delivery" style={{ textDecoration: "none" }}>
             <li>
               <CreditCardIcon className="icon" />

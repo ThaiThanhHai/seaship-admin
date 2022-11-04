@@ -11,6 +11,7 @@ const Navbar = () => {
         </div>
         <div className="items">
           <div className="item">
+            <p className="title">Thái Thanh Hải</p>
             <img
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeeUl9IZDN97pBQNgeunx6dD1df-4g7vkPFw&usqp=CAU"
               alt=""
