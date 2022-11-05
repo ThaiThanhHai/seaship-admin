@@ -39,7 +39,7 @@ const OrderDetail = () => {
         <Navbar />
         {order.length === 0 ? null : (
           <div className="form-layout">
-            <div className="label-page">{`Đơn hàng ${order.order_name}`}</div>
+            <div className="label-page">{`Đơn hàng ${order["cargo"].name}`}</div>
             <div className="detail-content">
               <div className="left-content">
                 <div className="item">
@@ -85,13 +85,13 @@ const OrderDetail = () => {
                   <p style={{ fontWeight: "bold" }} className="label-1">
                     Trọng lượng
                   </p>
-                  <p className="label-2">{order.weight} kg</p>
+                  <p className="label-2">{order["cargo"].weight} kg</p>
                 </div>
                 <div className="item">
                   <p style={{ fontWeight: "bold" }} className="label-1">
                     Thể tích
                   </p>
-                  <p className="label-2">{order.dimension} cm3</p>
+                  <p className="label-2">{order["cargo"].dimension} cm3</p>
                 </div>
                 <div className="item">
                   <p style={{ fontWeight: "bold" }} className="label-1">
@@ -104,9 +104,7 @@ const OrderDetail = () => {
                   <p style={{ fontWeight: "bold" }} className="label-1">
                     Phí giao hàng
                   </p>
-                  <p className="label-2">
-                    {order["order_address"].shipping_fee} đồng
-                  </p>
+                  <p className="label-2">{order.shipping_fee} đồng</p>
                 </div>
                 <div className="item">
                   <p style={{ fontWeight: "bold" }} className="label-1">

@@ -29,7 +29,6 @@ const InputAddress = () => {
     address: address,
     longitude: longitude,
     latitude: latitude,
-    shipping_fee: fee,
   };
 
   const creatOrder = async (data) => {
@@ -43,8 +42,23 @@ const InputAddress = () => {
   };
 
   const handleSubmit = () => {
-    const reqBody = { ...orders[orders.length - 1], order_address };
-    creatOrder(reqBody);
+    const info = orders[orders.length - 1];
+    const data = {
+      sender_name: info.sender_name,
+      sender_phone: info.sender_phone,
+      receiver_name: info.receiver_name,
+      receiver_phone: info.receiver_phone,
+      note: info.note,
+      delivery_type_id: info.delivery_type,
+      shipping_fee: fee,
+      cargo: {
+        name: info.order_name,
+        weight: info.weight,
+        dimension: info.dimension,
+      },
+      order_address,
+    };
+    creatOrder(data);
   };
 
   return (

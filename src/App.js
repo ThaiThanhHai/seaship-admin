@@ -11,6 +11,8 @@ import Profile from "./pages/profile/Profile";
 import HistoryDelivery from "./pages/history/HistoryDelivery";
 import DeliveryType from "./pages/deliveryType/DeliveryType";
 import Dashboard from "./pages/dashboard/Dashboard";
+import ShipperAdd from "./pages/shipper/shipperAdd/ShipperAdd";
+import DeliveryTypeAdd from "./pages/deliveryType/deliveryTypeAdd/DeliveryTypeAdd";
 
 function App() {
   return (
@@ -28,6 +30,7 @@ function App() {
             </Route>
             <Route path="shippers/*">
               <Route index element={<Shipper />} />
+              <Route path="add" element={<ShipperAdd />} />
             </Route>
             <Route path="schedules/*">
               <Route index element={<Schedule />} />
@@ -38,6 +41,7 @@ function App() {
             </Route>
             <Route path="delivery-types">
               <Route index element={<DeliveryType />} />
+              <Route path="add" element={<DeliveryTypeAdd />} />
             </Route>
             <Route path="history-delivery">
               <Route index element={<HistoryDelivery />} />

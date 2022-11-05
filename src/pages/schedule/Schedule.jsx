@@ -1,27 +1,45 @@
 import "../../style/schedule.scss";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { Link } from "react-router-dom";
 import ButtonAdd from "../../components/button/buttonAdd";
 import { DataGrid } from "@mui/x-data-grid";
 import { Stack } from "@mui/material";
+import axios from "axios";
 
 const Schedule = () => {
   const dataColumns = [
-    { field: "order_name", headerName: "Đơn hàng", width: 180 },
-    { field: "sender_name", headerName: "Người gửi", width: 180 },
+    {
+      field: "name",
+      headerName: "Đơn hàng",
+      width: 180,
+      renderCell: ({ row }: CellType) => {
+        return row.order.cargo.name;
+      },
+    },
+    {
+      field: "sender_name",
+      headerName: "Người gửi",
+      width: 180,
+      renderCell: ({ row }: CellType) => {
+        return row.order.sender_name;
+      },
+    },
     {
       field: "sender_phone",
       headerName: "SĐT người gửi",
       width: 150,
+      renderCell: ({ row }: CellType) => {
+        return row.order.sender_phone;
+      },
     },
     {
       field: "weight",
       headerName: "Trọng lượng",
       width: 110,
       renderCell: ({ row }: CellType) => {
-        return `${row.weight} Kg`;
+        return `${row.order.cargo.weight} Kg`;
       },
     },
     {
@@ -29,19 +47,26 @@ const Schedule = () => {
       headerName: "Kích thước",
       width: 110,
       renderCell: ({ row }: CellType) => {
-        return `${row.dimension} cm3`;
+        return `${row.order.cargo.dimension} cm3`;
       },
     },
     {
-      field: "delivery_time",
+      field: "shipperName",
+      headerName: "Shipper",
+      width: 110,
+      renderCell: ({ row }: CellType) => {
+        return row.shippers.name;
+      },
+    },
+    {
+      field: "orderOrderAddress",
       headerName: "Ngày giao",
       width: 140,
       renderCell: ({ row }: CellType) => {
-        return row.delivery_time.split("-").reverse().join("-");
+        return row.order.order_address.address;
       },
     },
   ];
-
   const actionColumn = [
     {
       field: "action",
@@ -62,7 +87,22 @@ const Schedule = () => {
       },
     },
   ];
-  const dataRows = [];
+  const [deliveries, setDeliveries] = useState([]);
+  useEffect(() => {
+    const getDeliveries = async () => {
+      try {
+        const result = await axios.get(
+          "http://localhost:3000/api/v1/deliveries"
+        );
+        if (result.data) {
+          setDeliveries(result.data?.deliveries);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getDeliveries();
+  }, [deliveries]);
   return (
     <div className="schedule">
       <Sidebar />
@@ -78,7 +118,7 @@ const Schedule = () => {
           <div className="datatable">
             <DataGrid
               className="datagrid"
-              rows={dataRows}
+              rows={deliveries}
               columns={dataColumns.concat(actionColumn)}
               pageSize={6}
               rowsPerPageOptions={[10]}
@@ -89,7 +129,7 @@ const Schedule = () => {
                     alignItems="center"
                     justifyContent="center"
                   >
-                    Danh sách đơn hàng trống
+                    Danh sách giao hàng trống
                   </Stack>
                 ),
                 NoResultsOverlay: () => (

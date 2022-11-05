@@ -32,7 +32,7 @@ const GoogleMapAPI = (props) => {
   } = props;
   const [libraries] = useState(["places"]);
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyAzxqn8J5uuxHtRYjZcNHg9NpeSsU3k1sM",
+    googleMapsApiKey: "AIzaSyBNTXiG9T_XH1bAKdkCFRna61AJAK0Bn-I",
     libraries: libraries,
   });
   const [values, setValues] = useState({
@@ -69,7 +69,7 @@ const GoogleMapAPI = (props) => {
       }
     }
     getDeliveryTypeById();
-  });
+  }, [delivery_type]);
   const getDistrict = (provinceCode) => {
     if (provinceCode !== "") {
       const districts = getDistrictsByProvinceCode(provinceCode).map(
@@ -168,17 +168,17 @@ const GoogleMapAPI = (props) => {
       let fee;
       if (values.province === "Thành phố Cần Thơ") {
         if (weight < 3) {
-          fee = deliveryType.priceInner;
+          fee = deliveryType.price_inner;
         } else {
           fee =
-            (weight - 3) * deliveryType.overpriced + deliveryType.priceInner;
+            (weight - 3) * deliveryType.overpriced + deliveryType.price_inner;
         }
       } else {
         if (weight < 3) {
-          fee = deliveryType.priceOuter;
+          fee = deliveryType.price_outer;
         } else {
           fee =
-            (weight - 3) * deliveryType.overpriced + deliveryType.priceOuter;
+            (weight - 3) * deliveryType.overpriced + deliveryType.price_outer;
         }
       }
       const longitude = results.routes[0].legs[0].end_location.lng();

@@ -1,60 +1,109 @@
-import { Link } from "@mui/icons-material";
-import { Stack } from "@mui/material";
+import { Link } from "react-router-dom";
+import { Button, Stack } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import ButtonAdd from "../../components/button/buttonAdd";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import "../../style/shipper.scss";
 
 const Shipper = () => {
+  const [shipperList, setShipperList] = useState([]);
+  const renderStatus = (status: string) => {
+    if (status === "on") {
+      // return "Đang xử lý";
+      return (
+        <Button
+          color="primary"
+          sx={{ textTransform: "capitalize", color: "green" }}
+        >
+          Đang hoạt động
+        </Button>
+      );
+    }
+    if (status === "off") {
+      return (
+        <Button
+          color="primary"
+          sx={{ textTransform: "capitalize", color: "grey" }}
+        >
+          Không hoạt động
+        </Button>
+      );
+    }
+
+    if (status === "off") {
+      return (
+        <Button
+          color="primary"
+          sx={{ textTransform: "capitalize", color: "blue" }}
+        >
+          Đang giao hàng
+        </Button>
+      );
+    }
+  };
   const dataColumns = [
-    { field: "name", headerName: "Họ tên", width: 200 },
-    { field: "phone", headerName: "Số điện thoại", width: 200 },
+    { field: "name", headerName: "Họ tên", width: 220 },
+    { field: "phone", headerName: "Số điện thoại", width: 160 },
     {
-      field: "price_outer",
-      headerName: "Địa chỉ liên hệ",
-      width: 150,
+      field: "email",
+      headerName: "Email",
+      width: 200,
     },
     {
-      field: "overpriced",
-      headerName: "Phí vượt hạn mức",
-      width: 180,
+      field: "avatar",
+      headerName: "Ảnh",
+      width: 100,
       renderCell: ({ row }: CellType) => {
-        return `${row.weight} Kg`;
+        return <img style={{ width: 50 }} src={row.avatar} alt="avatar" />;
       },
     },
     {
-      field: "delivery_days",
-      headerName: "Số ngày giao hàng",
-      width: 180,
+      field: "age",
+      headerName: "Tuổi",
+      width: 100,
+    },
+
+    {
+      field: "status",
+      headerName: "Trạng thái",
+      width: 200,
       renderCell: ({ row }: CellType) => {
-        return `${row.dimension} cm3`;
+        return renderStatus(row.status);
       },
     },
   ];
-
   const actionColumn = [
     {
       field: "action",
       headerName: "Thao tác",
-      width: 140,
+      width: 120,
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link
-              to={`/orders/${params.id}`}
-              style={{ textDecoration: "none" }}
-            >
-              <div className="viewButton">Xem</div>
-            </Link>
+            <div className="viewButton">Xem</div>
             <div className="deleteButton">Xóa</div>
           </div>
         );
       },
     },
   ];
-  const dataRows = [];
+  useEffect(() => {
+    const getShippers = async () => {
+      try {
+        const result = await axios.get("http://localhost:3000/api/v1/shippers");
+        if (result.data) {
+          setShipperList(result.data?.shippers);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getShippers();
+  }, []);
+
   return (
     <div className="shipper">
       <Sidebar />
@@ -63,12 +112,14 @@ const Shipper = () => {
         <div className="label-page">Danh sách shipper</div>
         <div className="schedule-list">
           <div className="button-layout">
-            <ButtonAdd label={"Thêm loại"} />
+            <Link to="/shippers/add" style={{ textDecoration: "none" }}>
+              <ButtonAdd label={"Tạo tài khoản"} />
+            </Link>
           </div>
           <div className="datatable">
             <DataGrid
               className="datagrid"
-              rows={dataRows}
+              rows={shipperList}
               columns={dataColumns.concat(actionColumn)}
               pageSize={6}
               rowsPerPageOptions={[10]}

@@ -54,7 +54,14 @@ const Order = () => {
     }
   };
   const dataColumns = [
-    { field: "order_name", headerName: "Đơn hàng", width: 180 },
+    {
+      field: "name",
+      headerName: "Đơn hàng",
+      width: 180,
+      renderCell: ({ row }: CellType) => {
+        return row.cargo.name;
+      },
+    },
     { field: "sender_name", headerName: "Người gửi", width: 180 },
     {
       field: "sender_phone",
@@ -66,7 +73,7 @@ const Order = () => {
       headerName: "Trọng lượng",
       width: 110,
       renderCell: ({ row }: CellType) => {
-        return `${row.weight} Kg`;
+        return `${row.cargo.weight} Kg`;
       },
     },
     {
@@ -74,7 +81,7 @@ const Order = () => {
       headerName: "Kích thước",
       width: 110,
       renderCell: ({ row }: CellType) => {
-        return `${row.dimension} cm3`;
+        return `${row.cargo.dimension} cm3`;
       },
     },
     {
@@ -88,18 +95,17 @@ const Order = () => {
     {
       field: "status",
       headerName: "Trạng thái",
-      width: 100,
+      width: 140,
       renderCell: ({ row }: CellType) => {
         return renderStatus(row.status);
       },
     },
   ];
-
   const actionColumn = [
     {
       field: "action",
       headerName: "Thao tác",
-      width: 140,
+      width: 100,
       renderCell: (params) => {
         return (
           <div className="cellAction">
@@ -128,6 +134,7 @@ const Order = () => {
     };
     getOrders();
   }, []);
+
   return (
     <div className="order">
       <Sidebar />
@@ -150,6 +157,7 @@ const Order = () => {
               columns={dataColumns.concat(actionColumn)}
               pageSize={6}
               rowsPerPageOptions={[10]}
+              getRowId={(row) => row.id}
               components={{
                 NoRowsOverlay: () => (
                   <Stack

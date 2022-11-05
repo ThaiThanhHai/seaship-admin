@@ -202,7 +202,7 @@ const InputInfo = (props) => {
                   label="Kích thước 3 chiều"
                   variant="outlined"
                   type="number"
-                  placeholder="cm3"
+                  placeholder="m3"
                   error={error.dimension}
                   required={true}
                   sx={{ width: "40%", margin: "5%" }}
