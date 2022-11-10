@@ -13,7 +13,7 @@ const Schedule = () => {
     {
       field: "name",
       headerName: "Đơn hàng",
-      width: 180,
+      width: 240,
       renderCell: ({ row }: CellType) => {
         return row.order.cargo.name;
       },
@@ -21,23 +21,24 @@ const Schedule = () => {
     {
       field: "sender_name",
       headerName: "Người gửi",
-      width: 180,
+      width: 240,
       renderCell: ({ row }: CellType) => {
         return row.order.sender_name;
       },
     },
     {
-      field: "sender_phone",
-      headerName: "SĐT người gửi",
-      width: 150,
+      field: "shipperName",
+      headerName: "Shipper",
+      width: 240,
       renderCell: ({ row }: CellType) => {
-        return row.order.sender_phone;
+        return row.shippers.name;
       },
     },
+
     {
       field: "weight",
       headerName: "Trọng lượng",
-      width: 110,
+      width: 130,
       renderCell: ({ row }: CellType) => {
         return `${row.order.cargo.weight} Kg`;
       },
@@ -45,25 +46,9 @@ const Schedule = () => {
     {
       field: "dimension",
       headerName: "Kích thước",
-      width: 110,
+      width: 130,
       renderCell: ({ row }: CellType) => {
         return `${row.order.cargo.dimension} cm3`;
-      },
-    },
-    {
-      field: "shipperName",
-      headerName: "Shipper",
-      width: 110,
-      renderCell: ({ row }: CellType) => {
-        return row.shippers.name;
-      },
-    },
-    {
-      field: "orderOrderAddress",
-      headerName: "Ngày giao",
-      width: 140,
-      renderCell: ({ row }: CellType) => {
-        return row.order.order_address.address;
       },
     },
   ];
@@ -71,7 +56,7 @@ const Schedule = () => {
     {
       field: "action",
       headerName: "Thao tác",
-      width: 140,
+      width: 100,
       renderCell: (params) => {
         return (
           <div className="cellAction">
@@ -92,7 +77,7 @@ const Schedule = () => {
     const getDeliveries = async () => {
       try {
         const result = await axios.get(
-          "http://localhost:3000/api/v1/deliveries"
+          "http://localhost:3000/api/v1/deliveries?filter=on"
         );
         if (result.data) {
           setDeliveries(result.data?.deliveries);

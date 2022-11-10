@@ -133,7 +133,7 @@ const Order = () => {
       }
     };
     getOrders();
-  }, []);
+  }, [orderList]);
 
   return (
     <div className="order">
@@ -145,9 +145,6 @@ const Order = () => {
           <div className="button-layout">
             <Link to="/orders/add/step1" style={{ textDecoration: "none" }}>
               <ButtonAdd label={"Thêm đơn hàng"} />
-            </Link>
-            <Link to="/orders/schedule" style={{ textDecoration: "none" }}>
-              <ButtonAdd label={"Lập lịch giao hàng"} />
             </Link>
           </div>
           <div className="datatable">

@@ -32,7 +32,7 @@ const GoogleMapAPI = (props) => {
   } = props;
   const [libraries] = useState(["places"]);
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyBNTXiG9T_XH1bAKdkCFRna61AJAK0Bn-I",
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY,
     libraries: libraries,
   });
   const [values, setValues] = useState({

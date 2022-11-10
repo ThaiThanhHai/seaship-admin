@@ -1,43 +1,110 @@
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import "../../style/history.scss";
 
 const HistoryDelivery = () => {
+  const [orderList, setOrderList] = useState({});
+  const renderStatus = (status: string) => {
+    if (status === "new") {
+      // return "Đang xử lý";
+      return (
+        <Button
+          color="primary"
+          sx={{ textTransform: "capitalize", color: "grey" }}
+        >
+          Đang xử lý
+        </Button>
+      );
+    }
+    if (status === "delivering") {
+      return (
+        <Button
+          color="primary"
+          sx={{ textTransform: "capitalize", color: "blue" }}
+        >
+          Đang giao hàng
+        </Button>
+      );
+    }
+    if (status === "finished") {
+      return (
+        <Button
+          color="primary"
+          sx={{ textTransform: "capitalize", color: "green" }}
+        >
+          Hoàn thành
+        </Button>
+      );
+    }
+    if (status === "error") {
+      return (
+        <Button
+          color="primary"
+          sx={{ textTransform: "capitalize", color: "red" }}
+        >
+          Thất bại
+        </Button>
+      );
+    }
+  };
   const dataColumns = [
-    { field: "order_name", headerName: "Đơn hàng", width: 200 },
-    { field: "delivery_time", headerName: "Ngày giao", width: 180 },
     {
-      field: "address",
-      headerName: "Địa chỉ nhận",
-      width: 200,
-    },
-    {
-      field: "shipping_fee",
-      headerName: "Phí vận chuyển",
+      field: "name",
+      headerName: "Đơn hàng",
       width: 180,
       renderCell: ({ row }: CellType) => {
-        return `${row.weight} Kg`;
+        return row.cargo.name;
+      },
+    },
+    { field: "sender_name", headerName: "Người gửi", width: 180 },
+    {
+      field: "sender_phone",
+      headerName: "SĐT người gửi",
+      width: 150,
+    },
+    {
+      field: "weight",
+      headerName: "Trọng lượng",
+      width: 110,
+      renderCell: ({ row }: CellType) => {
+        return `${row.cargo.weight} Kg`;
       },
     },
     {
-      field: "name",
-      headerName: "Người giao hàng",
-      width: 180,
+      field: "dimension",
+      headerName: "Kích thước",
+      width: 110,
       renderCell: ({ row }: CellType) => {
-        return `${row.dimension} cm3`;
+        return `${row.cargo.dimension} cm3`;
+      },
+    },
+    {
+      field: "delivery_time",
+      headerName: "Ngày giao",
+      width: 140,
+      renderCell: ({ row }: CellType) => {
+        return row.delivery_time.split("-").reverse().join("-");
+      },
+    },
+    {
+      field: "status",
+      headerName: "Trạng thái",
+      width: 140,
+      renderCell: ({ row }: CellType) => {
+        return renderStatus(row.status);
       },
     },
   ];
-
   const actionColumn = [
     {
       field: "action",
       headerName: "Thao tác",
-      width: 140,
+      width: 100,
       renderCell: (params) => {
         return (
           <div className="cellAction">
@@ -53,7 +120,21 @@ const HistoryDelivery = () => {
       },
     },
   ];
-  const dataRows = [];
+  useEffect(() => {
+    const getOrders = async () => {
+      try {
+        const result = await axios.get(
+          "http://127.0.0.1:3000/api/v1/orders?filter=finished&filter=error"
+        );
+        if (result.data) {
+          setOrderList(result.data?.orders);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getOrders();
+  }, []);
   return (
     <div className="history">
       <Sidebar />
@@ -64,7 +145,7 @@ const HistoryDelivery = () => {
           <div className="datatable">
             <DataGrid
               className="datagrid"
-              rows={dataRows}
+              rows={orderList}
               columns={dataColumns.concat(actionColumn)}
               pageSize={6}
               rowsPerPageOptions={[10]}
@@ -75,7 +156,7 @@ const HistoryDelivery = () => {
                     alignItems="center"
                     justifyContent="center"
                   >
-                    Danh sách đơn hàng trống
+                    Lịch sử đơn hàng trống
                   </Stack>
                 ),
                 NoResultsOverlay: () => (
@@ -84,7 +165,7 @@ const HistoryDelivery = () => {
                     alignItems="center"
                     justifyContent="center"
                   >
-                    Danh sách đơn hàng trống
+                    Lịch sử đơn hàng trống
                   </Stack>
                 ),
               }}
