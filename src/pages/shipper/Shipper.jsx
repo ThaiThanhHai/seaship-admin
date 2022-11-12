@@ -7,6 +7,7 @@ import ButtonAdd from "../../components/button/buttonAdd";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import "../../style/shipper.scss";
+import { toast } from "react-hot-toast";
 
 const Shipper = () => {
   const [shipperList, setShipperList] = useState([]);
@@ -61,12 +62,6 @@ const Shipper = () => {
       },
     },
     {
-      field: "age",
-      headerName: "Tuổi",
-      width: 100,
-    },
-
-    {
       field: "status",
       headerName: "Trạng thái",
       width: 200,
@@ -83,13 +78,27 @@ const Shipper = () => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <div className="viewButton">Xem</div>
-            <div className="deleteButton">Xóa</div>
+            <div className="deleteButton" onClick={handleDelete(params.id)}>
+              Xóa
+            </div>
           </div>
         );
       },
     },
   ];
+
+  const handleDelete = async (id) => {
+    try {
+      const result = await axios.delete(
+        `http://localhost:3000/api/v1/shippers/${id}`
+      );
+      if (result.data) {
+        toast.success("Xoá thành công");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   useEffect(() => {
     const getShippers = async () => {
       try {

@@ -43,7 +43,6 @@ const InputInfo = (props) => {
     note: false,
   });
   const [deliveryType, setDeliveryType] = useState({});
-
   const steps = ["Nhập thông tin đơn hàng", "Nhập địa chỉ giao hàng"];
 
   useEffect(() => {

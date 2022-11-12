@@ -159,7 +159,7 @@ const DeliveryTypeAdd = (props) => {
               >
                 <TextField
                   id="outlined-basic"
-                  label="Họ tên"
+                  label="Tên"
                   error={error.name}
                   variant="outlined"
                   required={true}
