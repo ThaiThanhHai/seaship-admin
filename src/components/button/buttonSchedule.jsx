@@ -1,9 +1,9 @@
 import React from "react";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import { Add } from "@mui/icons-material";
+import { LocalShipping } from "@mui/icons-material";
 
-function ButtonAdd(props) {
+function ButtonSchedule(props) {
   const { label, onClick } = props;
   return (
     <div>
@@ -13,14 +13,14 @@ function ButtonAdd(props) {
           variant="contained"
           sx={{
             color: "#fff",
-            backgroundColor: "#007041",
+            backgroundColor: "#0b5b8d",
             margin: "10px",
             "&:hover": {
-              backgroundColor: "#007041",
+              backgroundColor: "#0b5b8d",
               color: "#eee",
             },
           }}
-          startIcon={<Add />}
+          startIcon={<LocalShipping />}
         >
           {label}
         </Button>
@@ -29,4 +29,4 @@ function ButtonAdd(props) {
   );
 }
 
-export default ButtonAdd;
+export default ButtonSchedule;

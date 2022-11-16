@@ -7,9 +7,13 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button, Stack } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import { RemoveRedEyeRounded } from "@mui/icons-material";
+import ButtonDelete from "../../components/button/buttonDelete";
+import { toast, Toaster } from "react-hot-toast";
 
 const Order = () => {
   const [orderList, setOrderList] = useState({});
+  const [selectedId, setSelectedId] = useState([]);
   const renderStatus = (status: string) => {
     if (status === "new") {
       // return "Đang xử lý";
@@ -100,12 +104,10 @@ const Order = () => {
         return renderStatus(row.status);
       },
     },
-  ];
-  const actionColumn = [
     {
       field: "action",
-      headerName: "Thao tác",
-      width: 100,
+      headerName: "",
+      width: 50,
       renderCell: (params) => {
         return (
           <div className="cellAction">
@@ -113,14 +115,25 @@ const Order = () => {
               to={`/orders/${params.id}`}
               style={{ textDecoration: "none" }}
             >
-              <div className="viewButton">Xem</div>
+              <RemoveRedEyeRounded sx={{ color: "grey" }} />
             </Link>
-            <div className="deleteButton">Xóa</div>
           </div>
         );
       },
     },
   ];
+  const handleDelete = async () => {
+    const data = {
+      ids: selectedId,
+    };
+    try {
+      await axios.put(`http://localhost:3000/api/v1/orders`, data);
+      toast.success("Xoá thành công");
+    } catch (error) {
+      toast.error("Có lỗi xảy ra, vui lòng thử lại");
+      console.error(error);
+    }
+  };
   useEffect(() => {
     const getOrders = async () => {
       try {
@@ -144,16 +157,22 @@ const Order = () => {
         <div className="layout-content">
           <div className="button-layout">
             <Link to="/orders/add/step1" style={{ textDecoration: "none" }}>
-              <ButtonAdd label={"Thêm đơn hàng"} />
+              <ButtonAdd label={"Thêm"} />
             </Link>
+            <ButtonDelete label={"Xóa"} onClick={handleDelete} />
           </div>
           <div className="datatable">
             <DataGrid
               className="datagrid"
               rows={orderList ? orderList : []}
-              columns={dataColumns.concat(actionColumn)}
+              columns={dataColumns}
               pageSize={6}
               rowsPerPageOptions={[10]}
+              disableSelectionOnClick
+              hideFooterSelectedRowCount
+              hideFooterPagination
+              checkboxSelection
+              onSelectionModelChange={(item) => setSelectedId(item)}
               getRowId={(row) => row.id}
               components={{
                 NoRowsOverlay: () => (
@@ -178,6 +197,13 @@ const Order = () => {
             />
           </div>
         </div>
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+          toastOptions={{
+            duration: 1000,
+          }}
+        />
       </div>
     </div>
   );

@@ -1,9 +1,9 @@
 import React from "react";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import { Add } from "@mui/icons-material";
+import { Delete } from "@mui/icons-material";
 
-function ButtonAdd(props) {
+function ButtonDelete(props) {
   const { label, onClick } = props;
   return (
     <div>
@@ -13,14 +13,14 @@ function ButtonAdd(props) {
           variant="contained"
           sx={{
             color: "#fff",
-            backgroundColor: "#007041",
+            backgroundColor: "#D11A2A",
             margin: "10px",
             "&:hover": {
-              backgroundColor: "#007041",
+              backgroundColor: "#D11A2A",
               color: "#eee",
             },
           }}
-          startIcon={<Add />}
+          startIcon={<Delete />}
         >
           {label}
         </Button>
@@ -29,4 +29,4 @@ function ButtonAdd(props) {
   );
 }
 
-export default ButtonAdd;
+export default ButtonDelete;

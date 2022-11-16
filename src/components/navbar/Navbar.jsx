@@ -2,6 +2,15 @@ import "./navbar.scss";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
 const Navbar = () => {
+  const getStorageValue = (key, defaultValue) => {
+    // getting stored value
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem(key);
+      const initial = saved !== null ? JSON.parse(saved) : defaultValue;
+      return initial;
+    }
+  };
+  const initialValue = getStorageValue("supervisor", "");
   return (
     <div className="navbar">
       <div className="wrapper">
@@ -11,12 +20,8 @@ const Navbar = () => {
         </div>
         <div className="items">
           <div className="item">
-            <p className="title">Thái Thanh Hải</p>
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeeUl9IZDN97pBQNgeunx6dD1df-4g7vkPFw&usqp=CAU"
-              alt=""
-              className="avatar"
-            />
+            <p className="title">{initialValue.name}</p>
+            <img src={initialValue.avatar} alt="" className="avatar" />
           </div>
         </div>
       </div>

@@ -1,7 +1,40 @@
 import { Button, TextField } from "@mui/material";
+import axios from "axios";
+import { useState } from "react";
+import { toast, Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import "../../style/login.scss";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const [value, setValue] = useState({
+    name: "",
+    password: "",
+  });
+  const handleChangeForm = (name) => (event) => {
+    setValue({ ...value, [name]: event.target.value });
+  };
+
+  const login = async (data) => {
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/v1/supervisor/login",
+        data
+      );
+      if (res) {
+        localStorage.setItem("supervisor", JSON.stringify(res.data));
+        navigate(`/dashboard`);
+      }
+    } catch (error) {
+      toast.error("Đăng nhập thất bại");
+      console.error(error);
+    }
+  };
+
+  const handleSubmit = () => {
+    console.log(value);
+    login(value);
+  };
   return (
     <div className="login">
       <div className="left-box">
@@ -22,15 +55,20 @@ const Login = () => {
               margin: "10px",
               width: "100%",
             }}
+            value={value.name}
+            onChange={handleChangeForm("name")}
           />
           <TextField
             id="outlined-basic"
             label="Mật khẩu"
             variant="outlined"
+            type={"password"}
             sx={{
               margin: "10px",
               width: "100%",
             }}
+            value={value.password}
+            onChange={handleChangeForm("password")}
           />
           <Button
             variant="contained"
@@ -44,10 +82,18 @@ const Login = () => {
                 color: "#eee",
               },
             }}
+            onClick={handleSubmit}
           >
             Đăng nhập
           </Button>
         </div>
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+          toastOptions={{
+            duration: 1000,
+          }}
+        />
       </div>
     </div>
   );

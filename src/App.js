@@ -20,8 +20,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/">
-            <Route index element={<Dashboard />} />
-            <Route path="login" element={<Login />} />
+            <Route index element={<Login />} />
+            <Route path="dashboard" element={<Dashboard />} />
             <Route path="orders/*">
               <Route index element={<Order />} />
               <Route path="add/step1" element={<InputInfo />} />

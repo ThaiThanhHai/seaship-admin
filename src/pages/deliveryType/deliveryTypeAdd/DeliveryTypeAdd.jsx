@@ -11,6 +11,14 @@ import axios from "axios";
 
 const DeliveryTypeAdd = (props) => {
   const navigate = useNavigate();
+  const getStorageValue = (key, defaultValue) => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem(key);
+      const initial = saved !== null ? JSON.parse(saved) : defaultValue;
+      return initial;
+    }
+  };
+  const supervisor = getStorageValue("supervisor", "");
   const [values, setValues] = useState({
     name: "",
     price_inner: 0,
@@ -136,6 +144,7 @@ const DeliveryTypeAdd = (props) => {
         price_outer: values.price_outer,
         overpriced: values.overpriced,
         delivery_days: values.delivery_days,
+        supervisor_id: supervisor.id,
       };
       creatShipper(data);
     }

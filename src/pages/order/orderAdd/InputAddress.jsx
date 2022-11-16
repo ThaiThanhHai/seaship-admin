@@ -22,6 +22,14 @@ const InputAddress = () => {
   const [fee, setFee] = useState(0);
   const delivery_type = orders[orders.length - 1].delivery_type;
   const weight = orders[orders.length - 1].weight;
+  const getStorageValue = (key, defaultValue) => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem(key);
+      const initial = saved !== null ? JSON.parse(saved) : defaultValue;
+      return initial;
+    }
+  };
+  const supervisor = getStorageValue("supervisor", "");
 
   const steps = ["Nhập thông tin đơn hàng", "Nhập địa chỉ giao hàng"];
 
@@ -50,6 +58,7 @@ const InputAddress = () => {
       receiver_phone: info.receiver_phone,
       note: info.note,
       delivery_type_id: info.delivery_type,
+      supervisor_id: supervisor.id,
       shipping_fee: fee,
       cargo: {
         name: info.order_name,

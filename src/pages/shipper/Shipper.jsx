@@ -7,13 +7,26 @@ import ButtonAdd from "../../components/button/buttonAdd";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import "../../style/shipper.scss";
-import { toast } from "react-hot-toast";
+import ButtonDelete from "../../components/button/buttonDelete";
+import { toast, Toaster } from "react-hot-toast";
 
 const Shipper = () => {
   const [shipperList, setShipperList] = useState([]);
+  const [selectedId, setSelectedId] = useState([]);
+  const handleDelete = async () => {
+    const data = {
+      ids: selectedId,
+    };
+    try {
+      await axios.put(`http://localhost:3000/api/v1/shippers`, data);
+      toast.success("Xoá thành công");
+    } catch (error) {
+      toast.error("Có lỗi xảy ra, vui lòng thử lại");
+      console.error(error);
+    }
+  };
   const renderStatus = (status: string) => {
     if (status === "on") {
-      // return "Đang xử lý";
       return (
         <Button
           color="primary"
@@ -34,7 +47,7 @@ const Shipper = () => {
       );
     }
 
-    if (status === "off") {
+    if (status === "delivering") {
       return (
         <Button
           color="primary"
@@ -46,12 +59,23 @@ const Shipper = () => {
     }
   };
   const dataColumns = [
-    { field: "name", headerName: "Họ tên", width: 220 },
-    { field: "phone", headerName: "Số điện thoại", width: 160 },
+    { field: "name", headerName: "Họ tên", width: 250 },
+    { field: "phone", headerName: "Số điện thoại", width: 170 },
     {
-      field: "email",
-      headerName: "Email",
-      width: 200,
+      field: "capacity",
+      headerName: "Tải trọng",
+      width: 160,
+      renderCell: ({ row }: CellType) => {
+        return row.vehicle.capacity;
+      },
+    },
+    {
+      field: "dimension",
+      headerName: "Thể tích",
+      width: 160,
+      renderCell: ({ row }: CellType) => {
+        return row.vehicle.dimension;
+      },
     },
     {
       field: "avatar",
@@ -70,35 +94,6 @@ const Shipper = () => {
       },
     },
   ];
-  const actionColumn = [
-    {
-      field: "action",
-      headerName: "Thao tác",
-      width: 120,
-      renderCell: (params) => {
-        return (
-          <div className="cellAction">
-            <div className="deleteButton" onClick={handleDelete(params.id)}>
-              Xóa
-            </div>
-          </div>
-        );
-      },
-    },
-  ];
-
-  const handleDelete = async (id) => {
-    try {
-      const result = await axios.delete(
-        `http://localhost:3000/api/v1/shippers/${id}`
-      );
-      if (result.data) {
-        toast.success("Xoá thành công");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
   useEffect(() => {
     const getShippers = async () => {
       try {
@@ -111,7 +106,7 @@ const Shipper = () => {
       }
     };
     getShippers();
-  }, []);
+  }, [shipperList]);
 
   return (
     <div className="shipper">
@@ -122,16 +117,22 @@ const Shipper = () => {
         <div className="schedule-list">
           <div className="button-layout">
             <Link to="/shippers/add" style={{ textDecoration: "none" }}>
-              <ButtonAdd label={"Tạo tài khoản"} />
+              <ButtonAdd label={"Thêm"} />
             </Link>
+            <ButtonDelete label={"Xóa"} onClick={handleDelete} />
           </div>
           <div className="datatable">
             <DataGrid
               className="datagrid"
               rows={shipperList}
-              columns={dataColumns.concat(actionColumn)}
+              columns={dataColumns}
               pageSize={6}
               rowsPerPageOptions={[10]}
+              checkboxSelection
+              disableSelectionOnClick
+              hideFooterSelectedRowCount
+              hideFooterPagination
+              onSelectionModelChange={(item) => setSelectedId(item)}
               components={{
                 NoRowsOverlay: () => (
                   <Stack
@@ -155,6 +156,13 @@ const Shipper = () => {
             />
           </div>
         </div>
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+          toastOptions={{
+            duration: 1000,
+          }}
+        />
       </div>
     </div>
   );

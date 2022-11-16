@@ -1,58 +1,49 @@
 import React, { useState } from "react";
-import "../../../style/order.scss";
+import "../../../style/shipper-add.scss";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import ButtonAdd from "../../../components/button/buttonAdd";
 import Navbar from "../../../components/navbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { Button, Stack } from "@mui/material";
+import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import validator from "validator";
 import axios from "axios";
+import ButtonSave from "../../../components/button/buttonSave";
 
 const ShipperAdd = (props) => {
   const navigate = useNavigate();
   const [values, setValues] = useState({
     name: "",
-    age: "",
     phone: "",
     email: "",
-    avatar: "",
-    capacity: 0,
-    dimension: 0,
+    vehicle: "motorcycle",
   });
   const [error, setError] = useState({
     name: false,
-    age: false,
     phone: false,
     email: false,
-    avatar: false,
-    vehicle: {
-      capacity: false,
-      dimension: false,
-    },
   });
 
-  const handleChangeAvatar = (name) => (event) => {
-    setError({
-      name: false,
-      age: false,
-      phone: false,
-      email: false,
-      avatar: false,
-      capacity: false,
-      dimension: false,
-    });
+  // const handleChangeAvatar = (name) => (event) => {
+  //   setError({
+  //     name: false,
+  //     age: false,
+  //     phone: false,
+  //     email: false,
+  //     avatar: false,
+  //     capacity: false,
+  //     dimension: false,
+  //   });
 
-    const files = event.target.files;
-    let reader = new FileReader();
-    reader.onload = (r) => {
-      const fileString = r.target.result.split(",")[1];
-      setValues({ ...values, [name]: fileString });
-    };
-    reader.readAsDataURL(files[0]);
-  };
+  //   const files = event.target.files;
+  //   let reader = new FileReader();
+  //   reader.onload = (r) => {
+  //     const fileString = r.target.result.split(",")[1];
+  //     setValues({ ...values, [name]: fileString });
+  //   };
+  //   reader.readAsDataURL(files[0]);
+  // };
 
   const handleChangeForm = (name) => (event) => {
     setError({
@@ -64,34 +55,14 @@ const ShipperAdd = (props) => {
       capacity: false,
       dimension: false,
     });
-    if (name === "dimension" || name === "capacity") {
-      const valueNumber = parseFloat(event.target.value);
-      if (valueNumber < 0) {
-        setValues({ ...values, [name]: 0 });
-      } else {
-        setValues({ ...values, [name]: valueNumber });
-      }
-    } else if (name === "age") {
-      const valueNumber = parseInt(event.target.value);
-      if (valueNumber < 0) {
-        setValues({ ...values, [name]: 0 });
-      } else {
-        setValues({ ...values, [name]: valueNumber });
-      }
-    } else {
-      setValues({ ...values, [name]: event.target.value });
-    }
+
+    setValues({ ...values, [name]: event.target.value });
   };
 
   const checkValidate = (values) => {
     if (values.name === "") {
       toast.error("Vui lòng nhập họ tên");
       setError({ ...error, name: true });
-      return false;
-    }
-    if (!values.age || values.age <= 0) {
-      toast.error("Vui lòng nhập tuổi hợp lệ");
-      setError({ ...error, age: true });
       return false;
     }
     if (values.phone === "") {
@@ -118,21 +89,6 @@ const ShipperAdd = (props) => {
       setError({ ...error, email: true });
       return false;
     }
-    if (values.capacity <= 0) {
-      toast.error("Trọng lượng phải là số lớn hơn 0");
-      setError({ ...error, capacity: true });
-      return false;
-    }
-    if (values.dimension <= 0) {
-      toast.error("Kích thước phải là số lớn hơn 0");
-      setError({ ...error, dimension: true });
-      return false;
-    }
-    if (values.avatar === "") {
-      toast.error("Vui lòng chọn ảnh đại diện");
-      setError({ ...error, avatar: true });
-      return false;
-    }
 
     return true;
   };
@@ -156,15 +112,11 @@ const ShipperAdd = (props) => {
     if (checkValidate(values)) {
       const data = {
         name: values.name,
-        age: values.age,
-        avatar: values.avatar,
         email: values.email,
         phone: values.phone,
-        vehicle: {
-          capacity: values.capacity,
-          dimension: values.dimension,
-        },
+        vehicle: values.vehicle,
       };
+      console.log(data);
       creatShipper(data);
     }
   };
@@ -192,19 +144,9 @@ const ShipperAdd = (props) => {
                   error={error.name}
                   variant="outlined"
                   required={true}
-                  sx={{ width: "40%", margin: "5%" }}
+                  sx={{ width: "60%", margin: "10%" }}
                   value={values.name}
                   onChange={handleChangeForm("name")}
-                />
-                <TextField
-                  id="standard-basic"
-                  label="Tuổi"
-                  sx={{ width: "40%", margin: "5%" }}
-                  variant="outlined"
-                  type="number"
-                  error={error.age}
-                  required={true}
-                  onChange={handleChangeForm("age")}
                 />
                 <TextField
                   id="standard-basic"
@@ -212,7 +154,7 @@ const ShipperAdd = (props) => {
                   variant="outlined"
                   error={error.phone}
                   required={true}
-                  sx={{ width: "40%", margin: "5%" }}
+                  sx={{ width: "60%", margin: "10%" }}
                   value={values.phone}
                   onChange={handleChangeForm("phone")}
                 />
@@ -222,31 +164,37 @@ const ShipperAdd = (props) => {
                   variant="outlined"
                   error={error.mail}
                   required={true}
-                  sx={{ width: "40%", margin: "5%" }}
+                  sx={{ width: "60%", margin: "10%" }}
                   value={values.email}
                   onChange={handleChangeForm("email")}
                 />
-                <TextField
-                  id="standard-basic"
-                  label="Trọng lượng tối đa xe"
-                  sx={{ width: "40%", margin: "5%" }}
-                  variant="outlined"
-                  type="number"
-                  error={error.capacity}
-                  required={true}
-                  onChange={handleChangeForm("capacity")}
-                />
-                <TextField
-                  id="standard-basic"
-                  label="Thể tích tối đa xe"
-                  sx={{ width: "40%", margin: "5%" }}
-                  variant="outlined"
-                  type="number"
-                  error={error.dimension}
-                  required={true}
-                  onChange={handleChangeForm("dimension")}
-                />
-                <Stack
+                <RadioGroup
+                  row
+                  aria-labelledby="demo-row-radio-buttons-group-label"
+                  name="row-radio-buttons-group"
+                  className="radio"
+                  sx={{
+                    width: "60%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginLeft: "140px !important",
+                  }}
+                  value={values.vehicle}
+                  onChange={handleChangeForm("vehicle")}
+                >
+                  <FormControlLabel
+                    value="motorcycle"
+                    control={<Radio />}
+                    label="Xe máy"
+                  />
+                  <FormControlLabel
+                    value="truck"
+                    control={<Radio />}
+                    label="Xe tải"
+                  />
+                </RadioGroup>
+                {/* <Stack
                   direction="row"
                   alignItems="center"
                   spacing={2}
@@ -263,12 +211,12 @@ const ShipperAdd = (props) => {
                       onChange={handleChangeAvatar("avatar")}
                     />
                   </Button>
-                </Stack>
+                </Stack> */}
               </Box>
             </div>
           </div>
           <div className="btn-continue" style={{ marginTop: "20px" }}>
-            <ButtonAdd label={"Lưu"} onClick={handleSubmit} />
+            <ButtonSave label={"Lưu"} onClick={handleSubmit} />
             <Toaster
               position="top-right"
               reverseOrder={false}

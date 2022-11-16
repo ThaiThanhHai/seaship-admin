@@ -3,10 +3,10 @@ import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import ButtonAdd from "../../../components/button/buttonAdd";
 import Navbar from "../../../components/navbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
 import { useNavigate } from "react-router-dom";
+import ButtonSchedule from "../../../components/button/buttonSchedule";
 
 const ScheduleAdd = () => {
   const navigate = useNavigate();
@@ -121,8 +121,6 @@ const ScheduleAdd = () => {
   };
 
   const handleSubmit = () => {
-    console.log("Order Selected", orderSelected);
-    console.log("Shipper Selected", shipperSelected);
     const data = {
       list_order: orderSelected,
       list_shipper: shipperSelected,
@@ -210,7 +208,10 @@ const ScheduleAdd = () => {
           </div>
         </div>
         <div className="btn-schedule">
-          <ButtonAdd label={"Sắp xếp"} onClick={handleSubmit}></ButtonAdd>
+          <ButtonSchedule
+            label={"Sắp xếp"}
+            onClick={handleSubmit}
+          ></ButtonSchedule>
         </div>
       </div>
     </div>

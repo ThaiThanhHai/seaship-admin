@@ -5,11 +5,13 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import StoreIcon from "@mui/icons-material/Store";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import ScheduleIcon from "@mui/icons-material/Schedule";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import { Link } from "react-router-dom";
 
 const Sidebar = () => {
+  const handleSubmit = () => {
+    localStorage.setItem("supervisor", JSON.stringify(""));
+  };
   return (
     <div className="sidebar">
       <div className="top">
@@ -20,7 +22,7 @@ const Sidebar = () => {
       <hr />
       <div className="center">
         <ul>
-          <Link to="/" style={{ textDecoration: "none" }}>
+          <Link to="/dashboard" style={{ textDecoration: "none" }}>
             <li>
               <DashboardIcon className="icon" />
               <span>Dashboard</span>
@@ -50,19 +52,17 @@ const Sidebar = () => {
               <span>Quản lý shipper</span>
             </li>
           </Link>
-          {/* <Link to="/profiles" style={{ textDecoration: "none" }}>
-            <li>
-              <AccountCircleOutlinedIcon className="icon" />
-              <span>Quản lý hồ sơ</span>
-            </li>
-          </Link> */}
           <Link to="/history-delivery" style={{ textDecoration: "none" }}>
             <li>
               <CreditCardIcon className="icon" />
               <span>Lịch sử đơn hàng</span>
             </li>
           </Link>
-          <Link to="/login" style={{ textDecoration: "none" }}>
+          <Link
+            to="/"
+            style={{ textDecoration: "none" }}
+            onClick={handleSubmit}
+          >
             <li>
               <ExitToAppIcon className="icon" />
               <span>Đăng xuất</span>

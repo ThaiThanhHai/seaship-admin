@@ -1,9 +1,9 @@
 import React from "react";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import { Add } from "@mui/icons-material";
+import { Save } from "@mui/icons-material";
 
-function ButtonAdd(props) {
+function ButtonSave(props) {
   const { label, onClick } = props;
   return (
     <div>
@@ -13,14 +13,14 @@ function ButtonAdd(props) {
           variant="contained"
           sx={{
             color: "#fff",
-            backgroundColor: "#007041",
+            backgroundColor: "#24a0ed",
             margin: "10px",
             "&:hover": {
-              backgroundColor: "#007041",
+              backgroundColor: "#24a0ed",
               color: "#eee",
             },
           }}
-          startIcon={<Add />}
+          startIcon={<Save />}
         >
           {label}
         </Button>
@@ -29,4 +29,4 @@ function ButtonAdd(props) {
   );
 }
 
-export default ButtonAdd;
+export default ButtonSave;

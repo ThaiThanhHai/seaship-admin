@@ -5,10 +5,14 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
-import "../../style/history.scss";
+import "../../style/order.scss";
+import { RemoveRedEyeRounded } from "@mui/icons-material";
+import ButtonDelete from "../../components/button/buttonDelete";
+import { toast, Toaster } from "react-hot-toast";
 
 const HistoryDelivery = () => {
   const [orderList, setOrderList] = useState({});
+  const [selectedId, setSelectedId] = useState([]);
   const renderStatus = (status: string) => {
     if (status === "new") {
       // return "Đang xử lý";
@@ -99,12 +103,10 @@ const HistoryDelivery = () => {
         return renderStatus(row.status);
       },
     },
-  ];
-  const actionColumn = [
     {
       field: "action",
-      headerName: "Thao tác",
-      width: 100,
+      headerName: "",
+      width: 50,
       renderCell: (params) => {
         return (
           <div className="cellAction">
@@ -112,19 +114,30 @@ const HistoryDelivery = () => {
               to={`/orders/${params.id}`}
               style={{ textDecoration: "none" }}
             >
-              <div className="viewButton">Xem</div>
+              <RemoveRedEyeRounded sx={{ color: "grey" }} />
             </Link>
-            <div className="deleteButton">Xóa</div>
           </div>
         );
       },
     },
   ];
+  const handleDelete = async () => {
+    const data = {
+      ids: selectedId,
+    };
+    try {
+      await axios.put(`http://localhost:3000/api/v1/orders`, data);
+      toast.success("Xoá thành công");
+    } catch (error) {
+      toast.error("Có lỗi xảy ra, vui lòng thử lại");
+      console.error(error);
+    }
+  };
   useEffect(() => {
     const getOrders = async () => {
       try {
         const result = await axios.get(
-          "http://127.0.0.1:3000/api/v1/orders?filter=finished&filter=error"
+          "http://localhost:3000/api/v1/orders?filter=error&filter=finished"
         );
         if (result.data) {
           setOrderList(result.data?.orders);
@@ -134,21 +147,31 @@ const HistoryDelivery = () => {
       }
     };
     getOrders();
-  }, []);
+  }, [orderList]);
+
   return (
-    <div className="history">
+    <div className="order">
       <Sidebar />
-      <div className="historyContainer">
+      <div className="orderContainer">
         <Navbar />
-        <div className="label-page">Lịch sử giao hàng</div>
-        <div className="schedule-list">
+        <div className="label-page">Lịch sử đơn hàng</div>
+        <div className="layout-content">
+          <div className="button-layout">
+            <ButtonDelete label={"Xóa"} onClick={handleDelete} />
+          </div>
           <div className="datatable">
             <DataGrid
               className="datagrid"
-              rows={orderList}
-              columns={dataColumns.concat(actionColumn)}
+              rows={orderList ? orderList : []}
+              columns={dataColumns}
               pageSize={6}
               rowsPerPageOptions={[10]}
+              disableSelectionOnClick
+              hideFooterSelectedRowCount
+              hideFooterPagination
+              checkboxSelection
+              onSelectionModelChange={(item) => setSelectedId(item)}
+              getRowId={(row) => row.id}
               components={{
                 NoRowsOverlay: () => (
                   <Stack
@@ -156,7 +179,7 @@ const HistoryDelivery = () => {
                     alignItems="center"
                     justifyContent="center"
                   >
-                    Lịch sử đơn hàng trống
+                    Danh sách đơn hàng trống
                   </Stack>
                 ),
                 NoResultsOverlay: () => (
@@ -165,13 +188,20 @@ const HistoryDelivery = () => {
                     alignItems="center"
                     justifyContent="center"
                   >
-                    Lịch sử đơn hàng trống
+                    Danh sách đơn hàng trống
                   </Stack>
                 ),
               }}
             />
           </div>
         </div>
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+          toastOptions={{
+            duration: 1000,
+          }}
+        />
       </div>
     </div>
   );
