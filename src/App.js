@@ -13,6 +13,7 @@ import DeliveryType from "./pages/deliveryType/DeliveryType";
 import Dashboard from "./pages/dashboard/Dashboard";
 import ShipperAdd from "./pages/shipper/shipperAdd/ShipperAdd";
 import DeliveryTypeAdd from "./pages/deliveryType/deliveryTypeAdd/DeliveryTypeAdd";
+import ScheduleDetail from "./pages/schedule/scheduleDetail/ScheduleDetail";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
             <Route path="schedules/*">
               <Route index element={<Schedule />} />
               <Route path="add" element={<ScheduleAdd />} />
+              <Route path=":id" element={<ScheduleDetail />} />
             </Route>
             <Route path="profiles">
               <Route index element={<Profile />} />

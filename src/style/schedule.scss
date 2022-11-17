@@ -1,9 +1,27 @@
 .schedule {
+      /* width */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
     display: flex;
     width: 100%;
     .scheduleContainer {
         flex: 6;
-
         .label-page {
             font-size: 30px;
             text-align: center;
@@ -11,7 +29,6 @@
             color: #007041;
             font-weight: bold;
         }
-
         .schedule-list {
             margin-top: 20px;
             display: flex;
@@ -108,7 +125,6 @@
                 }
               }
         }
-
         .box-list {
             margin: 20px;
             width: 95%;
@@ -145,6 +161,21 @@
             margin-top: 40px;
             margin-right: 30px;
             float: right
+        }
+        .list-task {
+          width: 90%;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          flex-direction: column;
+          margin-left: 50px;
+          border: 1px solid #333;
+          .item {
+            width: 90%;
+            height: 160px;
+            border: 1px solid red;
+            margin: 20px;
+          }
         }
     }
 }
