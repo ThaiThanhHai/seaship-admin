@@ -1,5 +1,5 @@
 import "./sidebar.scss";
-import DashboardIcon from "@mui/icons-material/Dashboard";
+// import DashboardIcon from "@mui/icons-material/Dashboard";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import StoreIcon from "@mui/icons-material/Store";
@@ -15,19 +15,20 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       <div className="top">
-        <Link to="/" style={{ textDecoration: "none" }}>
-          <span className="logo">SeaShip</span>
+        <Link to="/home" style={{ textDecoration: "none" }}>
+          {/* <span className="logo">SeaShip</span> */}
+          <img src="https://i.imgur.com/niVMDiv.png" alt="logo" />
         </Link>
       </div>
       <hr />
       <div className="center">
         <ul>
-          <Link to="/dashboard" style={{ textDecoration: "none" }}>
+          {/* <Link to="/dashboard" style={{ textDecoration: "none" }}>
             <li>
               <DashboardIcon className="icon" />
-              <span>Dashboard</span>
+              <span>Thống kê</span>
             </li>
-          </Link>
+          </Link> */}
           <Link to="/orders" style={{ textDecoration: "none" }}>
             <li>
               <StoreIcon className="icon" />

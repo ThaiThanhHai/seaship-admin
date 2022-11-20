@@ -5,10 +5,11 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import Navbar from "../../../components/navbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ButtonSchedule from "../../../components/button/buttonSchedule";
+import ButtonBack from "../../../components/button/buttonBack";
 
-const ScheduleAdd = () => {
+const ScheduleAddNotAtCanTho = () => {
   const navigate = useNavigate();
   const [orderList, setOrderList] = useState([]);
   const [shipperList, setShipperList] = useState([]);
@@ -19,7 +20,7 @@ const ScheduleAdd = () => {
     const getOrders = async () => {
       try {
         const result = await axios.get(
-          "http://localhost:3000/api/v1/orders?filter=new"
+          "http://localhost:3000/api/v1/orders/not_cantho?filter=new"
         );
         if (result.data) {
           setOrderList(result.data?.orders);
@@ -31,7 +32,7 @@ const ScheduleAdd = () => {
     const getShippers = async () => {
       try {
         const result = await axios.get(
-          "http://localhost:3000/api/v1/shippers?filter=on"
+          "http://localhost:3000/api/v1/shippers?filter=on&search=truck"
         );
         if (result.data) {
           setShipperList(result.data?.shippers);
@@ -66,7 +67,7 @@ const ScheduleAdd = () => {
       headerName: "Kích thước",
       width: 110,
       renderCell: ({ row }: CellType) => {
-        return `${row.cargo.dimension} cm3`;
+        return `${row.cargo.dimension} m3`;
       },
     },
     {
@@ -85,7 +86,7 @@ const ScheduleAdd = () => {
   ];
 
   const columnShippers = [
-    { field: "name", headerName: "Họ tên", width: 160 },
+    { field: "name", headerName: "Họ tên", width: 140 },
     {
       field: "capacity",
       headerName: "Trọng lượng tối đa",
@@ -99,7 +100,7 @@ const ScheduleAdd = () => {
       headerName: "Khối lượng tối đa",
       width: 110,
       renderCell: ({ row }: CellType) => {
-        return `${row.vehicle.dimension} cm3`;
+        return `${row.vehicle.dimension} m3`;
       },
     },
   ];
@@ -107,7 +108,7 @@ const ScheduleAdd = () => {
   const creatSchedule = async (data) => {
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/v1/deliveries",
+        "http://localhost:3000/api/v1/deliveries/truck",
         data
       );
       if (res.data) {
@@ -132,7 +133,7 @@ const ScheduleAdd = () => {
       <Sidebar />
       <div className="scheduleContainer">
         <Navbar />
-        <div className="label-page">Lập lịch giao hàng</div>
+        <div className="label-page">Lập lịch giao hàng cho xe tải</div>
         <div className="box-list">
           <div className="list-order">
             <div className="label-add">Chọn đơn hàng</div>
@@ -208,6 +209,9 @@ const ScheduleAdd = () => {
           </div>
         </div>
         <div className="btn-schedule">
+          <Link to="/schedules" style={{ textDecoration: "none" }}>
+            <ButtonBack label={"Quay lại"} />
+          </Link>
           <ButtonSchedule
             label={"Sắp xếp"}
             onClick={handleSubmit}
@@ -218,4 +222,4 @@ const ScheduleAdd = () => {
   );
 };
 
-export default ScheduleAdd;
+export default ScheduleAddNotAtCanTho;

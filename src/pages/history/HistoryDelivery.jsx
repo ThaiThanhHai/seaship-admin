@@ -2,11 +2,9 @@ import { Button, Stack } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import "../../style/order.scss";
-import { RemoveRedEyeRounded } from "@mui/icons-material";
 import ButtonDelete from "../../components/button/buttonDelete";
 import { toast, Toaster } from "react-hot-toast";
 
@@ -61,20 +59,36 @@ const HistoryDelivery = () => {
       field: "name",
       headerName: "Đơn hàng",
       width: 180,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Đơn hàng</p>
+      ),
       renderCell: ({ row }: CellType) => {
         return row.cargo.name;
       },
     },
-    { field: "sender_name", headerName: "Người gửi", width: 180 },
+    {
+      field: "sender_name",
+      headerName: "Người gửi",
+      width: 180,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Người gửi</p>
+      ),
+    },
     {
       field: "sender_phone",
       headerName: "SĐT người gửi",
       width: 150,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>SĐT người gửi</p>
+      ),
     },
     {
       field: "weight",
       headerName: "Trọng lượng",
       width: 110,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Trọng lượng</p>
+      ),
       renderCell: ({ row }: CellType) => {
         return `${row.cargo.weight} Kg`;
       },
@@ -83,6 +97,9 @@ const HistoryDelivery = () => {
       field: "dimension",
       headerName: "Kích thước",
       width: 110,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Kích thước</p>
+      ),
       renderCell: ({ row }: CellType) => {
         return `${row.cargo.dimension} cm3`;
       },
@@ -91,6 +108,9 @@ const HistoryDelivery = () => {
       field: "delivery_time",
       headerName: "Ngày giao",
       width: 140,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Kích thước</p>
+      ),
       renderCell: ({ row }: CellType) => {
         return row.delivery_time.split("-").reverse().join("-");
       },
@@ -99,25 +119,11 @@ const HistoryDelivery = () => {
       field: "status",
       headerName: "Trạng thái",
       width: 140,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Trạng thái</p>
+      ),
       renderCell: ({ row }: CellType) => {
         return renderStatus(row.status);
-      },
-    },
-    {
-      field: "action",
-      headerName: "",
-      width: 50,
-      renderCell: (params) => {
-        return (
-          <div className="cellAction">
-            <Link
-              to={`/orders/${params.id}`}
-              style={{ textDecoration: "none" }}
-            >
-              <RemoveRedEyeRounded sx={{ color: "grey" }} />
-            </Link>
-          </div>
-        );
       },
     },
   ];

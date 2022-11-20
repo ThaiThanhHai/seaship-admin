@@ -123,7 +123,7 @@ const OrderDetail = () => {
               </div>
             </div>
             <Link to="/orders" style={{ textDecoration: "none" }}>
-              <ButtonBack label={"Trở lại"} />
+              <ButtonBack label={"Quay lại"} />
             </Link>
           </div>
         )}

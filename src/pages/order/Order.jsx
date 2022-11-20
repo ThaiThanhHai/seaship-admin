@@ -62,20 +62,36 @@ const Order = () => {
       field: "name",
       headerName: "Đơn hàng",
       width: 180,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Đơn hàng</p>
+      ),
       renderCell: ({ row }: CellType) => {
         return row.cargo.name;
       },
     },
-    { field: "sender_name", headerName: "Người gửi", width: 180 },
+    {
+      field: "sender_name",
+      headerName: "Người gửi",
+      width: 180,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Người gửi</p>
+      ),
+    },
     {
       field: "sender_phone",
       headerName: "SĐT người gửi",
       width: 150,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>SĐT người gửi</p>
+      ),
     },
     {
       field: "weight",
       headerName: "Trọng lượng",
       width: 110,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Trọng lượng</p>
+      ),
       renderCell: ({ row }: CellType) => {
         return `${row.cargo.weight} Kg`;
       },
@@ -84,6 +100,9 @@ const Order = () => {
       field: "dimension",
       headerName: "Kích thước",
       width: 110,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Kích thước</p>
+      ),
       renderCell: ({ row }: CellType) => {
         return `${row.cargo.dimension} cm3`;
       },
@@ -91,7 +110,10 @@ const Order = () => {
     {
       field: "delivery_time",
       headerName: "Ngày giao",
-      width: 140,
+      width: 120,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Ngày giao</p>
+      ),
       renderCell: ({ row }: CellType) => {
         return row.delivery_time.split("-").reverse().join("-");
       },
@@ -100,6 +122,9 @@ const Order = () => {
       field: "status",
       headerName: "Trạng thái",
       width: 140,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Trạng thái</p>
+      ),
       renderCell: ({ row }: CellType) => {
         return renderStatus(row.status);
       },

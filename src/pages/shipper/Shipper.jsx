@@ -14,15 +14,19 @@ const Shipper = () => {
   const [shipperList, setShipperList] = useState([]);
   const [selectedId, setSelectedId] = useState([]);
   const handleDelete = async () => {
-    const data = {
-      ids: selectedId,
-    };
-    try {
-      await axios.put(`http://localhost:3000/api/v1/shippers`, data);
-      toast.success("Xoá thành công");
-    } catch (error) {
+    if (selectedId.length > 0) {
+      const data = {
+        ids: selectedId,
+      };
+      try {
+        await axios.put(`http://localhost:3000/api/v1/shippers`, data);
+        toast.success("Xoá thành công");
+      } catch (error) {
+        toast.error("Có lỗi xảy ra, vui lòng thử lại");
+        console.error(error);
+      }
+    } else {
       toast.error("Có lỗi xảy ra, vui lòng thử lại");
-      console.error(error);
     }
   };
   const renderStatus = (status: string) => {
@@ -59,12 +63,32 @@ const Shipper = () => {
     }
   };
   const dataColumns = [
-    { field: "name", headerName: "Họ tên", width: 250 },
-    { field: "phone", headerName: "Số điện thoại", width: 170 },
+    {
+      field: "name",
+      headerName: "Họ tên",
+      width: 250,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Họ tên</p>
+      ),
+    },
+    {
+      field: "vehice",
+      headerName: "Phương tiện",
+      width: 170,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Phương tiện</p>
+      ),
+      renderCell: ({ row }: CellType) => {
+        return row.vehicle.name === "truck" ? "Xe tải" : "Xe máy";
+      },
+    },
     {
       field: "capacity",
       headerName: "Tải trọng",
       width: 160,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Tải trọng</p>
+      ),
       renderCell: ({ row }: CellType) => {
         return row.vehicle.capacity;
       },
@@ -73,6 +97,9 @@ const Shipper = () => {
       field: "dimension",
       headerName: "Thể tích",
       width: 160,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Thể tích</p>
+      ),
       renderCell: ({ row }: CellType) => {
         return row.vehicle.dimension;
       },
@@ -81,6 +108,9 @@ const Shipper = () => {
       field: "avatar",
       headerName: "Ảnh",
       width: 100,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Ảnh</p>
+      ),
       renderCell: ({ row }: CellType) => {
         return <img style={{ width: 50 }} src={row.avatar} alt="avatar" />;
       },
@@ -89,6 +119,9 @@ const Shipper = () => {
       field: "status",
       headerName: "Trạng thái",
       width: 200,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Trạng thái</p>
+      ),
       renderCell: ({ row }: CellType) => {
         return renderStatus(row.status);
       },

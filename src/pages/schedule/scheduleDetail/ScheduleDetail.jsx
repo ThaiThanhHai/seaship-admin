@@ -1,8 +1,10 @@
+import { Button } from "@mui/material";
 import { Stack } from "@mui/system";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import ButtonBack from "../../../components/button/buttonBack";
 import Navbar from "../../../components/navbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
 import "../../../style/schedule.scss";
@@ -13,29 +15,116 @@ const ScheduleDetail = () => {
     {
       field: "name",
       headerName: "Đơn hàng",
-      width: 250,
+      width: 240,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Đơn hàng</p>
+      ),
     },
     {
       field: "weight",
       headerName: "Khối lượng",
-      width: 120,
+      width: 110,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Khối lượng</p>
+      ),
     },
     {
       field: "dimension",
       headerName: "Kích thước",
-      width: 120,
+      width: 110,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Kích thước</p>
+      ),
     },
     {
       field: "fee",
       headerName: "Phí ship",
-      width: 100,
+      width: 90,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Phí ship</p>
+      ),
     },
     {
       field: "address",
       headerName: "Địa chỉ",
-      width: 520,
+      headerAlign: "center",
+      width: 400,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Địa chỉ</p>
+      ),
+      renderCell: ({ row }: CellType) => {
+        return (
+          <textarea
+            name=""
+            id=""
+            cols="53"
+            rows="3"
+            style={{
+              border: "none",
+              backgroundColor: "transparent",
+              paddingTop: "15px",
+            }}
+          >
+            {row.address}
+          </textarea>
+        );
+      },
+    },
+    {
+      field: "status",
+      headerName: "Trạng thái",
+      width: 150,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Trạng thái</p>
+      ),
+      renderCell: ({ row }: CellType) => {
+        return renderStatus(row.status);
+      },
     },
   ];
+  const renderStatus = (status: string) => {
+    if (status === "new") {
+      // return "Đang xử lý";
+      return (
+        <Button
+          color="primary"
+          sx={{ textTransform: "capitalize", color: "grey" }}
+        >
+          Đang xử lý
+        </Button>
+      );
+    }
+    if (status === "delivering") {
+      return (
+        <Button
+          color="primary"
+          sx={{ textTransform: "capitalize", color: "blue" }}
+        >
+          Đang giao hàng
+        </Button>
+      );
+    }
+    if (status === "finished") {
+      return (
+        <Button
+          color="primary"
+          sx={{ textTransform: "capitalize", color: "green" }}
+        >
+          Hoàn thành
+        </Button>
+      );
+    }
+    if (status === "error") {
+      return (
+        <Button
+          color="primary"
+          sx={{ textTransform: "capitalize", color: "red" }}
+        >
+          Thất bại
+        </Button>
+      );
+    }
+  };
   const [deliveries, setDeliveries] = useState([]);
   useEffect(() => {
     const getDeliveries = async () => {
@@ -51,7 +140,7 @@ const ScheduleDetail = () => {
       }
     };
     getDeliveries();
-  }, [params.id]);
+  }, [params.id, deliveries]);
   return (
     <div className="schedule">
       <Sidebar />
@@ -91,6 +180,11 @@ const ScheduleDetail = () => {
               }}
             />
           </div>
+          <Link to="/schedules" style={{ textDecoration: "none" }}>
+            <div className="btn" style={{ marginRight: "20px" }}>
+              <ButtonBack label={"Quay lại"} />
+            </div>
+          </Link>
         </div>
       </div>
     </div>

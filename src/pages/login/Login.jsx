@@ -8,7 +8,7 @@ import "../../style/login.scss";
 const Login = () => {
   const navigate = useNavigate();
   const [value, setValue] = useState({
-    name: "",
+    email: "",
     password: "",
   });
   const handleChangeForm = (name) => (event) => {
@@ -23,7 +23,7 @@ const Login = () => {
       );
       if (res) {
         localStorage.setItem("supervisor", JSON.stringify(res.data));
-        navigate(`/dashboard`);
+        navigate(`/home`);
       }
     } catch (error) {
       toast.error("Đăng nhập thất bại");
@@ -40,7 +40,7 @@ const Login = () => {
       <div className="left-box">
         <img
           className="image"
-          src="https://img.freepik.com/free-vector/free-shipping-concept-illustration_114360-2461.jpg?w=740&t=st=1667313724~exp=1667314324~hmac=53c3db7336b72e735056cecfa3ba6dd556b7da318d8e6518db93bf39d01dd133"
+          src="https://i.imgur.com/ngzON4L.gif"
           alt="shipping"
         />
       </div>
@@ -49,14 +49,15 @@ const Login = () => {
         <div className="form-input">
           <TextField
             id="outlined-basic"
-            label="Tên đăng nhập"
+            label="Email"
+            type="email"
             variant="outlined"
             sx={{
               margin: "10px",
               width: "100%",
             }}
-            value={value.name}
-            onChange={handleChangeForm("name")}
+            value={value.email}
+            onChange={handleChangeForm("email")}
           />
           <TextField
             id="outlined-basic"

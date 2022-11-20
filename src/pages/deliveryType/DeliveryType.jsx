@@ -30,22 +30,43 @@ const DeliveryType = () => {
       field: "name",
       headerName: "Hình thức",
       width: 300,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Hình thức</p>
+      ),
     },
-    { field: "price_inner", headerName: "Giá nội thành", width: 200 },
+    {
+      field: "price_inner",
+      headerName: "Giá nội thành",
+      width: 200,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Giá nội thành</p>
+      ),
+    },
     {
       field: "price_outer",
       headerName: "Giá ngoại thành",
       width: 200,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Giá ngoại thành</p>
+      ),
     },
     {
       field: "overpriced",
       headerName: "Phí vượt hạn mức",
-      width: 200,
+      width: 180,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Phí vượt hạn mức</p>
+      ),
     },
     {
       field: "delivery_days",
       headerName: "Số ngày giao hàng",
-      width: 160,
+      width: 180,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>
+          Số ngày giao hàng
+        </p>
+      ),
     },
   ];
   useEffect(() => {

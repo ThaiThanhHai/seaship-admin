@@ -1,10 +1,10 @@
 import React from "react";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import { LocalShipping } from "@mui/icons-material";
+import { LocalShipping, MopedRounded } from "@mui/icons-material";
 
 function ButtonSchedule(props) {
-  const { label, onClick } = props;
+  const { label, onClick, type } = props;
   return (
     <div>
       <Stack spacing={2} direction="row">
@@ -20,7 +20,7 @@ function ButtonSchedule(props) {
               color: "#eee",
             },
           }}
-          startIcon={<LocalShipping />}
+          startIcon={type === "truck" ? <LocalShipping /> : <MopedRounded />}
         >
           {label}
         </Button>

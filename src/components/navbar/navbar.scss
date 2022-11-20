@@ -5,37 +5,14 @@
   align-items: center;
   font-size: 14px;
   color: #555;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 
   .wrapper {
     width: 100%;
     padding: 20px;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    .search {
-      display: flex;
-      align-items: center;
-      border: 0.5px solid lightgray;
-      padding: 3px;
-      border-radius: 4px;
-
-      input {
-        width: 300px;
-        border: none;
-        outline: none;
-        background: transparent;
-
-        &::placeholder {
-          font-size: 12px;
-        }
-      }
-
-    }
-
-    .items {
-      display: flex;
-      align-items: center;
+    align-items: flex-end;
+    justify-content: flex-end;
 
       .item {
         display: flex;
@@ -46,8 +23,9 @@
 
         .title {
           margin-right: 5px;
-          color:#007041;
+          color:#333;
           font-size: 16px;
+          font-weight: 600;
         }
 
         .avatar {
@@ -56,6 +34,5 @@
           border-radius: 50%;
         }
       }
-    }
   }
 }

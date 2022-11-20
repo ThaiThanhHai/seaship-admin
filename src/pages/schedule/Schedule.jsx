@@ -13,21 +13,42 @@ const Schedule = () => {
   const dataColumns = [
     {
       field: "name",
-      headerName: "Shipper",
-      width: 250,
+      width: 220,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Shipper</p>
+      ),
+    },
+    {
+      field: "vehicle",
+      width: 140,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Phương tiện</p>
+      ),
+      renderCell: ({ row }: CellType) => {
+        return row.vehicle === "truck" ? "Xe tải" : "Xe máy";
+      },
     },
     {
       field: "weight",
-      headerName: "Khối lượng vận chuyển",
-      width: 220,
+      width: 200,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>
+          Khối lượng vận chuyển
+        </p>
+      ),
       renderCell: ({ row }: CellType) => {
-        return `${row.totalWeight}/${row.maxWeight} Kg`;
+        return `${row.totalWeight}/${row.maxWeight} kg`;
       },
     },
     {
       field: "dimension",
       headerName: "Kích thước vận chuyển",
-      width: 220,
+      width: 200,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>
+          Kích thước vận chuyển
+        </p>
+      ),
       renderCell: ({ row }: CellType) => {
         return `${row.totalDimension}/${row.maxDimension} m3`;
       },
@@ -35,12 +56,17 @@ const Schedule = () => {
     {
       field: "totalDistance",
       headerName: "Tổng quãng đường",
-      width: 220,
+      width: 180,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Tổng quãng đường</p>
+      ),
     },
     {
       field: "count",
-      headerName: "Số đơn hàng",
-      width: 150,
+      width: 100,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Số đơn</p>
+      ),
       renderCell: ({ row }: CellType) => {
         return `${row.count}`;
       },
@@ -86,7 +112,7 @@ const Schedule = () => {
       }
     };
     getDeliveries();
-  }, []);
+  }, [deliveries]);
   return (
     <div className="schedule">
       <Sidebar />
@@ -95,8 +121,14 @@ const Schedule = () => {
         <div className="label-page">Lịch giao hàng của shipper</div>
         <div className="schedule-list">
           <div className="button-layout">
-            <Link to="/schedules/add" style={{ textDecoration: "none" }}>
-              <ButtonSchedule label={"Lập lịch giao hàng"} />
+            <Link to="/schedules/addCantho" style={{ textDecoration: "none" }}>
+              <ButtonSchedule label={"Xếp lịch xe máy"} type={"motor"} />
+            </Link>
+            <Link
+              to="/schedules/addNotCantho"
+              style={{ textDecoration: "none" }}
+            >
+              <ButtonSchedule label={"Xếp lịch xe tải"} type={"truck"} />
             </Link>
           </div>
           <div className="datatable">

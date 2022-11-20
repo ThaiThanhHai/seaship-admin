@@ -5,15 +5,16 @@ import InputInfo from "./pages/order/orderAdd/InputInfo";
 import InputAddress from "./pages/order/orderAdd/InputAddress";
 import OrderDetail from "./pages/order/orderDetail/OrderDetail";
 import Schedule from "./pages/schedule/Schedule";
-import ScheduleAdd from "./pages/schedule/scheduleAdd/ScheduleAdd";
 import Shipper from "./pages/shipper/Shipper";
 import Profile from "./pages/profile/Profile";
 import HistoryDelivery from "./pages/history/HistoryDelivery";
 import DeliveryType from "./pages/deliveryType/DeliveryType";
-import Dashboard from "./pages/dashboard/Dashboard";
 import ShipperAdd from "./pages/shipper/shipperAdd/ShipperAdd";
 import DeliveryTypeAdd from "./pages/deliveryType/deliveryTypeAdd/DeliveryTypeAdd";
 import ScheduleDetail from "./pages/schedule/scheduleDetail/ScheduleDetail";
+import ScheduleAddAtCanTho from "./pages/schedule/scheduleAdd/ScheduleAddAtCanTho";
+import ScheduleAddNotAtCanTho from "./pages/schedule/scheduleAdd/ScheduleAddNotAtCanTho";
+import Home from "./pages/home/Home";
 
 function App() {
   return (
@@ -22,7 +23,8 @@ function App() {
         <Routes>
           <Route path="/">
             <Route index element={<Login />} />
-            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="dashboard" element={<Home />} />
+            <Route path="home" element={<Home />} />
             <Route path="orders/*">
               <Route index element={<Order />} />
               <Route path="add/step1" element={<InputInfo />} />
@@ -35,7 +37,8 @@ function App() {
             </Route>
             <Route path="schedules/*">
               <Route index element={<Schedule />} />
-              <Route path="add" element={<ScheduleAdd />} />
+              <Route path="addCantho" element={<ScheduleAddAtCanTho />} />
+              <Route path="addNotCantho" element={<ScheduleAddNotAtCanTho />} />
               <Route path=":id" element={<ScheduleDetail />} />
             </Route>
             <Route path="profiles">
