@@ -2,7 +2,6 @@ import Login from "./pages/login/Login";
 import Order from "./pages/order/Order";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import InputInfo from "./pages/order/orderAdd/InputInfo";
-import InputAddress from "./pages/order/orderAdd/InputAddress";
 import OrderDetail from "./pages/order/orderDetail/OrderDetail";
 import Schedule from "./pages/schedule/Schedule";
 import Shipper from "./pages/shipper/Shipper";
@@ -15,6 +14,8 @@ import ScheduleDetail from "./pages/schedule/scheduleDetail/ScheduleDetail";
 import ScheduleAddAtCanTho from "./pages/schedule/scheduleAdd/ScheduleAddAtCanTho";
 import ScheduleAddNotAtCanTho from "./pages/schedule/scheduleAdd/ScheduleAddNotAtCanTho";
 import Home from "./pages/home/Home";
+import Dashboard from "./pages/dashboard/Dashboard";
+import Delivery from "./pages/delivery/Delivery";
 
 function App() {
   return (
@@ -23,12 +24,11 @@ function App() {
         <Routes>
           <Route path="/">
             <Route index element={<Login />} />
-            <Route path="dashboard" element={<Home />} />
+            <Route path="dashboard" element={<Dashboard />} />
             <Route path="home" element={<Home />} />
             <Route path="orders/*">
               <Route index element={<Order />} />
               <Route path="add/step1" element={<InputInfo />} />
-              <Route path="add/step2" element={<InputAddress />} />
               <Route path=":id" element={<OrderDetail />} />
             </Route>
             <Route path="shippers/*">
@@ -36,7 +36,8 @@ function App() {
               <Route path="add" element={<ShipperAdd />} />
             </Route>
             <Route path="schedules/*">
-              <Route index element={<Schedule />} />
+              {/* <Route index element={<Schedule />} /> */}
+              <Route index element={<Delivery />} />
               <Route path="addCantho" element={<ScheduleAddAtCanTho />} />
               <Route path="addNotCantho" element={<ScheduleAddNotAtCanTho />} />
               <Route path=":id" element={<ScheduleDetail />} />

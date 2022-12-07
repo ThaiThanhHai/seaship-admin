@@ -2,7 +2,7 @@ import "../../style/order.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import ButtonAdd from "../../components/button/buttonAdd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button, Stack } from "@mui/material";
@@ -12,6 +12,16 @@ import ButtonDelete from "../../components/button/buttonDelete";
 import { toast, Toaster } from "react-hot-toast";
 
 const Order = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    let isAuth = JSON.parse(localStorage.getItem("supervisor"));
+    if (isAuth && isAuth !== null) {
+      navigate("/orders");
+    } else {
+      navigate("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [orderList, setOrderList] = useState({});
   const [selectedId, setSelectedId] = useState([]);
   const renderStatus = (status: string) => {

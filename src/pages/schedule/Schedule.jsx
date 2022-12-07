@@ -2,7 +2,7 @@ import "../../style/schedule.scss";
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import { Stack } from "@mui/material";
 import axios from "axios";
@@ -10,6 +10,16 @@ import ButtonSchedule from "../../components/button/buttonSchedule";
 import { RemoveRedEyeRounded } from "@mui/icons-material";
 
 const Schedule = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    let isAuth = JSON.parse(localStorage.getItem("supervisor"));
+    if (isAuth && isAuth !== null) {
+      navigate("/schedules");
+    } else {
+      navigate("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const dataColumns = [
     {
       field: "name",

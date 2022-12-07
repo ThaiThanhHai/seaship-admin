@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Stack } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
@@ -11,6 +11,16 @@ import ButtonDelete from "../../components/button/buttonDelete";
 import { toast, Toaster } from "react-hot-toast";
 
 const Shipper = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    let isAuth = JSON.parse(localStorage.getItem("supervisor"));
+    if (isAuth && isAuth !== null) {
+      navigate("/shippers");
+    } else {
+      navigate("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [shipperList, setShipperList] = useState([]);
   const [selectedId, setSelectedId] = useState([]);
   const handleDelete = async () => {

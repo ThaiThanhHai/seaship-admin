@@ -1,5 +1,5 @@
 import "./sidebar.scss";
-// import DashboardIcon from "@mui/icons-material/Dashboard";
+import DashboardIcon from "@mui/icons-material/Dashboard";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import StoreIcon from "@mui/icons-material/Store";
@@ -23,12 +23,12 @@ const Sidebar = () => {
       <hr />
       <div className="center">
         <ul>
-          {/* <Link to="/dashboard" style={{ textDecoration: "none" }}>
+          <Link to="/dashboard" style={{ textDecoration: "none" }}>
             <li>
               <DashboardIcon className="icon" />
               <span>Thống kê</span>
             </li>
-          </Link> */}
+          </Link>
           <Link to="/orders" style={{ textDecoration: "none" }}>
             <li>
               <StoreIcon className="icon" />

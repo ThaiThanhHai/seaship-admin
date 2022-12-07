@@ -5,11 +5,6 @@ import Box from "@mui/material/Box";
 import ButtonAdd from "../../../components/button/buttonAdd";
 import Navbar from "../../../components/navbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
-import { useDispatch } from "react-redux";
-import { addOrder } from "../../../context/orders/orderSlice";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
 import toast, { Toaster } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import MultipleSelect from "../../../components/select/MultipleSelect";
@@ -17,8 +12,15 @@ import axios from "axios";
 import ButtonBack from "../../../components/button/buttonBack";
 
 const InputInfo = (props) => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const getStorageValue = (key, defaultValue) => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem(key);
+      const initial = saved !== null ? JSON.parse(saved) : defaultValue;
+      return initial;
+    }
+  };
+  const supervisor = getStorageValue("supervisor", "");
   const [values, setValues] = useState({
     order_name: "",
     sender_name: "",
@@ -26,6 +28,7 @@ const InputInfo = (props) => {
     receiver_name: "",
     receiver_phone: "",
     weight: 0,
+    address: "",
     dimension: 0,
     delivery_type: "",
     note: "",
@@ -38,24 +41,34 @@ const InputInfo = (props) => {
     receiver_phone: false,
     weight: false,
     dimension: false,
+    address: false,
     delivery_type: false,
     received_date: false,
     note: false,
   });
   const [deliveryType, setDeliveryType] = useState({});
-  const steps = ["Nhập thông tin đơn hàng", "Nhập địa chỉ giao hàng"];
+
+  const getDeliveryTypes = async () => {
+    try {
+      const res = await axios.get("http://localhost:3000/api/v1/delivery-type");
+      setDeliveryType(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const creatOrder = async (data) => {
+    let res;
+    try {
+      res = await axios.post("http://localhost:3000/api/v1/orders", data);
+      toast.success("Tạo đơn hàng thành công");
+    } catch (error) {
+      console.error(error);
+    }
+    navigate(`/orders/${res.data.id}`);
+  };
 
   useEffect(() => {
-    const getDeliveryTypes = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:3000/api/v1/delivery-type"
-        );
-        setDeliveryType(res.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
     getDeliveryTypes();
   }, [values, deliveryType]);
 
@@ -124,20 +137,17 @@ const InputInfo = (props) => {
       setError({ ...error, receiver_phone: true });
       return false;
     }
-    if (
-      !values.sender_phone.match("[0-9]{10}") ||
-      values.sender_phone.length !== 10 ||
-      !values.sender_phone.startsWith("0")
-    ) {
+    if (values.address === "") {
+      toast.error("Vui lòng nhập địa chỉ giao hàng");
+      setError({ ...error, address: true });
+      return false;
+    }
+    if (values.sender_phone.length > 11) {
       toast.error("Vui lòng nhập sô điện thoại hợp lệ");
       setError({ ...error, sender_phone: true });
       return false;
     }
-    if (
-      !values.receiver_phone.match("[0-9]{10}") ||
-      values.receiver_phone.length !== 10 ||
-      !values.receiver_phone.startsWith("0")
-    ) {
+    if (values.receiver_phone.length > 11) {
       toast.error("Vui lòng nhập sô điện thoại hợp lệ");
       setError({ ...error, receiver_phone: true });
       return false;
@@ -147,8 +157,28 @@ const InputInfo = (props) => {
 
   const handleSubmit = () => {
     if (checkValidate(values)) {
-      dispatch(addOrder(values));
-      navigate("/orders/add/step2");
+      const data = {
+        sender_name: values.sender_name,
+        sender_phone: values.sender_phone,
+        receiver_name: values.receiver_name,
+        receiver_phone: values.receiver_phone,
+        note: values.note,
+        delivery_type_id: values.delivery_type,
+        supervisor_id: supervisor.id,
+        // shipping_fee: fee,
+        cargo: {
+          name: values.order_name,
+          weight: values.weight,
+          dimension: values.dimension,
+        },
+        order_address: {
+          address: values.address,
+          // longitude: longitude,
+          // latitude: latitude,
+        },
+      };
+      creatOrder(data);
+      // navigate("/orders/add/step2");
     }
   };
   return (
@@ -156,13 +186,6 @@ const InputInfo = (props) => {
       <Sidebar />
       <div className="orderContainer">
         <Navbar />
-        <Stepper alternativeLabel sx={{ marginTop: "20px" }}>
-          {steps.map((label) => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
         <div className="form-layout">
           <div className="label-page">Nhập thông tin đơn hàng</div>
           <div className="form-content">
@@ -198,7 +221,7 @@ const InputInfo = (props) => {
                 />
                 <TextField
                   id="outlined"
-                  label="Kích thước 3 chiều"
+                  label="Thể tích đơn hàng (m3)"
                   variant="outlined"
                   type="number"
                   placeholder="m3"
@@ -256,6 +279,16 @@ const InputInfo = (props) => {
                 />
                 <TextField
                   id="outlined-multiline-static"
+                  label="Địa chỉ"
+                  sx={{ width: "81%" }}
+                  variant="outlined"
+                  multiline
+                  rows={2}
+                  value={values.address}
+                  onChange={handleChangeForm("address")}
+                />
+                <TextField
+                  id="outlined-multiline-static"
                   label="Ghi chú"
                   sx={{ width: "81%" }}
                   variant="outlined"
@@ -271,7 +304,7 @@ const InputInfo = (props) => {
             <Link to="/orders" style={{ textDecoration: "none" }}>
               <ButtonBack label={"Hủy"} />
             </Link>
-            <ButtonAdd label={"Tiếp theo"} onClick={handleSubmit} />
+            <ButtonAdd label={"Tạo đơn"} onClick={handleSubmit} />
             <Toaster
               position="top-right"
               reverseOrder={false}

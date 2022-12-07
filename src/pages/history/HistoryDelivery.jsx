@@ -7,8 +7,19 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import "../../style/order.scss";
 import ButtonDelete from "../../components/button/buttonDelete";
 import { toast, Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const HistoryDelivery = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    let isAuth = JSON.parse(localStorage.getItem("supervisor"));
+    if (isAuth && isAuth !== null) {
+      navigate("/history-delivery");
+    } else {
+      navigate("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [orderList, setOrderList] = useState({});
   const [selectedId, setSelectedId] = useState([]);
   const renderStatus = (status: string) => {

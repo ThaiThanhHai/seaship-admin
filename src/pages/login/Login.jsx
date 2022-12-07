@@ -32,7 +32,6 @@ const Login = () => {
   };
 
   const handleSubmit = () => {
-    console.log(value);
     login(value);
   };
   return (
