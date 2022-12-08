@@ -8,7 +8,7 @@ const Mapbox = () => {
   const address = [
     { lng: 105.7875219, lat: 10.0364216 },
     { lng: 106.339785, lat: 9.935583 },
-    { lng: 105.973321, lat: 9.602672 },
+    // { lng: 105.973321, lat: 9.602672 },
     { lng: 105.7875219, lat: 10.0364216 },
   ];
   const [coordinates, setCoordinates] = useState([[105.787629, 10.036513]]);

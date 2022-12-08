@@ -5,6 +5,7 @@ import Mapbox from "../../components/map/mapbox";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import "../../style/delivery.scss";
+import ScheduleMotor from "./schedule/ScheduleMotor";
 import ScheduleTruck from "./schedule/ScheduleTruck";
 
 const Delivery = () => {
@@ -37,14 +38,57 @@ const Delivery = () => {
               />
             )}
             {openModalMotor && (
-              <ScheduleTruck
+              <ScheduleMotor
                 open={openModalMotor}
                 setOpen={setOpenModalMotor}
               />
             )}
           </div>
           <div className="list">
+            {/* <div className="empty">
+              <span>Lịch trống</span>
+              <img
+                src="https://cdn.dribbble.com/users/310943/screenshots/2792692/empty-state-illustrations.gif"
+                alt="empty"
+                className="image"
+              />
+            </div> */}
+
             <div className="card">
+              <div className="left">
+                <div className="name">Chaien</div>
+                <div className="item">
+                  <div className="label">Tải trọng(kg)</div>
+                  <div className="number">30</div>
+                </div>
+                <div className="item">
+                  <div className="label">Khối lượng(m3)</div>
+                  <div className="number">0.5</div>
+                </div>
+                <div className="item">
+                  <div className="label">Quãng đường(km)</div>
+                  <div className="number">5</div>
+                </div>
+              </div>
+              <div className="right">
+                <div className="tangle">
+                  <span>1</span>
+                  <div className="horization"></div>
+                </div>
+                <div className="tangle">
+                  <span>2</span>
+                  <div className="horization"></div>
+                </div>
+                <div className="tangle">
+                  <span>3</span>
+                  <div className="horization"></div>
+                </div>
+                <div className="tangle">
+                  <span>4</span>
+                </div>
+              </div>
+            </div>
+            {/* <div className="card">
               <div className="left">
                 <div className="name">Luffy</div>
                 <div className="item">
@@ -75,7 +119,6 @@ const Delivery = () => {
                 </div>
                 <div className="tangle">
                   <span>4</span>
-                  {/* <div className="horization"></div> */}
                 </div>
               </div>
             </div>
@@ -110,45 +153,9 @@ const Delivery = () => {
                 </div>
                 <div className="tangle">
                   <span>4</span>
-                  {/* <div className="horization"></div> */}
                 </div>
               </div>
-            </div>
-            <div className="card">
-              <div className="left">
-                <div className="name">Luffy</div>
-                <div className="item">
-                  <div className="label">Tải trọng(kg)</div>
-                  <div className="number">30</div>
-                </div>
-                <div className="item">
-                  <div className="label">Khối lượng(m3)</div>
-                  <div className="number">0.5</div>
-                </div>
-                <div className="item">
-                  <div className="label">Quãng đường(km)</div>
-                  <div className="number">5</div>
-                </div>
-              </div>
-              <div className="right">
-                <div className="tangle">
-                  <span>1</span>
-                  <div className="horization"></div>
-                </div>
-                <div className="tangle">
-                  <span>2</span>
-                  <div className="horization"></div>
-                </div>
-                <div className="tangle">
-                  <span>3</span>
-                  <div className="horization"></div>
-                </div>
-                <div className="tangle">
-                  <span>4</span>
-                  {/* <div className="horization"></div> */}
-                </div>
-              </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
