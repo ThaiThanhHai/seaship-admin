@@ -22,7 +22,7 @@ const HistoryDelivery = () => {
   }, []);
   const [orderList, setOrderList] = useState({});
   const [selectedId, setSelectedId] = useState([]);
-  const renderStatus = (status: string) => {
+  const renderStatus = (status) => {
     if (status === "new") {
       // return "Đang xử lý";
       return (
@@ -70,10 +70,10 @@ const HistoryDelivery = () => {
       field: "name",
       headerName: "Đơn hàng",
       width: 180,
-      renderHeader: (params: GridColumnHeaderParams) => (
+      renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Đơn hàng</p>
       ),
-      renderCell: ({ row }: CellType) => {
+      renderCell: ({ row }) => {
         return row.cargo.name;
       },
     },
@@ -81,7 +81,7 @@ const HistoryDelivery = () => {
       field: "sender_name",
       headerName: "Người gửi",
       width: 180,
-      renderHeader: (params: GridColumnHeaderParams) => (
+      renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Người gửi</p>
       ),
     },
@@ -89,7 +89,7 @@ const HistoryDelivery = () => {
       field: "sender_phone",
       headerName: "SĐT người gửi",
       width: 150,
-      renderHeader: (params: GridColumnHeaderParams) => (
+      renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>SĐT người gửi</p>
       ),
     },
@@ -97,10 +97,10 @@ const HistoryDelivery = () => {
       field: "weight",
       headerName: "Trọng lượng",
       width: 110,
-      renderHeader: (params: GridColumnHeaderParams) => (
+      renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Trọng lượng</p>
       ),
-      renderCell: ({ row }: CellType) => {
+      renderCell: ({ row }) => {
         return `${row.cargo.weight} Kg`;
       },
     },
@@ -108,10 +108,10 @@ const HistoryDelivery = () => {
       field: "dimension",
       headerName: "Kích thước",
       width: 110,
-      renderHeader: (params: GridColumnHeaderParams) => (
+      renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Kích thước</p>
       ),
-      renderCell: ({ row }: CellType) => {
+      renderCell: ({ row }) => {
         return `${row.cargo.dimension} cm3`;
       },
     },
@@ -119,10 +119,10 @@ const HistoryDelivery = () => {
       field: "delivery_time",
       headerName: "Ngày giao",
       width: 140,
-      renderHeader: (params: GridColumnHeaderParams) => (
+      renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Kích thước</p>
       ),
-      renderCell: ({ row }: CellType) => {
+      renderCell: ({ row }) => {
         return row.delivery_time.split("-").reverse().join("-");
       },
     },
@@ -130,10 +130,10 @@ const HistoryDelivery = () => {
       field: "status",
       headerName: "Trạng thái",
       width: 140,
-      renderHeader: (params: GridColumnHeaderParams) => (
+      renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Trạng thái</p>
       ),
-      renderCell: ({ row }: CellType) => {
+      renderCell: ({ row }) => {
         return renderStatus(row.status);
       },
     },
