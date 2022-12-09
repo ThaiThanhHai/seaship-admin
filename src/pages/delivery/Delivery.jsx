@@ -34,6 +34,7 @@ const Delivery = () => {
     getDeliveries();
   }, [deliveries]);
 
+  console.log(address)
   return (
     <div className="delivery">
       <Sidebar />

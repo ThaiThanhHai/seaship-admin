@@ -8,7 +8,7 @@
   }
   .delivery {
     width: 100%;
-    height: 92%;
+    height: 94%;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -16,7 +16,7 @@
 
     .map {
       width: 100%;
-      height: 70%;
+      height: 50%;
       position: relative;
 
       .button-layout {
@@ -27,11 +27,27 @@
         align-items: center;
         justify-content: center;
       }
+
+      .marker {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: 2px solid #007041;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        span {
+          color: #000;
+          font-weight: bold;
+        }
+      }
     }
 
     .list {
       width: 100%;
-      height: 30%;
+      height: 50%;
       border: 1px solid #0b5b8d;
       box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
       overflow: auto;
@@ -115,12 +131,12 @@
             }
           }
 
-          .icon-map{
+          .icon-map {
             margin-left: 50px;
           }
         }
 
-        &:hover{
+        &:hover {
           background-color: #dbe4ea;
         }
       }
