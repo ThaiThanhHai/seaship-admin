@@ -5,7 +5,6 @@ import "./schedule.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { toast } from "react-hot-toast";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Stack } from "@mui/material";
@@ -17,8 +16,8 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 1200,
-  height: 550,
+  width: 1350,
+  height: 600,
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 2,
@@ -28,7 +27,6 @@ const style = {
 export default function ScheduleTruck({ open, setOpen }) {
   const handleClose = () => setOpen(false);
 
-  const navigate = useNavigate();
   const [orderList, setOrderList] = useState([]);
   const [shipperList, setShipperList] = useState([]);
   const [orderSelected, setOrderSelected] = useState([]);
@@ -38,7 +36,7 @@ export default function ScheduleTruck({ open, setOpen }) {
     const getOrders = async () => {
       try {
         const result = await axios.get(
-          "http://localhost:3000/api/v1/orders/not_cantho?filter=new"
+          "http://localhost:3000/api/v1/orders/truck?filter=new"
         );
         if (result.data) {
           setOrderList(result.data?.orders);
@@ -67,8 +65,8 @@ export default function ScheduleTruck({ open, setOpen }) {
     {
       field: "name",
       headerName: "Đơn hàng",
-      width: 160,
-      renderCell: ({ row }: CellType) => {
+      width: 180,
+      renderCell: ({ row }) => {
         return row.cargo.name;
       },
     },
@@ -76,32 +74,33 @@ export default function ScheduleTruck({ open, setOpen }) {
       field: "weight",
       headerName: "Trọng lượng",
       width: 110,
-      renderCell: ({ row }: CellType) => {
-        return `${row.cargo.weight} Kg`;
+      renderCell: ({ row }) => {
+        return `${row.cargo.weight} `;
       },
     },
     {
       field: "dimension",
       headerName: "Kích thước",
       width: 110,
-      renderCell: ({ row }: CellType) => {
-        return `${row.cargo.dimension} m3`;
+      renderCell: ({ row }) => {
+        return `${row.cargo.dimension}`;
+      },
+    },
+    {
+
+      field: "delivery_time",
+      headerName: "Ngày giao",
+      width: 120,
+      renderCell: ({ row }) => {
+        return row.delivery_time.split("-").reverse().join("-");
       },
     },
     {
       field: "distance",
       headerName: "Khoảng cách",
       width: 120,
-      renderCell: ({ row }: CellType) => {
-        return row.delivery_time.split("-").reverse().join("-");
-      },
-    },
-    {
-      field: "delivery_time",
-      headerName: "Ngày giao",
-      width: 120,
-      renderCell: ({ row }: CellType) => {
-        return `${row.distance} km`;
+      renderCell: ({ row }) => {
+        return `${row.order_address.distance} km`;
       },
     },
     {
@@ -116,16 +115,16 @@ export default function ScheduleTruck({ open, setOpen }) {
     {
       field: "capacity",
       headerName: "Trọng lượng tối đa",
-      width: 110,
-      renderCell: ({ row }: CellType) => {
+      width: 120,
+      renderCell: ({ row }) => {
         return `${row.vehicle.capacity} kg`;
       },
     },
     {
       field: "dimension",
       headerName: "Khối lượng tối đa",
-      width: 110,
-      renderCell: ({ row }: CellType) => {
+      width: 120,
+      renderCell: ({ row }) => {
         return `${row.vehicle.dimension} m3`;
       },
     },
@@ -138,8 +137,8 @@ export default function ScheduleTruck({ open, setOpen }) {
         data
       );
       if (res.data) {
-        toast.success("Tạo lịch giao hàng thành công");
-        navigate(`/schedules`);
+        toast.success("Lập lịch thành công");
+        setOpen(false)
       }
     } catch (error) {
       toast.success("Không thể lập lịch, vui lòng kiểm tra lại");
@@ -152,6 +151,7 @@ export default function ScheduleTruck({ open, setOpen }) {
       list_order: orderSelected,
       list_shipper: shipperSelected,
     };
+    console.log(data);
     creatSchedule(data);
   };
   return (
@@ -161,8 +161,12 @@ export default function ScheduleTruck({ open, setOpen }) {
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        className="modal"
       >
         <Box sx={style}>
+          <div className="label">
+            Sắp xếp lịch giao hàng cho phương tiện xe tải
+          </div>
           <div className="box-list">
             <div className="list-order">
               <div className="label-add">Chọn đơn hàng</div>

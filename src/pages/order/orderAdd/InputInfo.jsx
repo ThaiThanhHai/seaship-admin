@@ -10,8 +10,9 @@ import { Link, useNavigate } from "react-router-dom";
 import MultipleSelect from "../../../components/select/MultipleSelect";
 import axios from "axios";
 import ButtonBack from "../../../components/button/buttonBack";
+import Loader from "../../../components/loader/Loader";
 
-const InputInfo = (props) => {
+const InputInfo = () => {
   const navigate = useNavigate();
   const getStorageValue = (key, defaultValue) => {
     if (typeof window !== "undefined") {
@@ -20,6 +21,7 @@ const InputInfo = (props) => {
       return initial;
     }
   };
+  const [loading, setLoading] = useState(false);
   const supervisor = getStorageValue("supervisor", "");
   const [values, setValues] = useState({
     order_name: "",
@@ -61,11 +63,14 @@ const InputInfo = (props) => {
     let res;
     try {
       res = await axios.post("http://localhost:3000/api/v1/orders", data);
+      if (res.data) {
+        setLoading(false);
+        navigate(`/orders/${res.data.id}`);
+      }
       toast.success("Tạo đơn hàng thành công");
     } catch (error) {
       console.error(error);
     }
-    navigate(`/orders/${res.data.id}`);
   };
 
   useEffect(() => {
@@ -156,6 +161,7 @@ const InputInfo = (props) => {
   };
 
   const handleSubmit = () => {
+    setLoading(true);
     if (checkValidate(values)) {
       const data = {
         sender_name: values.sender_name,
@@ -165,7 +171,6 @@ const InputInfo = (props) => {
         note: values.note,
         delivery_type_id: values.delivery_type,
         supervisor_id: supervisor.id,
-        // shipping_fee: fee,
         cargo: {
           name: values.order_name,
           weight: values.weight,
@@ -173,15 +178,15 @@ const InputInfo = (props) => {
         },
         order_address: {
           address: values.address,
-          // longitude: longitude,
-          // latitude: latitude,
         },
       };
       creatOrder(data);
       // navigate("/orders/add/step2");
     }
   };
+
   return (
+    <>
     <div className="order">
       <Sidebar />
       <div className="orderContainer">
@@ -221,10 +226,9 @@ const InputInfo = (props) => {
                 />
                 <TextField
                   id="outlined"
-                  label="Thể tích đơn hàng (m3)"
+                  label="Thể tích đơn hàng (dài x rộng x cao / 3000)"
                   variant="outlined"
                   type="number"
-                  placeholder="m3"
                   error={error.dimension}
                   required={true}
                   sx={{ width: "40%", margin: "5%" }}
@@ -316,7 +320,10 @@ const InputInfo = (props) => {
         </div>
       </div>
     </div>
+    {loading? <Loader/> : undefined}
+    </>
   );
+
 };
 
 export default InputInfo;

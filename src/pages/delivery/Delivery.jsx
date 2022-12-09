@@ -1,6 +1,10 @@
+import axios from "axios";
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import ButtonSchedule from "../../components/button/buttonSchedule";
+import CardDelivery from "../../components/card/CardDelivery";
+import Empty from "../../components/empty/Empty";
 import Mapbox from "../../components/map/mapbox";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
@@ -11,6 +15,25 @@ import ScheduleTruck from "./schedule/ScheduleTruck";
 const Delivery = () => {
   const [openModalTruck, setOpenModalTruck] = useState(false);
   const [openModalMotor, setOpenModalMotor] = useState(false);
+  const [deliveries, setDeliveries] = useState([]);
+  const [address, setAddress] = useState([]);
+
+  useEffect(() => {
+    const getDeliveries = async () => {
+      try {
+        const result = await axios.get(
+          "http://localhost:3000/api/v1/deliveries"
+        );
+        if (result.data) {
+          setDeliveries(result.data?.schedule_of_shipper);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getDeliveries();
+  }, [deliveries]);
+
   return (
     <div className="delivery">
       <Sidebar />
@@ -18,7 +41,7 @@ const Delivery = () => {
         <Navbar />
         <div className="delivery">
           <div className="map">
-            <Mapbox />
+            <Mapbox  address={address && address}/>
             <div className="button-layout">
               <ButtonSchedule
                 label={"Xếp lịch xe máy"}
@@ -45,117 +68,7 @@ const Delivery = () => {
             )}
           </div>
           <div className="list">
-            {/* <div className="empty">
-              <span>Lịch trống</span>
-              <img
-                src="https://cdn.dribbble.com/users/310943/screenshots/2792692/empty-state-illustrations.gif"
-                alt="empty"
-                className="image"
-              />
-            </div> */}
-
-            <div className="card">
-              <div className="left">
-                <div className="name">Chaien</div>
-                <div className="item">
-                  <div className="label">Tải trọng(kg)</div>
-                  <div className="number">30</div>
-                </div>
-                <div className="item">
-                  <div className="label">Khối lượng(m3)</div>
-                  <div className="number">0.5</div>
-                </div>
-                <div className="item">
-                  <div className="label">Quãng đường(km)</div>
-                  <div className="number">5</div>
-                </div>
-              </div>
-              <div className="right">
-                <div className="tangle">
-                  <span>1</span>
-                  <div className="horization"></div>
-                </div>
-                <div className="tangle">
-                  <span>2</span>
-                  <div className="horization"></div>
-                </div>
-                <div className="tangle">
-                  <span>3</span>
-                  <div className="horization"></div>
-                </div>
-                <div className="tangle">
-                  <span>4</span>
-                </div>
-              </div>
-            </div>
-            {/* <div className="card">
-              <div className="left">
-                <div className="name">Luffy</div>
-                <div className="item">
-                  <div className="label">Tải trọng(kg)</div>
-                  <div className="number">30</div>
-                </div>
-                <div className="item">
-                  <div className="label">Khối lượng(m3)</div>
-                  <div className="number">0.5</div>
-                </div>
-                <div className="item">
-                  <div className="label">Quãng đường(km)</div>
-                  <div className="number">5</div>
-                </div>
-              </div>
-              <div className="right">
-                <div className="tangle">
-                  <span>1</span>
-                  <div className="horization"></div>
-                </div>
-                <div className="tangle">
-                  <span>2</span>
-                  <div className="horization"></div>
-                </div>
-                <div className="tangle">
-                  <span>3</span>
-                  <div className="horization"></div>
-                </div>
-                <div className="tangle">
-                  <span>4</span>
-                </div>
-              </div>
-            </div>
-            <div className="card">
-              <div className="left">
-                <div className="name">Luffy</div>
-                <div className="item">
-                  <div className="label">Tải trọng(kg)</div>
-                  <div className="number">30</div>
-                </div>
-                <div className="item">
-                  <div className="label">Khối lượng(m3)</div>
-                  <div className="number">0.5</div>
-                </div>
-                <div className="item">
-                  <div className="label">Quãng đường(km)</div>
-                  <div className="number">5</div>
-                </div>
-              </div>
-              <div className="right">
-                <div className="tangle">
-                  <span>1</span>
-                  <div className="horization"></div>
-                </div>
-                <div className="tangle">
-                  <span>2</span>
-                  <div className="horization"></div>
-                </div>
-                <div className="tangle">
-                  <span>3</span>
-                  <div className="horization"></div>
-                </div>
-                <div className="tangle">
-                  <span>4</span>
-                </div>
-              </div>
-            </div> */}
+            {!deliveries.length ? (<Empty/> ) : <CardDelivery  deliveries={deliveries && deliveries} setAddress={setAddress} />}
           </div>
         </div>
       </div>

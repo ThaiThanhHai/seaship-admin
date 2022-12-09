@@ -1,34 +1,51 @@
-.box-list {
-  width: 100%;
+.modal {
   display: flex;
   align-items: center;
   justify-content: center;
-  .list-order {
-    height: 400px;
-    width: 790px;
-    margin-right: 10px;
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  .label {
+    padding: 10px;
+    padding-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #007041;
+    font-size: 26px;
+    font-weight: bold;
+  }
+  .box-list {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .list-order {
+      height: 400px;
+      width: 920px;
+      margin-right: 10px;
+      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 
-    .label-add {
-      text-align: center;
-      line-height: 40px;
-      color: #007041;
-      font-weight: bold;
+      .label-add {
+        text-align: center;
+        line-height: 40px;
+        color: #007041;
+        font-weight: bold;
+      }
+    }
+    .list-shipper {
+      height: 400px;
+      width: 550px;
+      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+      .label-add {
+        text-align: center;
+        line-height: 40px;
+        color: #007041;
+        font-weight: bold;
+      }
     }
   }
-  .list-shipper {
-    height: 400px;
-    width: 400px;
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 
-    .label-add {
-      text-align: center;
-      line-height: 40px;
-      color: #007041;
-      font-weight: bold;
-    }
-  }
 }
+
 
 .btn-schedule {
   margin-top: 40px;
