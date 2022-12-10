@@ -31,7 +31,7 @@ const InputInfo = () => {
     receiver_phone: "",
     weight: 0,
     address: "",
-    dimension: 0,
+    dimension: "",
     delivery_type: "",
     note: "",
   });
@@ -63,19 +63,17 @@ const InputInfo = () => {
     let res;
     try {
       res = await axios.post("http://localhost:3000/api/v1/orders", data);
-      if (res.data) {
-        setLoading(false);
-        navigate(`/orders/${res.data.id}`);
-      }
+      navigate(`/orders/${res.data.id}`);
       toast.success("Tạo đơn hàng thành công");
     } catch (error) {
       console.error(error);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
     getDeliveryTypes();
-  }, [values, deliveryType]);
+  }, [values, deliveryType, loading]);
 
   const handleChangeForm = (name) => (event) => {
     setError({
@@ -89,7 +87,7 @@ const InputInfo = () => {
       delivery_type: false,
       note: false,
     });
-    if (name === "dimension" || name === "weight") {
+    if (name === "weight") {
       const valueNumber = parseFloat(event.target.value);
       if (valueNumber < 0) {
         setValues({ ...values, [name]: 0 });
@@ -112,8 +110,32 @@ const InputInfo = () => {
       setError({ ...error, weight: true });
       return false;
     }
-    if (values.dimension <= 0) {
-      toast.error("Kích thước phải là số lớn hơn 0");
+
+    if (values.weight > 20) {
+      toast.error("Trọng lượng hàng hóa phải là phải nhỏ hơn 20kg");
+      setError({ ...error, weight: true });
+      return false;
+    }
+    const valueDimensions = values.dimension.toString().split("x");
+
+    if (!valueDimensions) {
+      toast.error("Vui lòng nhập thể tích đơn hàng đúng định dạng");
+      setError({ ...error, dimension: true });
+      return false;
+    }
+    if (
+      valueDimensions.length !== 3 ||
+      isNaN(Number(valueDimensions[0])) ||
+      isNaN(Number(valueDimensions[1])) ||
+      isNaN(Number(valueDimensions[2]))
+    ) {
+      toast.error("Vui lòng nhập thể tích đơn hàng đúng định dạng");
+      setError({ ...error, dimension: true });
+      return false;
+    }
+
+    if (valueDimensions[0] * valueDimensions[1] * valueDimensions[2] > 90000) {
+      toast.error("Khối lượng vận chuyển vượt quá giới hạn cho phép là 15");
       setError({ ...error, dimension: true });
       return false;
     }
@@ -161,7 +183,7 @@ const InputInfo = () => {
   };
 
   const handleSubmit = () => {
-    setLoading(true);
+    const valueDimensions = values.dimension.toString().split("x");
     if (checkValidate(values)) {
       const data = {
         sender_name: values.sender_name,
@@ -174,156 +196,156 @@ const InputInfo = () => {
         cargo: {
           name: values.order_name,
           weight: values.weight,
-          dimension: values.dimension,
+          dimension:
+            (valueDimensions[0] * valueDimensions[1] * valueDimensions[2]) /
+            6000,
         },
         order_address: {
           address: values.address,
         },
       };
+      setLoading(true);
       creatOrder(data);
-      // navigate("/orders/add/step2");
     }
   };
 
   return (
     <>
-    <div className="order">
-      <Sidebar />
-      <div className="orderContainer">
-        <Navbar />
-        <div className="form-layout">
-          <div className="label-page">Nhập thông tin đơn hàng</div>
-          <div className="form-content">
-            <div className="form-input">
-              <Box
-                component="form"
-                sx={{
-                  "& > :not(style)": { m: 1 },
-                }}
-                noValidate
-                autoComplete="off"
-              >
-                <TextField
-                  id="outlined-basic"
-                  label="Tên đơn hàng"
-                  error={error.order_name}
-                  variant="outlined"
-                  required={true}
-                  sx={{ width: "40%", margin: "5%" }}
-                  value={values.order_name}
-                  onChange={handleChangeForm("order_name")}
-                />
-                <TextField
-                  id="standard-basic"
-                  label="Trọng lượng đơn hàng"
-                  sx={{ width: "40%", margin: "5%" }}
-                  variant="outlined"
-                  placeholder="kg"
-                  type="number"
-                  error={error.weight}
-                  required={true}
-                  onChange={handleChangeForm("weight")}
-                />
-                <TextField
-                  id="outlined"
-                  label="Thể tích đơn hàng (dài x rộng x cao / 3000)"
-                  variant="outlined"
-                  type="number"
-                  error={error.dimension}
-                  required={true}
-                  sx={{ width: "40%", margin: "5%" }}
-                  onChange={handleChangeForm("dimension")}
-                />
-                <MultipleSelect
-                  deliveryType={deliveryType}
-                  values={values}
-                  setValues={setValues}
-                  error={error}
-                  setError={setError}
-                />
-                <TextField
-                  id="standard-basic"
-                  label="Tên người gửi"
-                  variant="outlined"
-                  error={error.sender_name}
-                  required={true}
-                  sx={{ width: "40%", margin: "5%" }}
-                  value={values.sender_name}
-                  onChange={handleChangeForm("sender_name")}
-                />
-                <TextField
-                  id="standard-basic"
-                  label="Số điện thoại người gửi"
-                  variant="outlined"
-                  error={error.sender_phone}
-                  required={true}
-                  sx={{ width: "40%", margin: "5%" }}
-                  value={values.sender_phone}
-                  onChange={handleChangeForm("sender_phone")}
-                />
-                <TextField
-                  id="standard-basic"
-                  label="Tên người nhận"
-                  variant="outlined"
-                  error={error.receiver_name}
-                  required={true}
-                  sx={{ width: "40%", margin: "5%" }}
-                  value={values.receiver_name}
-                  onChange={handleChangeForm("receiver_name")}
-                />
-                <TextField
-                  id="standard-basic"
-                  label="Số điện thoại người nhận"
-                  variant="outlined"
-                  error={error.receiver_phone}
-                  required={true}
-                  sx={{ width: "40%", margin: "5%" }}
-                  value={values.receiver_phone}
-                  onChange={handleChangeForm("receiver_phone")}
-                />
-                <TextField
-                  id="outlined-multiline-static"
-                  label="Địa chỉ"
-                  sx={{ width: "81%" }}
-                  variant="outlined"
-                  multiline
-                  rows={2}
-                  value={values.address}
-                  onChange={handleChangeForm("address")}
-                />
-                <TextField
-                  id="outlined-multiline-static"
-                  label="Ghi chú"
-                  sx={{ width: "81%" }}
-                  variant="outlined"
-                  multiline
-                  rows={2}
-                  value={values.note}
-                  onChange={handleChangeForm("note")}
-                />
-              </Box>
+      <div className="order">
+        <Sidebar />
+        <div className="orderContainer">
+          <Navbar />
+          <div className="form-layout">
+            <div className="label-page">Nhập thông tin đơn hàng</div>
+            <div className="form-content">
+              <div className="form-input">
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1 },
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <TextField
+                    id="outlined-basic"
+                    label="Tên đơn hàng"
+                    error={error.order_name}
+                    variant="outlined"
+                    required={true}
+                    sx={{ width: "40%", margin: "5%" }}
+                    value={values.order_name}
+                    onChange={handleChangeForm("order_name")}
+                  />
+                  <TextField
+                    id="standard-basic"
+                    label="Trọng lượng thực tế"
+                    sx={{ width: "40%", margin: "5%" }}
+                    variant="outlined"
+                    placeholder="kg"
+                    type="number"
+                    error={error.weight}
+                    required={true}
+                    onChange={handleChangeForm("weight")}
+                  />
+                  <TextField
+                    id="outlined"
+                    label="Thể tích đơn hàng (dài x rộng x cao)"
+                    variant="outlined"
+                    error={error.dimension}
+                    required={true}
+                    sx={{ width: "40%", margin: "5%" }}
+                    onChange={handleChangeForm("dimension")}
+                  />
+                  <MultipleSelect
+                    deliveryType={deliveryType}
+                    values={values}
+                    setValues={setValues}
+                    error={error}
+                    setError={setError}
+                  />
+                  <TextField
+                    id="standard-basic"
+                    label="Tên người gửi"
+                    variant="outlined"
+                    error={error.sender_name}
+                    required={true}
+                    sx={{ width: "40%", margin: "5%" }}
+                    value={values.sender_name}
+                    onChange={handleChangeForm("sender_name")}
+                  />
+                  <TextField
+                    id="standard-basic"
+                    label="Số điện thoại người gửi"
+                    variant="outlined"
+                    error={error.sender_phone}
+                    required={true}
+                    sx={{ width: "40%", margin: "5%" }}
+                    value={values.sender_phone}
+                    onChange={handleChangeForm("sender_phone")}
+                  />
+                  <TextField
+                    id="standard-basic"
+                    label="Tên người nhận"
+                    variant="outlined"
+                    error={error.receiver_name}
+                    required={true}
+                    sx={{ width: "40%", margin: "5%" }}
+                    value={values.receiver_name}
+                    onChange={handleChangeForm("receiver_name")}
+                  />
+                  <TextField
+                    id="standard-basic"
+                    label="Số điện thoại người nhận"
+                    variant="outlined"
+                    error={error.receiver_phone}
+                    required={true}
+                    sx={{ width: "40%", margin: "5%" }}
+                    value={values.receiver_phone}
+                    onChange={handleChangeForm("receiver_phone")}
+                  />
+                  <TextField
+                    id="outlined-multiline-static"
+                    label="Địa chỉ"
+                    sx={{ width: "81%" }}
+                    variant="outlined"
+                    multiline
+                    rows={2}
+                    value={values.address}
+                    onChange={handleChangeForm("address")}
+                  />
+                  <TextField
+                    id="outlined-multiline-static"
+                    label="Ghi chú"
+                    sx={{ width: "81%" }}
+                    variant="outlined"
+                    multiline
+                    rows={2}
+                    value={values.note}
+                    onChange={handleChangeForm("note")}
+                  />
+                </Box>
+              </div>
             </div>
-          </div>
-          <div className="btn-continue">
-            <Link to="/orders" style={{ textDecoration: "none" }}>
-              <ButtonBack label={"Hủy"} />
-            </Link>
-            <ButtonAdd label={"Tạo đơn"} onClick={handleSubmit} />
-            <Toaster
-              position="top-right"
-              reverseOrder={false}
-              toastOptions={{
-                duration: 1000,
-              }}
-            />
+            <div className="btn-continue">
+              <Link to="/orders" style={{ textDecoration: "none" }}>
+                <ButtonBack label={"Hủy"} />
+              </Link>
+              <ButtonAdd label={"Tạo đơn"} onClick={handleSubmit} />
+              <Toaster
+                position="top-right"
+                reverseOrder={false}
+                toastOptions={{
+                  duration: 1000,
+                }}
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    {loading? <Loader/> : undefined}
+      {loading ? <Loader /> : undefined}
     </>
   );
-
 };
 
 export default InputInfo;

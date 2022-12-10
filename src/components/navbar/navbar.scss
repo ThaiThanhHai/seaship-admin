@@ -1,38 +1,45 @@
 .navbar {
   height: 50px;
-  border-bottom: 0.5px solid rgb(231, 228, 228);
+  // border-bottom: 0.5px solid rgb(231, 228, 228);
   display: flex;
   align-items: center;
   font-size: 14px;
   color: #555;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 
   .wrapper {
     width: 100%;
-    padding: 20px;
     display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
 
-      .item {
-        display: flex;
-        align-items: center;
-        justify-self: start;
-        margin-right: 20px;
-        position: relative;
+    .top {
+      margin-left: -80px;
+      background-color: #fff;
+      height: 50px;
+    }
 
-        .title {
-          margin-right: 5px;
-          color:#333;
-          font-size: 16px;
-          font-weight: 600;
-        }
+    .item {
+      display: flex;
+      align-items: center;
+      justify-self: start;
+      margin-right: 20px;
+      position: relative;
 
-        .avatar {
-          width: 30px;
-          height: 30px;
-          border-radius: 50%;
-        }
+      .title {
+        margin-right: 5px;
+        color: #333;
+        font-size: 16px;
+        font-weight: 600;
       }
+
+      .avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+      }
+    }
   }
 }

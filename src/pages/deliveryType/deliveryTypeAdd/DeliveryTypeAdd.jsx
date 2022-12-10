@@ -6,8 +6,9 @@ import ButtonAdd from "../../../components/button/buttonAdd";
 import Navbar from "../../../components/navbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
 import toast, { Toaster } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import ButtonBack from "../../../components/button/buttonBack";
 
 const DeliveryTypeAdd = (props) => {
   const navigate = useNavigate();
@@ -122,7 +123,6 @@ const DeliveryTypeAdd = (props) => {
   };
 
   const creatShipper = async (data) => {
-    console.log(data);
     try {
       const result = await axios.post(
         "http://localhost:3000/api/v1/delivery-type",
@@ -221,6 +221,9 @@ const DeliveryTypeAdd = (props) => {
             </div>
           </div>
           <div className="btn-continue" style={{ marginTop: "20px" }}>
+            <Link to="/delivery-types" style={{ textDecoration: "none" }}>
+              <ButtonBack label={"Quay lại"} />
+            </Link>
             <ButtonAdd label={"Lưu"} onClick={handleSubmit} />
             <Toaster
               position="top-right"

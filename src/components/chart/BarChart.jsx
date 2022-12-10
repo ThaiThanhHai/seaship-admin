@@ -10,72 +10,89 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const data = [
-  {
-    name: "Page A",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: "Page B",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: "Page C",
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: "Page D",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: "Page E",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: "Page F",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: "Page G",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
+// const data = [
+//   {
+//     name: "Page A",
+//     success: 2400,
+//   },
+//   {
+//     name: "Page B",
+//     success: 1398,
+//   },
+//   {
+//     name: "Page C",
+//     success: 9800,
+//   },
+//   {
+//     name: "Page D",
+//     success: 3908,
+//   },
+//   {
+//     name: "Page E",
+//     success: 4800,
+//   },
+//   {
+//     name: "Page F",
+//     Success: 3800,
+//   },
+//   {
+//     name: "Page G",
+//     success: 4300,
+//     amt: 2100,
+//   },
 
-const BasicBarChart = () => {
+//   {
+//     name: "Page G",
+//     success: 4300,
+//     amt: 2100,
+//   },
+//   {
+//     name: "Page G",
+//     success: 4300,
+//     amt: 2100,
+//   },
+//   {
+//     name: "Page G",
+//     success: 4300,
+//     amt: 2100,
+//   },
+// ];
+
+const data = [];
+
+for (var i = 0; i < 31; i++) {
+  data.push({
+    name: i,
+    success: 100,
+    fail: 100,
+  });
+}
+
+const BasicBarChart = ({ status }) => {
   return (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer width="125%" height="100%">
       <BarChart
-        width={500}
+        width={700}
         height={300}
         data={data}
         margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
+          top: 30,
         }}
       >
-        <CartesianGrid strokeDasharray="3 3" />
+        <CartesianGrid strokeOpacity={0} />
         <XAxis dataKey="name" />
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="pv" fill="#8884d8" />
-        <Bar dataKey="uv" fill="#82ca9d" />
+        <Bar
+          dataKey={status}
+          fill={
+            status === "success"
+              ? "rgba(55, 152, 219, 1)"
+              : "rgba(231, 76, 60, 1)"
+          }
+          barSize={3}
+        />
       </BarChart>
     </ResponsiveContainer>
   );

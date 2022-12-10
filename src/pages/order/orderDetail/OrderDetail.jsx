@@ -83,15 +83,15 @@ const OrderDetail = () => {
               <div className="right-content">
                 <div className="item">
                   <p style={{ fontWeight: "bold" }} className="label-1">
-                    Trọng lượng
+                    Trọng lượng thực tế
                   </p>
                   <p className="label-2">{order["cargo"].weight} kg</p>
                 </div>
                 <div className="item">
                   <p style={{ fontWeight: "bold" }} className="label-1">
-                    Thể tích
+                    Trọng lượng vận chuyển
                   </p>
-                  <p className="label-2">{order["cargo"].dimension} cm3</p>
+                  <p className="label-2">{order["cargo"].dimension} kg</p>
                 </div>
                 <div className="item">
                   <p style={{ fontWeight: "bold" }} className="label-1">

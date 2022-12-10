@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./navbar.scss";
 
 const Navbar = () => {
@@ -13,6 +14,11 @@ const Navbar = () => {
   return (
     <div className="navbar">
       <div className="wrapper">
+        <div className="top">
+          <Link to="/home" style={{ textDecoration: "none" }}>
+            <img src="https://i.imgur.com/niVMDiv.png" alt="logo" />
+          </Link>
+        </div>
         <div className="item">
           <p className="title">{initialValue.name}</p>
           <img src={initialValue.avatar} alt="" className="avatar" />

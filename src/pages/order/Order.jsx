@@ -26,7 +26,6 @@ const Order = () => {
   const [selectedId, setSelectedId] = useState([]);
   const renderStatus = (status: string) => {
     if (status === "new") {
-      // return "Đang xử lý";
       return (
         <Button
           color="primary"
@@ -71,7 +70,7 @@ const Order = () => {
     {
       field: "name",
       headerName: "Đơn hàng",
-      width: 180,
+      width: 200,
       renderHeader: (params: GridColumnHeaderParams) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Đơn hàng</p>
       ),
@@ -82,7 +81,7 @@ const Order = () => {
     {
       field: "sender_name",
       headerName: "Người gửi",
-      width: 180,
+      width: 200,
       renderHeader: (params: GridColumnHeaderParams) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Người gửi</p>
       ),
@@ -90,15 +89,15 @@ const Order = () => {
     {
       field: "sender_phone",
       headerName: "SĐT người gửi",
-      width: 150,
+      width: 170,
       renderHeader: (params: GridColumnHeaderParams) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>SĐT người gửi</p>
       ),
     },
     {
       field: "weight",
-      headerName: "Trọng lượng",
-      width: 110,
+      headerName: "Khối lượng thực tế",
+      width: 140,
       renderHeader: (params: GridColumnHeaderParams) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Trọng lượng</p>
       ),
@@ -108,8 +107,8 @@ const Order = () => {
     },
     {
       field: "dimension",
-      headerName: "Kích thước",
-      width: 110,
+      headerName: "Khối lượng vận chuyển",
+      width: 140,
       renderHeader: (params: GridColumnHeaderParams) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Kích thước</p>
       ),
@@ -120,7 +119,7 @@ const Order = () => {
     {
       field: "delivery_time",
       headerName: "Ngày giao",
-      width: 120,
+      width: 140,
       renderHeader: (params: GridColumnHeaderParams) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Ngày giao</p>
       ),
@@ -131,7 +130,7 @@ const Order = () => {
     {
       field: "status",
       headerName: "Trạng thái",
-      width: 140,
+      width: 160,
       renderHeader: (params: GridColumnHeaderParams) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Trạng thái</p>
       ),

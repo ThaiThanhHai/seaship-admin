@@ -8,6 +8,7 @@ import "../../style/order.scss";
 import ButtonDelete from "../../components/button/buttonDelete";
 import { toast, Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import EmptyOrder from "../../components/empty/EmptyOrder";
 
 const HistoryDelivery = () => {
   const navigate = useNavigate();
@@ -80,7 +81,7 @@ const HistoryDelivery = () => {
     {
       field: "sender_name",
       headerName: "Người gửi",
-      width: 180,
+      width: 200,
       renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Người gửi</p>
       ),
@@ -88,7 +89,7 @@ const HistoryDelivery = () => {
     {
       field: "sender_phone",
       headerName: "SĐT người gửi",
-      width: 150,
+      width: 160,
       renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>SĐT người gửi</p>
       ),
@@ -96,7 +97,7 @@ const HistoryDelivery = () => {
     {
       field: "weight",
       headerName: "Trọng lượng",
-      width: 110,
+      width: 160,
       renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Trọng lượng</p>
       ),
@@ -107,7 +108,7 @@ const HistoryDelivery = () => {
     {
       field: "dimension",
       headerName: "Kích thước",
-      width: 110,
+      width: 160,
       renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Kích thước</p>
       ),
@@ -118,7 +119,7 @@ const HistoryDelivery = () => {
     {
       field: "delivery_time",
       headerName: "Ngày giao",
-      width: 140,
+      width: 160,
       renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Kích thước</p>
       ),
@@ -129,7 +130,7 @@ const HistoryDelivery = () => {
     {
       field: "status",
       headerName: "Trạng thái",
-      width: 140,
+      width: 160,
       renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Trạng thái</p>
       ),
@@ -196,7 +197,7 @@ const HistoryDelivery = () => {
                     alignItems="center"
                     justifyContent="center"
                   >
-                    Danh sách đơn hàng trống
+                    <EmptyOrder label={"Lịch sử đơn hàng trống"} />
                   </Stack>
                 ),
                 NoResultsOverlay: () => (

@@ -99,7 +99,6 @@ const ShipperAdd = (props) => {
         "http://localhost:3000/api/v1/shippers",
         data
       );
-      console.log(result.status);
       if (result.data) {
         toast.success("Tạo đơn hàng thành công");
         navigate("/shippers");
@@ -117,7 +116,6 @@ const ShipperAdd = (props) => {
         phone: values.phone,
         vehicle: values.vehicle,
       };
-      console.log(data);
       creatShipper(data);
     }
   };

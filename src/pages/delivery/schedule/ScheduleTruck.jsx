@@ -87,7 +87,6 @@ export default function ScheduleTruck({ open, setOpen }) {
       },
     },
     {
-
       field: "delivery_time",
       headerName: "Ngày giao",
       width: 120,
@@ -138,7 +137,7 @@ export default function ScheduleTruck({ open, setOpen }) {
       );
       if (res.data) {
         toast.success("Lập lịch thành công");
-        setOpen(false)
+        setOpen(false);
       }
     } catch (error) {
       toast.success("Không thể lập lịch, vui lòng kiểm tra lại");
@@ -151,7 +150,6 @@ export default function ScheduleTruck({ open, setOpen }) {
       list_order: orderSelected,
       list_shipper: shipperSelected,
     };
-    console.log(data);
     creatSchedule(data);
   };
   return (

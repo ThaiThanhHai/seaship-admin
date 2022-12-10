@@ -2,75 +2,88 @@ import "./sidebar.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
-import StoreIcon from "@mui/icons-material/Store";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import ScheduleIcon from "@mui/icons-material/Schedule";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Tooltip } from "@mui/material";
+import {
+  DeliveryDining,
+  EventAvailable,
+  ShoppingCartCheckout,
+} from "@mui/icons-material";
+import { useState } from "react";
+import ModalLogout from "../modal/modal";
 
 const Sidebar = () => {
-  const handleSubmit = () => {
-    localStorage.setItem("supervisor", JSON.stringify(""));
+  const navigate = useNavigate();
+  const [isLogout, setIsLogout] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
   };
+
+  if (isLogout) {
+    navigate("/");
+    localStorage.setItem("supervisor", JSON.stringify(""));
+  }
+
   return (
     <div className="sidebar">
-      <div className="top">
-        <Link to="/home" style={{ textDecoration: "none" }}>
-          {/* <span className="logo">SeaShip</span> */}
-          <img src="https://i.imgur.com/niVMDiv.png" alt="logo" />
-        </Link>
-      </div>
       <hr />
       <div className="center">
         <ul>
           <Link to="/dashboard" style={{ textDecoration: "none" }}>
-            <li>
-              <DashboardIcon className="icon" />
-              <span>Thống kê</span>
-            </li>
+            <Tooltip title={"Thống kê trạng thái"} placement="top">
+              <li>
+                <DashboardIcon className="icon" />
+              </li>
+            </Tooltip>
           </Link>
           <Link to="/orders" style={{ textDecoration: "none" }}>
-            <li>
-              <StoreIcon className="icon" />
-              <span>Quản lý đơn hàng</span>
-            </li>
+            <Tooltip title={"Quản lý đơn hàng"} placement="top">
+              <li>
+                <ShoppingCartCheckout className="icon" />
+              </li>
+            </Tooltip>
           </Link>
           <Link to="/schedules" style={{ textDecoration: "none" }}>
-            <li>
-              <ScheduleIcon className="icon" />
-              <span>Lập lịch giao hàng</span>
-            </li>
+            <Tooltip title={"Lập lịch giao hàng"} placement="top">
+              <li>
+                <EventAvailable className="icon" />
+              </li>
+            </Tooltip>
           </Link>
           <Link to="/delivery-types" style={{ textDecoration: "none" }}>
-            <li>
-              <DoubleArrowIcon className="icon" />
-              <span>Hình thức giao hàng</span>
-            </li>
+            <Tooltip title={"Hình thức giao hàng"} placement="top">
+              <li>
+                <DoubleArrowIcon className="icon" />
+              </li>
+            </Tooltip>
           </Link>
           <Link to="/shippers" style={{ textDecoration: "none" }}>
-            <li>
-              <LocalShippingIcon className="icon" />
-              <span>Quản lý shipper</span>
-            </li>
+            <Tooltip title={"Quản lý shipper"} placement="top">
+              <li>
+                <DeliveryDining className="icon" />
+              </li>
+            </Tooltip>
           </Link>
           <Link to="/history-delivery" style={{ textDecoration: "none" }}>
-            <li>
-              <CreditCardIcon className="icon" />
-              <span>Lịch sử đơn hàng</span>
-            </li>
+            <Tooltip title={"Lịch sử đơn hàng"} placement="top">
+              <li>
+                <CreditCardIcon className="icon" />
+              </li>
+            </Tooltip>
           </Link>
-          <Link
-            to="/"
-            style={{ textDecoration: "none" }}
-            onClick={handleSubmit}
-          >
-            <li>
+          <Tooltip title={"Đăng xuất"} placement="top">
+            <li className="logout" onClick={handleClick}>
               <ExitToAppIcon className="icon" />
-              <span>Đăng xuất</span>
             </li>
-          </Link>
+          </Tooltip>
         </ul>
       </div>
+      {open && (
+        <ModalLogout open={open} setOpen={setOpen} setIsLogout={setIsLogout} />
+      )}
     </div>
   );
 };

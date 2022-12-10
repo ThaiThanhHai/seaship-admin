@@ -3,7 +3,8 @@
   width: 100%;
   .orderContainer {
     flex: 6;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+      rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 
     .label-page {
       font-size: 30px;
@@ -11,7 +12,6 @@
       margin-top: 20px;
       color: #007041;
       font-weight: bold;
-
     }
     .layout-content {
       margin-top: 20px;
@@ -19,8 +19,6 @@
       flex-direction: column;
       justify-content: flex-end;
       align-items: flex-end;
-
-     
 
       .button-layout {
         display: flex;
@@ -48,10 +46,9 @@
         text-align: center;
         color: #007041;
         font-weight: bold;
-
       }
       .form-content {
-        display:flex;
+        display: flex;
         align-items: flex-start;
         justify-content: center;
         margin-top: 30px;
@@ -76,7 +73,7 @@
 
       .detail-content {
         margin-top: 20px;
-        width: 90%;
+        width: 95%;
         height: 450px;
         display: flex;
         align-items: center;
@@ -115,11 +112,11 @@
             align-items: center;
 
             .label-1 {
-              width: 30%;
+              width: 70%;
             }
 
             .label-2 {
-              width: 70%;
+              width: 30%;
             }
           }
         }
@@ -136,15 +133,13 @@
         align-items: center;
         justify-content: center;
       }
-      
     }
     .datatable {
       height: 500px;
       width: 100%;
       padding: 20px;
-      
-      
-      .datatableTitle{
+
+      .datatableTitle {
         width: 100%;
         font-size: 24px;
         color: gray;
@@ -152,8 +147,8 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-    
-        .link{
+
+        .link {
           text-decoration: none;
           color: green;
           font-size: 16px;
@@ -164,11 +159,11 @@
           cursor: pointer;
         }
       }
-    
+
       .cellWithImg {
         display: flex;
         align-items: center;
-    
+
         .cellImg {
           width: 32px;
           height: 32px;
@@ -177,11 +172,11 @@
           margin-right: 20px;
         }
       }
-    
+
       .cellWithStatus {
         padding: 5px;
         border-radius: 5px;
-    
+
         &.active {
           background-color: rgba(0, 128, 0, 0.05);
           color: green;
@@ -195,12 +190,12 @@
           color: crimson;
         }
       }
-    
+
       .cellAction {
         display: flex;
         align-items: center;
         gap: 15px;
-    
+
         .viewButton {
           padding: 2px 5px;
           border-radius: 5px;
@@ -208,7 +203,7 @@
           border: 1px dotted rgba(0, 0, 139, 0.596);
           cursor: pointer;
         }
-        
+
         .deleteButton {
           padding: 2px 5px;
           border-radius: 5px;
@@ -218,7 +213,5 @@
         }
       }
     }
-    
   }
-
 }

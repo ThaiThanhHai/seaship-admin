@@ -34,7 +34,6 @@ const Delivery = () => {
     getDeliveries();
   }, [deliveries]);
 
-  console.log(address)
   return (
     <div className="delivery">
       <Sidebar />
@@ -42,7 +41,7 @@ const Delivery = () => {
         <Navbar />
         <div className="delivery">
           <div className="map">
-            <Mapbox  address={address && address}/>
+            <Mapbox address={address && address} />
             <div className="button-layout">
               <ButtonSchedule
                 label={"Xếp lịch xe máy"}
@@ -69,7 +68,14 @@ const Delivery = () => {
             )}
           </div>
           <div className="list">
-            {!deliveries.length ? (<Empty/> ) : <CardDelivery  deliveries={deliveries && deliveries} setAddress={setAddress} />}
+            {!deliveries.length ? (
+              <Empty />
+            ) : (
+              <CardDelivery
+                deliveries={deliveries && deliveries}
+                setAddress={setAddress}
+              />
+            )}
           </div>
         </div>
       </div>

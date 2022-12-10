@@ -76,9 +76,17 @@ const Shipper = () => {
     {
       field: "name",
       headerName: "Họ tên",
-      width: 250,
+      width: 220,
       renderHeader: (params: GridColumnHeaderParams) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Họ tên</p>
+      ),
+    },
+    {
+      field: "phone",
+      headerName: "Số điện thoại",
+      width: 200,
+      renderHeader: (params: GridColumnHeaderParams) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Số điện thoại</p>
       ),
     },
     {
