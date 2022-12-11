@@ -122,6 +122,57 @@
               display: flex;
               align-items: center;
               justify-content: center;
+              color: #000;
+            }
+
+            .horization {
+              width: 70px;
+              height: 5px;
+              background: #0b5b8d;
+            }
+          }
+
+          .tangle-success {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            span {
+              width: 60px;
+              height: 60px;
+              border: 1px solid #007041 ;
+              border-radius: 8px;
+              box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+              font-weight: bold;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background: #007041;
+              color: #fff;
+            }
+
+            .horization {
+              width: 70px;
+              height: 5px;
+              background: #0b5b8d;
+            }
+          }
+
+          .tangle-error {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            span {
+              width: 60px;
+              height: 60px;
+              border: 1px solid #bd1823 ;
+              border-radius: 8px;
+              box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+              font-weight: bold;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background: #bd1823;
+              color: #fff;
             }
 
             .horization {

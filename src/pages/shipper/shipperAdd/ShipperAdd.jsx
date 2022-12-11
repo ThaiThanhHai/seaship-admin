@@ -5,11 +5,12 @@ import Box from "@mui/material/Box";
 import Navbar from "../../../components/navbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
 import toast, { Toaster } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import validator from "validator";
 import axios from "axios";
 import ButtonSave from "../../../components/button/buttonSave";
+import ButtonBack from "../../../components/button/buttonBack";
 
 const ShipperAdd = (props) => {
   const navigate = useNavigate();
@@ -215,6 +216,9 @@ const ShipperAdd = (props) => {
             </div>
           </div>
           <div className="btn-continue" style={{ marginTop: "20px" }}>
+          <Link to="/shippers" style={{ textDecoration: "none" }}>
+              <ButtonBack label={"Quay lại"} />
+            </Link>
             <ButtonSave label={"Lưu"} onClick={handleSubmit} />
             <Toaster
               position="top-right"

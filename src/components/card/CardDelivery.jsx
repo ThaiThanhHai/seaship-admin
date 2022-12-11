@@ -58,7 +58,7 @@ const CardDelivery = ({ deliveries, setAddress }) => {
                       to={`/orders/${id}`}
                       style={{ textDecoration: "none" }}
                     >
-                      <div className="tangle">
+                      <div className={delivery.status[index-1] === 'delivering' ? 'tangle' : (delivery.status[index-1] === 'finished') ? 'tangle-success' : 'tangle-error'}>
                         <span>{index + 1}</span>
                         <div className="horization"></div>
                       </div>

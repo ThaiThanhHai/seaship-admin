@@ -32,7 +32,7 @@ const Delivery = () => {
       }
     };
     getDeliveries();
-  }, [deliveries]);
+  }, []);
 
   return (
     <div className="delivery">

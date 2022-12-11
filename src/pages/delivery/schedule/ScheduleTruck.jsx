@@ -17,7 +17,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 1350,
-  height: 600,
+  height: 620,
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 2,
@@ -31,6 +31,8 @@ export default function ScheduleTruck({ open, setOpen }) {
   const [shipperList, setShipperList] = useState([]);
   const [orderSelected, setOrderSelected] = useState([]);
   const [shipperSelected, setShipperSelected] = useState([]);
+  const [totalOrder, setTotalOrder] = React.useState(0);
+  const [totalShipper, setTotalShipper] = React.useState(0);
 
   useEffect(() => {
     const getOrders = async () => {
@@ -40,6 +42,7 @@ export default function ScheduleTruck({ open, setOpen }) {
         );
         if (result.data) {
           setOrderList(result.data?.orders);
+          setTotalOrder(result.data?.orders.length);
         }
       } catch (error) {
         console.error(error);
@@ -52,6 +55,7 @@ export default function ScheduleTruck({ open, setOpen }) {
         );
         if (result.data) {
           setShipperList(result.data?.shippers);
+          setTotalShipper(result.data?.shippers.length)
         }
       } catch (error) {
         console.error(error);
@@ -72,7 +76,7 @@ export default function ScheduleTruck({ open, setOpen }) {
     },
     {
       field: "weight",
-      headerName: "Trọng lượng",
+      headerName: "Khối lượng thực tế",
       width: 110,
       renderCell: ({ row }) => {
         return `${row.cargo.weight} `;
@@ -80,7 +84,7 @@ export default function ScheduleTruck({ open, setOpen }) {
     },
     {
       field: "dimension",
-      headerName: "Kích thước",
+      headerName: "Khối lượng vận chuyển",
       width: 110,
       renderCell: ({ row }) => {
         return `${row.cargo.dimension}`;
@@ -113,7 +117,7 @@ export default function ScheduleTruck({ open, setOpen }) {
     { field: "name", headerName: "Họ tên", width: 140 },
     {
       field: "capacity",
-      headerName: "Trọng lượng tối đa",
+      headerName: "Tải trọng tối đa",
       width: 120,
       renderCell: ({ row }) => {
         return `${row.vehicle.capacity} kg`;
@@ -121,10 +125,10 @@ export default function ScheduleTruck({ open, setOpen }) {
     },
     {
       field: "dimension",
-      headerName: "Khối lượng tối đa",
+      headerName: "Vận chuyển tối đa",
       width: 120,
       renderCell: ({ row }) => {
-        return `${row.vehicle.dimension} m3`;
+        return `${row.vehicle.dimension} kg`;
       },
     },
   ];
@@ -200,6 +204,7 @@ export default function ScheduleTruck({ open, setOpen }) {
                     ),
                   }}
                 />
+                 <span style={{padding: '10px', fontWeight: 300}}>Tổng đơn hàng: {totalOrder}</span>
               </div>
             </div>
             <div className="list-shipper">
@@ -236,6 +241,7 @@ export default function ScheduleTruck({ open, setOpen }) {
                     ),
                   }}
                 />
+                <span style={{padding: '10px', fontWeight: 300}}>Tổng shipper: {totalShipper}</span>
               </div>
             </div>
           </div>

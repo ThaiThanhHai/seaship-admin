@@ -39,7 +39,7 @@ const Shipper = () => {
       toast.error("Có lỗi xảy ra, vui lòng thử lại");
     }
   };
-  const renderStatus = (status: string) => {
+  const renderStatus = (status) => {
     if (status === "on") {
       return (
         <Button
@@ -77,7 +77,7 @@ const Shipper = () => {
       field: "name",
       headerName: "Họ tên",
       width: 220,
-      renderHeader: (params: GridColumnHeaderParams) => (
+      renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Họ tên</p>
       ),
     },
@@ -85,7 +85,7 @@ const Shipper = () => {
       field: "phone",
       headerName: "Số điện thoại",
       width: 200,
-      renderHeader: (params: GridColumnHeaderParams) => (
+      renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Số điện thoại</p>
       ),
     },
@@ -93,10 +93,10 @@ const Shipper = () => {
       field: "vehice",
       headerName: "Phương tiện",
       width: 170,
-      renderHeader: (params: GridColumnHeaderParams) => (
+      renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Phương tiện</p>
       ),
-      renderCell: ({ row }: CellType) => {
+      renderCell: ({ row }) => {
         return row.vehicle.name === "truck" ? "Xe tải" : "Xe máy";
       },
     },
@@ -104,10 +104,10 @@ const Shipper = () => {
       field: "capacity",
       headerName: "Tải trọng",
       width: 160,
-      renderHeader: (params: GridColumnHeaderParams) => (
+      renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Tải trọng</p>
       ),
-      renderCell: ({ row }: CellType) => {
+      renderCell: ({ row }) => {
         return row.vehicle.capacity;
       },
     },
@@ -115,10 +115,10 @@ const Shipper = () => {
       field: "dimension",
       headerName: "Thể tích",
       width: 160,
-      renderHeader: (params: GridColumnHeaderParams) => (
+      renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Thể tích</p>
       ),
-      renderCell: ({ row }: CellType) => {
+      renderCell: ({ row }) => {
         return row.vehicle.dimension;
       },
     },
@@ -126,10 +126,10 @@ const Shipper = () => {
       field: "avatar",
       headerName: "Ảnh",
       width: 100,
-      renderHeader: (params: GridColumnHeaderParams) => (
+      renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Ảnh</p>
       ),
-      renderCell: ({ row }: CellType) => {
+      renderCell: ({ row }) => {
         return <img style={{ width: 50 }} src={row.avatar} alt="avatar" />;
       },
     },
@@ -137,10 +137,10 @@ const Shipper = () => {
       field: "status",
       headerName: "Trạng thái",
       width: 200,
-      renderHeader: (params: GridColumnHeaderParams) => (
+      renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Trạng thái</p>
       ),
-      renderCell: ({ row }: CellType) => {
+      renderCell: ({ row }) => {
         return renderStatus(row.status);
       },
     },
@@ -157,7 +157,7 @@ const Shipper = () => {
       }
     };
     getShippers();
-  }, [shipperList]);
+  }, []);
 
   return (
     <div className="shipper">

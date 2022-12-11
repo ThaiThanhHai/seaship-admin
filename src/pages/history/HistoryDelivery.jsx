@@ -23,6 +23,7 @@ const HistoryDelivery = () => {
   }, []);
   const [orderList, setOrderList] = useState({});
   const [selectedId, setSelectedId] = useState([]);
+
   const renderStatus = (status) => {
     if (status === "new") {
       // return "Đang xử lý";
@@ -39,7 +40,11 @@ const HistoryDelivery = () => {
       return (
         <Button
           color="primary"
-          sx={{ textTransform: "capitalize", color: "blue" }}
+          sx={{ textTransform: "capitalize", color: "#fff", backgroundColor: "#38aa3a",width: 100, "&:hover": {
+            backgroundColor: "#38aa3a",
+            color: "#fff",
+            cursor: "initial"
+          }, }}
         >
           Đang giao hàng
         </Button>
@@ -49,7 +54,11 @@ const HistoryDelivery = () => {
       return (
         <Button
           color="primary"
-          sx={{ textTransform: "capitalize", color: "green" }}
+          sx={{ textTransform: "capitalize", color: "#fff", backgroundColor: "#007041", width: 100, "&:hover": {
+            backgroundColor: "#007041",
+            color: "#fff",
+            cursor: "initial"
+          }, }}
         >
           Hoàn thành
         </Button>
@@ -59,7 +68,11 @@ const HistoryDelivery = () => {
       return (
         <Button
           color="primary"
-          sx={{ textTransform: "capitalize", color: "red" }}
+          sx={{ textTransform: "capitalize", color: "#fff", backgroundColor: "#e96763", width: 100,  "&:hover": {
+            backgroundColor: "#e96763",
+            color: "#fff",
+            cursor: "initial"
+          }, }}
         >
           Thất bại
         </Button>
@@ -70,7 +83,7 @@ const HistoryDelivery = () => {
     {
       field: "name",
       headerName: "Đơn hàng",
-      width: 180,
+      width: 200,
       renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Đơn hàng</p>
       ),
@@ -79,49 +92,41 @@ const HistoryDelivery = () => {
       },
     },
     {
-      field: "sender_name",
-      headerName: "Người gửi",
-      width: 200,
-      renderHeader: (params) => (
-        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Người gửi</p>
-      ),
-    },
-    {
-      field: "sender_phone",
-      headerName: "SĐT người gửi",
-      width: 160,
-      renderHeader: (params) => (
-        <p style={{ fontWeight: "bold", fontSize: "16px" }}>SĐT người gửi</p>
-      ),
-    },
-    {
       field: "weight",
       headerName: "Trọng lượng",
-      width: 160,
+      width: 200,
       renderHeader: (params) => (
-        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Trọng lượng</p>
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Khối lượng thực tế</p>
       ),
       renderCell: ({ row }) => {
-        return `${row.cargo.weight} Kg`;
+        return `${row.cargo.weight} kg`;
       },
     },
     {
       field: "dimension",
-      headerName: "Kích thước",
-      width: 160,
+      width: 200,
       renderHeader: (params) => (
-        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Kích thước</p>
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Khối lượng vận chuyển</p>
       ),
       renderCell: ({ row }) => {
-        return `${row.cargo.dimension} cm3`;
+        return `${row.cargo.dimension} kg`;
+      },
+    },
+    {
+      field: "Shipper",
+      width: 200,
+      renderHeader: (params) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Nhân viên giao hàng</p>
+      ),
+      renderCell: ({ row }) => {
+        return `${row.delivery.shippers.name}`;
       },
     },
     {
       field: "delivery_time",
-      headerName: "Ngày giao",
-      width: 160,
+      width: 200,
       renderHeader: (params) => (
-        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Kích thước</p>
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Ngày giao hàng</p>
       ),
       renderCell: ({ row }) => {
         return row.delivery_time.split("-").reverse().join("-");
@@ -130,7 +135,7 @@ const HistoryDelivery = () => {
     {
       field: "status",
       headerName: "Trạng thái",
-      width: 160,
+      width: 200,
       renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Trạng thái</p>
       ),
@@ -165,7 +170,7 @@ const HistoryDelivery = () => {
       }
     };
     getOrders();
-  }, [orderList]);
+  }, []);
 
   return (
     <div className="order">

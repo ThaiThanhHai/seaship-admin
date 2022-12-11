@@ -17,7 +17,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 1300,
-  height: 600,
+  height: 620,
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 2,
@@ -31,6 +31,8 @@ export default function ScheduleMotor({ open, setOpen }) {
   const [shipperList, setShipperList] = useState([]);
   const [orderSelected, setOrderSelected] = useState([]);
   const [shipperSelected, setShipperSelected] = useState([]);
+  const [totalOrder, setTotalOrder] = React.useState(0);
+  const [totalShipper, setTotalShipper] = React.useState(0);
 
   useEffect(() => {
     const getOrders = async () => {
@@ -40,6 +42,7 @@ export default function ScheduleMotor({ open, setOpen }) {
         );
         if (result.data) {
           setOrderList(result.data?.orders);
+          setTotalOrder(result.data?.orders.length);
         }
       } catch (error) {
         console.error(error);
@@ -52,6 +55,7 @@ export default function ScheduleMotor({ open, setOpen }) {
         );
         if (result.data) {
           setShipperList(result.data?.shippers);
+          setTotalShipper(result.data?.shippers.length)
         }
       } catch (error) {
         console.error(error);
@@ -72,7 +76,7 @@ export default function ScheduleMotor({ open, setOpen }) {
     },
     {
       field: "weight",
-      headerName: "Trọng lượng",
+      headerName: "Trọng lượng thực tế",
       width: 110,
       renderCell: ({ row }) => {
         return `${row.cargo.weight}`;
@@ -80,7 +84,7 @@ export default function ScheduleMotor({ open, setOpen }) {
     },
     {
       field: "dimension",
-      headerName: "Kích thước",
+      headerName: "Trọng lượng vận chuyển",
       width: 110,
       renderCell: ({ row }) => {
         return `${row.cargo.dimension}`;
@@ -137,7 +141,7 @@ export default function ScheduleMotor({ open, setOpen }) {
       );
       if (res.data) {
         toast.success("Lập lịch thành công");
-        setOpen(false)
+        setOpen(false);
       }
     } catch (error) {
       toast.error("Không thể lập lịch, vui lòng kiểm tra lại");
@@ -153,98 +157,102 @@ export default function ScheduleMotor({ open, setOpen }) {
     creatSchedule(data);
   };
   return (
-   <>
-    <div>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        className="modal"
-      >
-        <Box sx={style}>
-          <div className="label">Sắp xếp lịch giao hàng cho phương tiện xe máy</div>
-          <div className="box-list">
-            <div className="list-order">
-              <div className="label-add">Chọn đơn hàng</div>
-              <div style={{ height: "100%", width: "100%" }}>
-                <DataGrid
-                  rows={orderList}
-                  columns={columnOrders}
-                  pageSize={50}
-                  checkboxSelection
-                  disableSelectionOnClick
-                  hideFooterSelectedRowCount
-                  hideFooterPagination
-                  onSelectionModelChange={(item) => setOrderSelected(item)}
-                  getRowId={(row) => row.id}
-                  components={{
-                    NoRowsOverlay: () => (
-                      <Stack
-                        height="100%"
-                        alignItems="center"
-                        justifyContent="center"
-                      >
-                        Danh sách đơn hàng trống
-                      </Stack>
-                    ),
-                    NoResultsOverlay: () => (
-                      <Stack
-                        height="100%"
-                        alignItems="center"
-                        justifyContent="center"
-                      >
-                        Danh sách đơn hàng trống
-                      </Stack>
-                    ),
-                  }}
-                />
+    <>
+      <div>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          className="modal"
+        >
+          <Box sx={style}>
+            <div className="label">
+              Sắp xếp lịch giao hàng cho phương tiện xe máy
+            </div>
+            <div className="box-list">
+              <div className="list-order">
+                <div className="label-add">Chọn đơn hàng</div>
+                <div style={{ height: "100%", width: "100%" }}>
+                  <DataGrid
+                    rows={orderList}
+                    columns={columnOrders}
+                    pageSize={50}
+                    checkboxSelection
+                    disableSelectionOnClick
+                    hideFooterSelectedRowCount
+                    hideFooterPagination
+                    onSelectionModelChange={(item) => setOrderSelected(item)}
+                    getRowId={(row) => row.id}
+                    components={{
+                      NoRowsOverlay: () => (
+                        <Stack
+                          height="100%"
+                          alignItems="center"
+                          justifyContent="center"
+                        >
+                          Danh sách đơn hàng trống
+                        </Stack>
+                      ),
+                      NoResultsOverlay: () => (
+                        <Stack
+                          height="100%"
+                          alignItems="center"
+                          justifyContent="center"
+                        >
+                          Danh sách đơn hàng trống
+                        </Stack>
+                      ),
+                    }}
+                  />
+                  <span style={{padding: '10px', fontWeight: 300}}>Tổng đơn hàng: {totalOrder}</span>
+                </div>
+              </div>
+              <div className="list-shipper">
+                <div className="label-add">Chọn shipper</div>
+                <div style={{ height: "100%", width: "100%" }}>
+                  <DataGrid
+                    rows={shipperList}
+                    columns={columnShippers}
+                    pageSize={50}
+                    checkboxSelection
+                    disableSelectionOnClick
+                    hideFooterSelectedRowCount
+                    hideFooterPagination
+                    onSelectionModelChange={(item) => setShipperSelected(item)}
+                    getRowId={(row) => row.id}
+                    components={{
+                      NoRowsOverlay: () => (
+                        <Stack
+                          height="100%"
+                          alignItems="center"
+                          justifyContent="center"
+                        >
+                          Danh sách shipper trống
+                        </Stack>
+                      ),
+                      NoResultsOverlay: () => (
+                        <Stack
+                          height="100%"
+                          alignItems="center"
+                          justifyContent="center"
+                        >
+                          Danh sách shipper trống
+                        </Stack>
+                      ),
+                    }}
+                  />
+                  <span style={{padding: '10px', fontWeight: 300}}>Tổng shipper: {totalShipper}</span>
+                </div>
               </div>
             </div>
-            <div className="list-shipper">
-              <div className="label-add">Chọn shipper</div>
-              <div style={{ height: "100%", width: "100%" }}>
-                <DataGrid
-                  rows={shipperList}
-                  columns={columnShippers}
-                  pageSize={50}
-                  checkboxSelection
-                  disableSelectionOnClick
-                  hideFooterSelectedRowCount
-                  hideFooterPagination
-                  onSelectionModelChange={(item) => setShipperSelected(item)}
-                  getRowId={(row) => row.id}
-                  components={{
-                    NoRowsOverlay: () => (
-                      <Stack
-                        height="100%"
-                        alignItems="center"
-                        justifyContent="center"
-                      >
-                        Danh sách shipper trống
-                      </Stack>
-                    ),
-                    NoResultsOverlay: () => (
-                      <Stack
-                        height="100%"
-                        alignItems="center"
-                        justifyContent="center"
-                      >
-                        Danh sách shipper trống
-                      </Stack>
-                    ),
-                  }}
-                />
-              </div>
+            <div className="btn-schedule">
+              <ButtonBack label={"Quay lại"} onClick={handleClose} />
+              <ButtonSchedule label={"Sắp xếp"} onClick={handleSubmit} />
             </div>
-          </div>
-          <div className="btn-schedule">
-            <ButtonBack label={"Quay lại"} onClick={handleClose} />
-            <ButtonSchedule label={"Sắp xếp"} onClick={handleSubmit} />
-          </div>
-        </Box>
-      </Modal>
-    </div>
-   </>
+          </Box>
+        </Modal>
+      </div>
+    </>
   );
 }

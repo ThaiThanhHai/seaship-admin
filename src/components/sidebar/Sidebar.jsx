@@ -33,48 +33,48 @@ const Sidebar = () => {
       <div className="center">
         <ul>
           <Link to="/dashboard" style={{ textDecoration: "none" }}>
-            <Tooltip title={"Thống kê trạng thái"} placement="top">
+            <Tooltip title={"Thống kê trạng thái"} placement="right">
               <li>
                 <DashboardIcon className="icon" />
               </li>
             </Tooltip>
           </Link>
           <Link to="/orders" style={{ textDecoration: "none" }}>
-            <Tooltip title={"Quản lý đơn hàng"} placement="top">
+            <Tooltip title={"Quản lý đơn hàng"} placement="right">
               <li>
                 <ShoppingCartCheckout className="icon" />
               </li>
             </Tooltip>
           </Link>
           <Link to="/schedules" style={{ textDecoration: "none" }}>
-            <Tooltip title={"Lập lịch giao hàng"} placement="top">
+            <Tooltip title={"Lập lịch giao hàng"} placement="right">
               <li>
                 <EventAvailable className="icon" />
               </li>
             </Tooltip>
           </Link>
           <Link to="/delivery-types" style={{ textDecoration: "none" }}>
-            <Tooltip title={"Hình thức giao hàng"} placement="top">
+            <Tooltip title={"Hình thức giao hàng"} placement="right">
               <li>
                 <DoubleArrowIcon className="icon" />
               </li>
             </Tooltip>
           </Link>
           <Link to="/shippers" style={{ textDecoration: "none" }}>
-            <Tooltip title={"Quản lý shipper"} placement="top">
+            <Tooltip title={"Quản lý shipper"} placement="right">
               <li>
                 <DeliveryDining className="icon" />
               </li>
             </Tooltip>
           </Link>
           <Link to="/history-delivery" style={{ textDecoration: "none" }}>
-            <Tooltip title={"Lịch sử đơn hàng"} placement="top">
+            <Tooltip title={"Lịch sử đơn hàng"} placement="right">
               <li>
                 <CreditCardIcon className="icon" />
               </li>
             </Tooltip>
           </Link>
-          <Tooltip title={"Đăng xuất"} placement="top">
+          <Tooltip title={"Đăng xuất"} placement="right">
             <li className="logout" onClick={handleClick}>
               <ExitToAppIcon className="icon" />
             </li>

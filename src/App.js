@@ -3,16 +3,12 @@ import Order from "./pages/order/Order";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import InputInfo from "./pages/order/orderAdd/InputInfo";
 import OrderDetail from "./pages/order/orderDetail/OrderDetail";
-import Schedule from "./pages/schedule/Schedule";
 import Shipper from "./pages/shipper/Shipper";
 import Profile from "./pages/profile/Profile";
 import HistoryDelivery from "./pages/history/HistoryDelivery";
 import DeliveryType from "./pages/deliveryType/DeliveryType";
 import ShipperAdd from "./pages/shipper/shipperAdd/ShipperAdd";
 import DeliveryTypeAdd from "./pages/deliveryType/deliveryTypeAdd/DeliveryTypeAdd";
-import ScheduleDetail from "./pages/schedule/scheduleDetail/ScheduleDetail";
-import ScheduleAddAtCanTho from "./pages/schedule/scheduleAdd/ScheduleAddAtCanTho";
-import ScheduleAddNotAtCanTho from "./pages/schedule/scheduleAdd/ScheduleAddNotAtCanTho";
 import Home from "./pages/home/Home";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Delivery from "./pages/delivery/Delivery";
@@ -36,11 +32,7 @@ function App() {
               <Route path="add" element={<ShipperAdd />} />
             </Route>
             <Route path="schedules/*">
-              {/* <Route index element={<Schedule />} /> */}
               <Route index element={<Delivery />} />
-              <Route path="addCantho" element={<ScheduleAddAtCanTho />} />
-              <Route path="addNotCantho" element={<ScheduleAddNotAtCanTho />} />
-              <Route path=":id" element={<ScheduleDetail />} />
             </Route>
             <Route path="profiles">
               <Route index element={<Profile />} />

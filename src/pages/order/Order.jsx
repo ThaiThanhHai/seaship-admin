@@ -28,7 +28,7 @@ const Order = () => {
   const [selectedId, setSelectedId] = useState([]);
   const [loading, setLoading] = useState(false);
   const [valueSearch, setValueSearch] = useState("");
-  const [valueFilter, setValueFilter] = useState({})
+  const [valueFilter, setValueFilter] = useState({});
 
   const getStorageValue = (key, defaultValue) => {
     // getting stored value
@@ -41,6 +41,7 @@ const Order = () => {
   const initialValue = getStorageValue("supervisor", "");
   const renderStatus = (status) => {
     if (status === "new") {
+      // return "Đang xử lý";
       return (
         <Button
           color="primary"
@@ -54,7 +55,11 @@ const Order = () => {
       return (
         <Button
           color="primary"
-          sx={{ textTransform: "capitalize", color: "blue" }}
+          sx={{ textTransform: "lowercase", color: "#fff", backgroundColor: "#39a4c0",width: 120, "&:hover": {
+            backgroundColor: "#39a4c0",
+            color: "#fff",
+            cursor: "initial"
+          }, }}
         >
           Đang giao hàng
         </Button>
@@ -64,7 +69,11 @@ const Order = () => {
       return (
         <Button
           color="primary"
-          sx={{ textTransform: "capitalize", color: "green" }}
+          sx={{ textTransform: "lowercase", color: "#fff", backgroundColor: "#5eba7d", width: 120, "&:hover": {
+            backgroundColor: "#5eba7d",
+            color: "#fff",
+            cursor: "initial"
+          }, }}
         >
           Hoàn thành
         </Button>
@@ -74,7 +83,11 @@ const Order = () => {
       return (
         <Button
           color="primary"
-          sx={{ textTransform: "capitalize", color: "red" }}
+          sx={{ textTransform: "lowercase", color: "#fff", backgroundColor: "#e96763", width: 120,  "&:hover": {
+            backgroundColor: "#e96763",
+            color: "#fff",
+            cursor: "initial"
+          }, }}
         >
           Thất bại
         </Button>
@@ -169,7 +182,7 @@ const Order = () => {
               to={`/orders/${params.id}`}
               style={{ textDecoration: "none" }}
             >
-              <RemoveRedEyeRounded sx={{ color: "grey" }} />
+              <RemoveRedEyeRounded sx={{ color: "#333" }} />
             </Link>
           </div>
         );
@@ -242,16 +255,12 @@ const Order = () => {
   const handleChangeValueSearch = () => (event) => {
     setValueSearch(event.target.value);
 
-
-    const value = filter(
-      orderList,
-      (row) => row.cargo.name.includes(valueSearch)
+    const value = filter(orderList, (row) =>
+      row.cargo.name.includes(valueSearch)
     );
 
-    setValueFilter(value)
+    setValueFilter(value);
   };
-
-
 
   return (
     <div className="order">
@@ -265,19 +274,20 @@ const Order = () => {
               spacing={2}
               direction="row"
               sx={{
-                position: "absolute",
-                top: 0,
-                left: 25,
-                outline: "none"
+                "& > :not(style)": {
+                  m: 1,
+                  position: "absolute",
+                  top: 0,
+                  left: 25,
+                  height: 100
+                },
               }}
             >
               <TextField
                 id="standard-basic"
                 label="Tìm kiếm...."
                 variant="outlined"
-                // error={error.weight}
                 onChange={handleChangeValueSearch()}
-
               />
             </Stack>
 
