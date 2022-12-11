@@ -15,16 +15,16 @@ const CardDelivery = ({ deliveries, setAddress }) => {
         <div className="left">
           <div className="name">{delivery.name}</div>
           <div className="item">
-            <div className="label">Thể tích </div>
-            <div className="number">{delivery.totalDimension}</div>
+            <div className="label">Khối lượng vận chuyển: </div>
+            <div className="number">{delivery.totalDimension} kg</div>
           </div>
           <div className="item">
-            <div className="label">Khối lượng(m3)</div>
-            <div className="number">{delivery.totalWeight}</div>
+            <div className="label">Tổng phí vận chuyển: </div>
+            <div className="number">{delivery.totalFee} đ</div>
           </div>
           <div className="item">
-            <div className="label">Quãng đường(km)</div>
-            <div className="number">{delivery.totalDistance}</div>
+            <div className="label">Quãng đường di chuyển: </div>
+            <div className="number">{delivery.totalDistance} km</div>
           </div>
         </div>
         <div className="right">
