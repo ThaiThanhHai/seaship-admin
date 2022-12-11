@@ -11,6 +11,7 @@ import MultipleSelect from "../../../components/select/MultipleSelect";
 import axios from "axios";
 import ButtonBack from "../../../components/button/buttonBack";
 import Loader from "../../../components/loader/Loader";
+import round from 'lodash'
 
 const InputInfo = () => {
   const navigate = useNavigate();
@@ -73,7 +74,7 @@ const InputInfo = () => {
 
   useEffect(() => {
     getDeliveryTypes();
-  }, [values, deliveryType, loading]);
+  }, [loading]);
 
   const handleChangeForm = (name) => (event) => {
     setError({
@@ -197,8 +198,8 @@ const InputInfo = () => {
           name: values.order_name,
           weight: values.weight,
           dimension:
-            (valueDimensions[0] * valueDimensions[1] * valueDimensions[2]) /
-            6000,
+            round((valueDimensions[0] * valueDimensions[1] * valueDimensions[2]) /
+            6000, 2),
         },
         order_address: {
           address: values.address,

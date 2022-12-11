@@ -9,7 +9,7 @@ const style = {
   top: "50%",
   left: "65%",
   transform: "translate(-65%, -65%)",
-  width: 315,
+  width: 400,
   bgcolor: "background.paper",
   boxShadow: 20,
   p: 4,
@@ -42,7 +42,7 @@ export default function ModalLogout({ open, setOpen, setIsLogout }) {
               Bạn có chắc chắn muốn đăng xuất
             </Typography>
             <Button sx={{ float: "right" }} onClick={handleConfirm}>
-              Dăng xuất
+              Đăng xuất
             </Button>
             <Button sx={{ float: "right" }} onClick={handleCancel}>
               Hủy
