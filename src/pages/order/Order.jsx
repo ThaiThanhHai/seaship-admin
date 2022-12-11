@@ -45,7 +45,11 @@ const Order = () => {
       return (
         <Button
           color="primary"
-          sx={{ textTransform: "capitalize", color: "grey" }}
+          sx={{ textTransform: "lowercase", color: "#fff", backgroundColor: "grey",width: 120, "&:hover": {
+            backgroundColor: "#grey",
+            color: "#fff",
+            cursor: "initial"
+          }, }}
         >
           Đang xử lý
         </Button>

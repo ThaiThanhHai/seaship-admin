@@ -198,7 +198,6 @@ const HistoryDelivery = () => {
     }
   };
 
-  console.log(orderList)
   useEffect(() => {
     const getOrders = async () => {
       try {
