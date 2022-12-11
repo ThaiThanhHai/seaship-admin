@@ -7,6 +7,7 @@ import "../../../style/order.scss";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import { Button } from "@mui/material";
 
 const OrderDetail = () => {
   const params = useParams();
@@ -29,6 +30,62 @@ const OrderDetail = () => {
       return `0${id}`;
     } else {
       return id;
+    }
+  };
+
+  const renderStatus = (status) => {
+    if (status === "new") {
+      // return "Đang xử lý";
+      return (
+        <Button
+          color="primary"
+          sx={{ textTransform: "capitalize", color: "grey" }}
+        >
+          Đang xử lý
+        </Button>
+      );
+    }
+    if (status === "delivering") {
+      return (
+        <Button
+          color="primary"
+          sx={{ textTransform: "lowercase", color: "#fff", backgroundColor: "#39a4c0",width: 120, "&:hover": {
+            backgroundColor: "#39a4c0",
+            color: "#fff",
+            cursor: "initial"
+          }, }}
+        >
+          Đang giao hàng
+        </Button>
+      );
+    }
+    if (status === "finished") {
+      return (
+        <Button
+          color="primary"
+          sx={{ textTransform: "lowercase", color: "#fff", backgroundColor: "#5eba7d", width: 120, "&:hover": {
+            backgroundColor: "#5eba7d",
+            color: "#fff",
+            cursor: "initial"
+          }, }}
+        >
+          Hoàn thành
+        </Button>
+      );
+    }
+    if (status === "error") {
+      return (
+        <Button
+          color="primary"
+          sx={{ textTransform: "lowercase", color: "#fff", backgroundColor: "#e96763", width: 120,  "&:hover": {
+            backgroundColor: "#e96763",
+            color: "#fff",
+            cursor: "initial"
+          }, }}
+        >
+          Thất bại
+        </Button>
+      );
     }
   };
 
@@ -110,7 +167,7 @@ const OrderDetail = () => {
                   <p style={{ fontWeight: "bold" }} className="label-1">
                     Trạng thái
                   </p>
-                  <p className="label-2">Đang xử lý</p>
+                  <p className="label-2">{renderStatus(order.status)}</p>
                 </div>
                 <div className="item">
                   <p style={{ fontWeight: "bold" }} className="label-1">

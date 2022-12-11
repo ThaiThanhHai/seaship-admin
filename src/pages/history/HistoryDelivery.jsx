@@ -1,4 +1,4 @@
-import { Button, Stack } from "@mui/material";
+import { Button, Stack, Tooltip } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -24,7 +24,7 @@ const HistoryDelivery = () => {
   const [orderList, setOrderList] = useState({});
   const [selectedId, setSelectedId] = useState([]);
 
-  const renderStatus = (status) => {
+  const renderStatus = (status, reason) => {
     if (status === "new") {
       // return "Đang xử lý";
       return (
@@ -40,11 +40,17 @@ const HistoryDelivery = () => {
       return (
         <Button
           color="primary"
-          sx={{ textTransform: "capitalize", color: "#fff", backgroundColor: "#38aa3a",width: 100, "&:hover": {
-            backgroundColor: "#38aa3a",
+          sx={{
+            textTransform: "capitalize",
             color: "#fff",
-            cursor: "initial"
-          }, }}
+            backgroundColor: "#38aa3a",
+            width: 100,
+            "&:hover": {
+              backgroundColor: "#38aa3a",
+              color: "#fff",
+              cursor: "initial",
+            },
+          }}
         >
           Đang giao hàng
         </Button>
@@ -54,11 +60,17 @@ const HistoryDelivery = () => {
       return (
         <Button
           color="primary"
-          sx={{ textTransform: "capitalize", color: "#fff", backgroundColor: "#007041", width: 100, "&:hover": {
-            backgroundColor: "#007041",
+          sx={{
+            textTransform: "capitalize",
             color: "#fff",
-            cursor: "initial"
-          }, }}
+            backgroundColor: "#007041",
+            width: 100,
+            "&:hover": {
+              backgroundColor: "#007041",
+              color: "#fff",
+              cursor: "initial",
+            },
+          }}
         >
           Hoàn thành
         </Button>
@@ -66,16 +78,27 @@ const HistoryDelivery = () => {
     }
     if (status === "error") {
       return (
-        <Button
-          color="primary"
-          sx={{ textTransform: "capitalize", color: "#fff", backgroundColor: "#e96763", width: 100,  "&:hover": {
-            backgroundColor: "#e96763",
-            color: "#fff",
-            cursor: "initial"
-          }, }}
-        >
-          Thất bại
-        </Button>
+        <Tooltip title={reason && reason} placement="right">
+          <p
+            style={{
+              textTransform: "capitalize",
+              color: "#fff",
+              backgroundColor: "#e96763",
+              "&:hover": {
+                backgroundColor: "#e96763",
+                color: "#fff",
+              },
+              width: '100px',
+              height: '36px',
+              borderRadius: '4px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <span style={{ fontSize: '15px'}}>Thất bại</span>
+          </p>
+        </Tooltip>
       );
     }
   };
@@ -83,7 +106,7 @@ const HistoryDelivery = () => {
     {
       field: "name",
       headerName: "Đơn hàng",
-      width: 200,
+      width: 150,
       renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Đơn hàng</p>
       ),
@@ -94,9 +117,11 @@ const HistoryDelivery = () => {
     {
       field: "weight",
       headerName: "Trọng lượng",
-      width: 200,
+      width: 180,
       renderHeader: (params) => (
-        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Khối lượng thực tế</p>
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>
+          Khối lượng thực tế
+        </p>
       ),
       renderCell: ({ row }) => {
         return `${row.cargo.weight} kg`;
@@ -106,7 +131,9 @@ const HistoryDelivery = () => {
       field: "dimension",
       width: 200,
       renderHeader: (params) => (
-        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Khối lượng vận chuyển</p>
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>
+          Khối lượng vận chuyển
+        </p>
       ),
       renderCell: ({ row }) => {
         return `${row.cargo.dimension} kg`;
@@ -116,7 +143,9 @@ const HistoryDelivery = () => {
       field: "Shipper",
       width: 200,
       renderHeader: (params) => (
-        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Nhân viên giao hàng</p>
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>
+          Nhân viên giao hàng
+        </p>
       ),
       renderCell: ({ row }) => {
         return `${row.delivery.shippers.name}`;
@@ -124,7 +153,7 @@ const HistoryDelivery = () => {
     },
     {
       field: "delivery_time",
-      width: 200,
+      width: 160,
       renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Ngày giao hàng</p>
       ),
@@ -135,12 +164,24 @@ const HistoryDelivery = () => {
     {
       field: "status",
       headerName: "Trạng thái",
-      width: 200,
+      width: 140,
       renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Trạng thái</p>
       ),
       renderCell: ({ row }) => {
-        return renderStatus(row.status);
+        return renderStatus(row.status, row.failure_reasons);
+      },
+    },
+    {
+      field: "Reason",
+      width: 180,
+      renderHeader: (params) => (
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>
+          Lý do thất bại
+        </p>
+      ),
+      renderCell: ({ row }) => {
+        return row.failure_reason !== null ? `${row.failure_reason}` : undefined;
       },
     },
   ];
@@ -156,6 +197,8 @@ const HistoryDelivery = () => {
       console.error(error);
     }
   };
+
+  console.log(orderList)
   useEffect(() => {
     const getOrders = async () => {
       try {
@@ -191,7 +234,7 @@ const HistoryDelivery = () => {
               rowsPerPageOptions={[10]}
               disableSelectionOnClick
               hideFooterSelectedRowCount
-              hideFooterPagination
+              // hideFooterPagination
               checkboxSelection
               onSelectionModelChange={(item) => setSelectedId(item)}
               getRowId={(row) => row.id}

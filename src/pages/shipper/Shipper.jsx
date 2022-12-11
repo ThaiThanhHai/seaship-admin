@@ -84,7 +84,7 @@ const Shipper = () => {
     {
       field: "phone",
       headerName: "Số điện thoại",
-      width: 200,
+      width: 180,
       renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Số điện thoại</p>
       ),
@@ -92,7 +92,7 @@ const Shipper = () => {
     {
       field: "vehice",
       headerName: "Phương tiện",
-      width: 170,
+      width: 150,
       renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Phương tiện</p>
       ),
@@ -103,7 +103,7 @@ const Shipper = () => {
     {
       field: "capacity",
       headerName: "Tải trọng",
-      width: 160,
+      width: 140,
       renderHeader: (params) => (
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>Tải trọng</p>
       ),
@@ -114,9 +114,9 @@ const Shipper = () => {
     {
       field: "dimension",
       headerName: "Thể tích",
-      width: 160,
+      width: 220,
       renderHeader: (params) => (
-        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Thể tích</p>
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>Trọng lượng vận chuyển</p>
       ),
       renderCell: ({ row }) => {
         return row.vehicle.dimension;

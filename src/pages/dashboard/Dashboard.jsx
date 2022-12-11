@@ -1,20 +1,41 @@
-import { FormControl, MenuItem, Select } from "@mui/material";
-import { Box } from "@mui/system";
-import React from "react";
-import BasicBarChart from "../../components/chart/BarChart";
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import axios from "axios";
+import React, { useEffect } from "react";
+import { useState } from "react";
 import { PieChart } from "../../components/chart/PieChart";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
+import Widget from "../../components/widget/Widget";
 import "../../style/dashboard.scss";
 
 const Dashboard = () => {
-  const [age, setAge] = React.useState("");
+  const [value, setValue] = useState({})
+  useEffect(() => {
+    const getDashboard = async () => {
+      try {
+        const result = await axios.get(
+          "http://localhost:3000/api/v1/dashboard/statistic"
+        );
+        if (result.data) {
+          console.log(result.data)
+          setValue(result.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getDashboard();
+  }, []);
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
-  const stats = [15, 4, 5];
-  const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  const stats = value && [value.totalOrderSuccess, value.totalOrderFailure, value.totalOrderDelivering];
   return (
     <div className="dashboard">
       <Sidebar />
@@ -22,7 +43,10 @@ const Dashboard = () => {
         <Navbar />
         <div className="statistic">
           <div className="header">
-            <div className="label">Thống kê theo trạng thái đơn hàng</div>
+            <Widget type={"order"} number={value.totalOrder}/>
+            <Widget type={"distance"} number={value.totalDistance}/>
+            <Widget type={"dimension"} number={value.totalDimension}/>
+            <Widget type={"fee"} number={value.totalFee}/>
           </div>
           <div className="content">
             <div className="left">
@@ -32,81 +56,88 @@ const Dashboard = () => {
               </div>
             </div>
             <div className="right">
-              <div className="top">
-                <div className="nav">
-                  <div className="label">Số đơn hàng thành công</div>
-                  <Box sx={{ minWidth: 120 }}>
-                    <FormControl fullWidth>
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={age}
-                        displayEmpty
-                        onChange={handleChange}
-                        inputProps={{ "aria-label": "Without label" }}
+              <TableContainer component={Paper} style={{ maxHeight: 400 }}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell
+                        style={{ fontWeight: "bold", fontSize: "14px" }}
+                      >
+                        Nhân viên giao hàng
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        style={{ fontWeight: "bold", fontSize: "14px" }}
+                      >
+                        Thành công
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        style={{ fontWeight: "bold", fontSize: "14px" }}
+                      >
+                        Thất bại
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        style={{ fontWeight: "bold", fontSize: "14px" }}
+                      >
+                        Đang giao
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {value && value['shippers'] && value.shippers.map((row) => (
+                      <TableRow
+                        key={row.name}
                         sx={{
-                          height: 40,
+                          "&:last-child td, &:last-child th": { border: 0 },
                         }}
                       >
-                        <MenuItem value="">
-                          <em>Tháng</em>
-                        </MenuItem>
-                        {months.map((month) => {
-                          return (
-                            <MenuItem
-                              value={month}
-                            >{`Tháng ${month}`}</MenuItem>
-                          );
-                        })}
-                      </Select>
-                    </FormControl>
-                  </Box>
-                </div>
-                <div
-                  className="bar-chart"
-                  style={{ width: "600px", height: "200px" }}
-                >
-                  <BasicBarChart status={"success"} />
-                </div>
-              </div>
-              <div className="bottom">
-                <div className="nav">
-                  <div className="label">Số đơn hàng thất bại</div>
-                  <Box sx={{ minWidth: 120 }}>
-                    <FormControl fullWidth>
-                      {/* <InputLabel sx={{ mt: "-6px" }}>Tháng</InputLabel> */}
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={age}
-                        displayEmpty
-                        onChange={handleChange}
-                        inputProps={{ "aria-label": "Without label" }}
-                        sx={{
-                          height: 40,
-                        }}
-                      >
-                        <MenuItem value="">
-                          <em>Tháng</em>
-                        </MenuItem>
-                        {months.map((month) => {
-                          return (
-                            <MenuItem
-                              value={month}
-                            >{`Tháng ${month}`}</MenuItem>
-                          );
-                        })}
-                      </Select>
-                    </FormControl>
-                  </Box>
-                </div>
-                <div
-                  className="bar-chart"
-                  style={{ width: "600px", height: "200px" }}
-                >
-                  <BasicBarChart status={"fail"} />
-                </div>
-              </div>
+                        <TableCell component="th" scope="row">
+                          {row.name}
+                        </TableCell>
+                        <TableCell align="center">
+                          <span
+                            style={{
+                              padding: "4px",
+                              borderRadius: "4px",
+                              fontWeight: "bold",
+                              fontSize: "14px",
+                              color: "blue",
+                            }}
+                          >
+                            {row.success}
+                          </span>
+                        </TableCell>
+                        <TableCell align="center">
+                          <span
+                            style={{
+                              padding: "4px",
+                              borderRadius: "4px",
+                              fontWeight: "bold",
+                              fontSize: "14px",
+                              color: "red",
+                            }}
+                          >
+                            {row.failure}
+                          </span>
+                        </TableCell>
+                        <TableCell align="center"><span
+                            style={{
+                              padding: "4px",
+                              borderRadius: "4px",
+                              fontWeight: "bold",
+                              fontSize: "14px",
+                              color: "green",
+                            }}
+                          >
+                            {row.delivering}
+                          </span></TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </div>
           </div>
         </div>
