@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { PieChart } from "../../components/chart/PieChart";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
@@ -17,7 +18,17 @@ import Widget from "../../components/widget/Widget";
 import "../../style/dashboard.scss";
 
 const Dashboard = () => {
-  const [value, setValue] = useState({})
+  const navigate = useNavigate();
+  useEffect(() => {
+    let isAuth = JSON.parse(localStorage.getItem("supervisor"));
+    if (isAuth && isAuth !== null) {
+      navigate("/dashboard");
+    } else {
+      navigate("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const [value, setValue] = useState({});
   useEffect(() => {
     const getDashboard = async () => {
       try {
@@ -25,7 +36,7 @@ const Dashboard = () => {
           "http://localhost:3000/api/v1/dashboard/statistic"
         );
         if (result.data) {
-          console.log(result.data)
+          console.log(result.data);
           setValue(result.data);
         }
       } catch (error) {
@@ -35,7 +46,11 @@ const Dashboard = () => {
     getDashboard();
   }, []);
 
-  const stats = value && [value.totalOrderSuccess, value.totalOrderFailure, value.totalOrderDelivering];
+  const stats = value && [
+    value.totalOrderSuccess,
+    value.totalOrderFailure,
+    value.totalOrderDelivering,
+  ];
   return (
     <div className="dashboard">
       <Sidebar />
@@ -43,10 +58,10 @@ const Dashboard = () => {
         <Navbar />
         <div className="statistic">
           <div className="header">
-            <Widget type={"order"} number={value.totalOrder}/>
-            <Widget type={"distance"} number={value.totalDistance}/>
-            <Widget type={"dimension"} number={value.totalDimension}/>
-            <Widget type={"fee"} number={value.totalFee}/>
+            <Widget type={"order"} number={value.totalOrder} />
+            <Widget type={"distance"} number={value.totalDistance} />
+            <Widget type={"dimension"} number={value.totalDimension} />
+            <Widget type={"fee"} number={value.totalFee} />
           </div>
           <div className="content">
             <div className="left">
@@ -86,55 +101,59 @@ const Dashboard = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {value && value['shippers'] && value.shippers.map((row) => (
-                      <TableRow
-                        key={row.name}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
-                        <TableCell component="th" scope="row">
-                          {row.name}
-                        </TableCell>
-                        <TableCell align="center">
-                          <span
-                            style={{
-                              padding: "4px",
-                              borderRadius: "4px",
-                              fontWeight: "bold",
-                              fontSize: "14px",
-                              color: "blue",
-                            }}
-                          >
-                            {row.success}
-                          </span>
-                        </TableCell>
-                        <TableCell align="center">
-                          <span
-                            style={{
-                              padding: "4px",
-                              borderRadius: "4px",
-                              fontWeight: "bold",
-                              fontSize: "14px",
-                              color: "red",
-                            }}
-                          >
-                            {row.failure}
-                          </span>
-                        </TableCell>
-                        <TableCell align="center"><span
-                            style={{
-                              padding: "4px",
-                              borderRadius: "4px",
-                              fontWeight: "bold",
-                              fontSize: "14px",
-                              color: "green",
-                            }}
-                          >
-                            {row.delivering}
-                          </span></TableCell>
-                      </TableRow>
-                    ))}
+                    {value &&
+                      value["shippers"] &&
+                      value.shippers.map((row) => (
+                        <TableRow
+                          key={row.name}
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
+                        >
+                          <TableCell component="th" scope="row">
+                            {row.name}
+                          </TableCell>
+                          <TableCell align="center">
+                            <span
+                              style={{
+                                padding: "4px",
+                                borderRadius: "4px",
+                                fontWeight: "bold",
+                                fontSize: "14px",
+                                color: "blue",
+                              }}
+                            >
+                              {row.success}
+                            </span>
+                          </TableCell>
+                          <TableCell align="center">
+                            <span
+                              style={{
+                                padding: "4px",
+                                borderRadius: "4px",
+                                fontWeight: "bold",
+                                fontSize: "14px",
+                                color: "red",
+                              }}
+                            >
+                              {row.failure}
+                            </span>
+                          </TableCell>
+                          <TableCell align="center">
+                            <span
+                              style={{
+                                padding: "4px",
+                                borderRadius: "4px",
+                                fontWeight: "bold",
+                                fontSize: "14px",
+                                color: "green",
+                              }}
+                            >
+                              {row.delivering}
+                            </span>
+                          </TableCell>
+                        </TableRow>
+                      ))}
                   </TableBody>
                 </Table>
               </TableContainer>

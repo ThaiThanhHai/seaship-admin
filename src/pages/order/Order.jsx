@@ -45,11 +45,17 @@ const Order = () => {
       return (
         <Button
           color="primary"
-          sx={{ textTransform: "lowercase", color: "#fff", backgroundColor: "grey",width: 120, "&:hover": {
-            backgroundColor: "#grey",
+          sx={{
+            textTransform: "lowercase",
             color: "#fff",
-            cursor: "initial"
-          }, }}
+            backgroundColor: "grey",
+            width: 120,
+            "&:hover": {
+              backgroundColor: "#grey",
+              color: "#fff",
+              cursor: "initial",
+            },
+          }}
         >
           Đang xử lý
         </Button>
@@ -59,11 +65,17 @@ const Order = () => {
       return (
         <Button
           color="primary"
-          sx={{ textTransform: "lowercase", color: "#fff", backgroundColor: "#39a4c0",width: 120, "&:hover": {
-            backgroundColor: "#39a4c0",
+          sx={{
+            textTransform: "lowercase",
             color: "#fff",
-            cursor: "initial"
-          }, }}
+            backgroundColor: "#39a4c0",
+            width: 120,
+            "&:hover": {
+              backgroundColor: "#39a4c0",
+              color: "#fff",
+              cursor: "initial",
+            },
+          }}
         >
           Đang giao hàng
         </Button>
@@ -73,11 +85,17 @@ const Order = () => {
       return (
         <Button
           color="primary"
-          sx={{ textTransform: "lowercase", color: "#fff", backgroundColor: "#5eba7d", width: 120, "&:hover": {
-            backgroundColor: "#5eba7d",
+          sx={{
+            textTransform: "lowercase",
             color: "#fff",
-            cursor: "initial"
-          }, }}
+            backgroundColor: "#5eba7d",
+            width: 120,
+            "&:hover": {
+              backgroundColor: "#5eba7d",
+              color: "#fff",
+              cursor: "initial",
+            },
+          }}
         >
           Hoàn thành
         </Button>
@@ -87,18 +105,23 @@ const Order = () => {
       return (
         <Button
           color="primary"
-          sx={{ textTransform: "lowercase", color: "#fff", backgroundColor: "#e96763", width: 120,  "&:hover": {
-            backgroundColor: "#e96763",
+          sx={{
+            textTransform: "lowercase",
             color: "#fff",
-            cursor: "initial"
-          }, }}
+            backgroundColor: "#e96763",
+            width: 120,
+            "&:hover": {
+              backgroundColor: "#e96763",
+              color: "#fff",
+              cursor: "initial",
+            },
+          }}
         >
           Thất bại
         </Button>
       );
     }
   };
-
   const dataColumns = [
     {
       field: "name",
@@ -193,7 +216,6 @@ const Order = () => {
       },
     },
   ];
-
   const handleDelete = async () => {
     const data = {
       ids: selectedId,
@@ -283,7 +305,7 @@ const Order = () => {
                   position: "absolute",
                   top: 0,
                   left: 25,
-                  height: 100
+                  height: 100,
                 },
               }}
             >

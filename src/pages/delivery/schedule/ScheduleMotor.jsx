@@ -55,7 +55,7 @@ export default function ScheduleMotor({ open, setOpen }) {
         );
         if (result.data) {
           setShipperList(result.data?.shippers);
-          setTotalShipper(result.data?.shippers.length)
+          setTotalShipper(result.data?.shippers.length);
         }
       } catch (error) {
         console.error(error);
@@ -205,7 +205,9 @@ export default function ScheduleMotor({ open, setOpen }) {
                       ),
                     }}
                   />
-                  <span style={{padding: '10px', fontWeight: 300}}>Tổng đơn hàng: {totalOrder}</span>
+                  <span style={{ padding: "10px", fontWeight: 300 }}>
+                    Tổng đơn hàng: {totalOrder}
+                  </span>
                 </div>
               </div>
               <div className="list-shipper">
@@ -242,7 +244,9 @@ export default function ScheduleMotor({ open, setOpen }) {
                       ),
                     }}
                   />
-                  <span style={{padding: '10px', fontWeight: 300}}>Tổng shipper: {totalShipper}</span>
+                  <span style={{ padding: "10px", fontWeight: 300 }}>
+                    Tổng shipper: {totalShipper}
+                  </span>
                 </div>
               </div>
             </div>

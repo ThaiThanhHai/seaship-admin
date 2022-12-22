@@ -3,7 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ButtonAdd from "../../components/button/buttonAdd";
 import ButtonDelete from "../../components/button/buttonDelete";
 import Navbar from "../../components/navbar/Navbar";
@@ -11,6 +11,16 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import "../../style/deliveryType.scss";
 
 const DeliveryType = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    let isAuth = JSON.parse(localStorage.getItem("supervisor"));
+    if (isAuth && isAuth !== null) {
+      navigate("/delivery-types");
+    } else {
+      navigate("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [deliveryType, setDeliveryType] = useState([]);
   const [selectedId, setSelectedId] = useState([]);
   const handleDelete = async () => {

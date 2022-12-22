@@ -43,7 +43,6 @@ const Mapbox = ({ address }) => {
     >
       {address &&
         address.map((data, index) => {
-
           if (index !== address.length - 1) {
             return (
               <Marker
@@ -53,12 +52,11 @@ const Mapbox = ({ address }) => {
                 color="red"
               >
                 <div className="marker">
-                  <span>{index+1}</span>
+                  <span>{index + 1}</span>
                 </div>
               </Marker>
-          );
+            );
           }
-
         })}
       <NavigationControl position="bottom-left" />
       <Source
